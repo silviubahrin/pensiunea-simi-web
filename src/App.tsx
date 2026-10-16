@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { VectorAlpineHero } from "./components/VectorAlpineHero";
+import { PhotographicFrameHero } from "./components/PhotographicFrameHero";
 
 type PageId = "acasa" | "camere" | "ciubar" | "trasee" | "rezervare";
 
@@ -483,57 +483,8 @@ export function App() {
            ========================================================= */}
         {page === "acasa" && (
           <div className="flex-1 flex flex-col min-h-[calc(100svh-65px)]">
-            {/* ─── Stashed 10x Claude-Style Tactile Vector Motion Stage (ZERO BITMAP) ─── */}
-            <VectorAlpineHero isNight={isNight} themeBorder={themeBorder} themeBg={themeBg} />
-
-            {/* ─── Concise Disciplined Hero Text Lockup (Radically Short) ─── */}
-            <section className="max-w-[1300px] w-full mx-auto px-4 sm:px-8 py-8 sm:py-10">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-                <div className="lg:col-span-8 space-y-4">
-                  <div className={`flex items-center gap-3 text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold`}>
-                    <span>Pensiunea Agroturistică Simi</span>
-                    <span>·</span>
-                    <span>Moisei · Maramureș</span>
-                  </div>
-
-                  <h1 className={`font-chalet text-3xl sm:text-5xl lg:text-6xl font-normal ${themeText} leading-[1.08] tracking-tight`}>
-                    Liniște, lemn cald și ciubăr la poalele Munților Rodnei.
-                  </h1>
-
-                  <p className={`font-ui text-base sm:text-lg ${themeTextMuted} max-w-2xl leading-relaxed`}>
-                    Șapte camere cu balcon propriu, foișor cu foc de lemne și apă caldă la 39°C pe Valea Izvorul Negru în Moisei.
-                  </p>
-                </div>
-
-                <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
-                  <a
-                    href="tel:+40740981839"
-                    className={`w-full py-3.5 px-6 ${
-                      isNight ? "bg-[#E28C46] text-[#141210] hover:bg-[#FAF6EE]" : "bg-[#1A1614] text-[#FAF6EE] hover:bg-[#B86B32]"
-                    } text-xs uppercase tracking-[0.14em] font-semibold text-center transition-colors`}
-                  >
-                    Sună gazda · 0740 981 839
-                  </a>
-
-                  <div className="grid grid-cols-2 gap-3 w-full">
-                    <button
-                      type="button"
-                      onClick={() => navigate("rezervare")}
-                      className={`py-3 px-4 border ${themeBorder} hover:${themeAccentBg} hover:text-[#FAF6EE] ${themeText} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer`}
-                    >
-                      Rezervare rapidă
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => navigate("trasee")}
-                      className={`py-3 px-4 border ${themeBorder} ${themeTextMuted} hover:${themeText} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer`}
-                    >
-                      Trasee 2.303m →
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
+            {/* ─── OPTION 2: Alpine Architectural Photographic Frame (Eriro / Forestis Style) ─── */}
+            <PhotographicFrameHero isNight={isNight} onNavigate={navigate} />
 
             {/* ─── SECTION A: Căldura Lemnului & Camerele (Curated Suite Peek) ─── */}
             <section className={`border-t ${themeBorder} py-12 sm:py-16 ${themeSurface} transition-colors duration-300`}>
