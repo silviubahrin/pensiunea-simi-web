@@ -2,14 +2,27 @@ import { useState, useEffect } from "react";
 
 type PageId = "acasa" | "camere" | "ciubar" | "trasee" | "rezervare";
 
-const SUITES = [
+interface SuiteItem {
+  id: string;
+  index: string;
+  name: string;
+  capacity: string;
+  count: string;
+  spec: string;
+  highlights: string[];
+  primaryImg: string;
+  fallbackImg: string;
+}
+
+const SUITES: SuiteItem[] = [
   {
     id: "dubla",
     index: "01",
     name: "Cameră Dublă Matrimonială",
     capacity: "2 Oaspeți · 16 m²",
     count: "6 Camere în Pensiune",
-    spec: "Pat matrimonial, baie proprie cu duș, balcon spre munte, TV și Wi-Fi.",
+    spec: "Pat matrimonial confortabil, baie privată cu duș, balcon orientat spre masiv, TV cablu și Wi-Fi.",
+    highlights: ["Balcon privat spre creastă", "Baie proprie cu duș", "Pat matrimonial 160×200"],
     primaryImg: "https://v3.turistinfo.ro/images/camere/335673.jpg",
     fallbackImg: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80",
   },
@@ -19,32 +32,50 @@ const SUITES = [
     name: "Cameră Triplă de Familie",
     capacity: "3 Oaspeți · 24 m²",
     count: "1 Cameră în Pensiune",
-    spec: "Pat dublu și pat single, balcon spre Pietrosul Rodnei, baie proprie.",
+    spec: "Pat dublu și pat single, balcon generos spre Pietrosul Rodnei, baie proprie și spațiu suplimentar.",
+    highlights: ["Pat dublu + pat single", "Vedere panoramică", "Ideală pentru familii"],
     primaryImg: "https://res.klook.com/klook-hotel/image/upload/w_1200,c_fill,q_90/trip/22020r000000h4v18DF64_R_550_412_R5.jpg",
     fallbackImg: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1000&q=80",
   },
   {
     id: "integral",
     index: "03",
-    name: "Închiriere Integrală",
+    name: "Închiriere Integrală a Pensiunii",
     capacity: "Până la 15 Oaspeți",
     count: "Toate cele 7 Camere",
-    spec: "Acces exclusiv la 7 băi, living, bucătărie utilată, curte, foișor și ciubăr.",
+    spec: "Acces exclusiv la 7 băi, salon de zi cu șemineu, bucătărie complet utilată, curte, foișor și ciubăr cald.",
+    highlights: ["Intimitate totală grup", "Acces nelimitat foișor & grătar", "Bucătărie complet utilată"],
     primaryImg: "https://www.turistinfo.ro/images/cazare/951496.jpg",
     fallbackImg: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1000&q=80",
   },
 ];
 
-const TRAILS = [
+interface TrailItem {
+  id: string;
+  num: string;
+  name: string;
+  elevation: string;
+  distance: string;
+  bearing: number;
+  direction: string;
+  duration: string;
+  difficulty: string;
+  desc: string;
+  img: string;
+}
+
+const TRAILS: TrailItem[] = [
   {
     id: "pietrosul",
     num: "01",
     name: "Vârful Pietrosul Rodnei",
     elevation: "2.303 m",
-    distance: "La poalele masivului",
+    distance: "8,4 km (la poalele masivului)",
     bearing: 195,
     direction: "195° S-SV",
-    desc: "Vizibil de pe balcon. Traseu marcat sau tură montană ghidată.",
+    duration: "4–5 ore urcare",
+    difficulty: "Mediu / Dificil",
+    desc: "Cel mai înalt vârf din Carpații Orientali, vizibil direct de pe balcoanele pensiunii. Traseu marcat cu bandă albastră pornind din Moisei / Schit.",
     img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -52,10 +83,12 @@ const TRAILS = [
     num: "02",
     name: "Mănăstirea Moisei",
     elevation: "Secolul XVII",
-    distance: "2 km de pensiune",
+    distance: "2,1 km de pensiune",
     bearing: 155,
     direction: "155° S-SE",
-    desc: "Biserică istorică din lemn pe drumul Izvorul Negru.",
+    duration: "25 min mers pe jos",
+    difficulty: "Ușor / Plimbare",
+    desc: "Biserică istorică din lemn ridicată în anul 1672, așezată într-o poiană liniștită pe drumul Izvorul Negru.",
     img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -66,7 +99,9 @@ const TRAILS = [
     distance: "13 km (Vișeu de Sus)",
     bearing: 320,
     direction: "320° N-NV",
-    desc: "Plecarea de dimineață prin defileul sălbatic al Vaserului.",
+    duration: "18 min cu mașina",
+    difficulty: "Agrement turistic",
+    desc: "Plecarea matinală pe ecartament îngust prin defileul sălbatic al râului Vaser până la stația Paltin.",
     img: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=900&q=80",
   },
   {
@@ -77,7 +112,9 @@ const TRAILS = [
     distance: "14 km (Stațiunea Borșa)",
     bearing: 110,
     direction: "110° E-SE",
-    desc: "Traseu accesibil cu telegondola și pârtia olimpică Borșa.",
+    duration: "20 min cu mașina + telescaun",
+    difficulty: "Accesibil",
+    desc: "Cea mai înaltă cascadă din România, alimentată de zăpezile topite ale Masivului Piatra Rea.",
     img: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=80",
   },
 ];
@@ -123,9 +160,16 @@ export function App() {
     return NAV_ITEMS.some((i) => i.id === hash) ? hash : "acasa";
   });
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isDusk, setIsDusk] = useState(false);
-  const [nightMode, setNightMode] = useState(false);
+  const [isNight, setIsNight] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("pensiunea_simi_theme") === "night";
+    } catch {
+      return false;
+    }
+  });
+
   const [selectedTrail, setSelectedTrail] = useState(0);
+  const [manualBearingOffset, setManualBearingOffset] = useState(0);
 
   // 3-Tap WhatsApp Configurator State
   const [bookRoom, setBookRoom] = useState("Cameră Dublă");
@@ -134,6 +178,13 @@ export function App() {
     "Ciubăr cald",
     "Tichete vacanță",
   ]);
+
+  // Persist Theme Selection
+  useEffect(() => {
+    try {
+      localStorage.setItem("pensiunea_simi_theme", isNight ? "night" : "day");
+    } catch {}
+  }, [isNight]);
 
   // Sync with browser Back/Forward
   useEffect(() => {
@@ -167,7 +218,8 @@ export function App() {
     navigate("rezervare");
   };
 
-  const trail = TRAILS[selectedTrail];
+  const activeTrail = TRAILS[selectedTrail];
+  const activeBearing = (activeTrail.bearing + manualBearingOffset + 360) % 360;
 
   const whatsappMessage = `Bună ziua! Doresc disponibilitate la Pensiunea Simi Moisei pentru: ${bookRoom}, perioadă: ${bookPeriod}${
     bookExtras.length > 0 ? `, opțiuni: ${bookExtras.join(", ")}` : ""
@@ -175,10 +227,20 @@ export function App() {
 
   const whatsappUrl = `https://wa.me/40740981839?text=${encodeURIComponent(whatsappMessage)}`;
 
+  // Theme-aware tokens
+  const themeBg = isNight ? "bg-[#141210]" : "bg-[#FAF6EE]";
+  const themeSurface = isNight ? "bg-[#1F1B18]" : "bg-[#FAF6EE]";
+  const themeSurfaceElevated = isNight ? "bg-[#28231F]" : "bg-[#F4EDE2]";
+  const themeText = isNight ? "text-[#FAF6EE]" : "text-[#1A1614]";
+  const themeTextMuted = isNight ? "text-[#A69D94]" : "text-[#6B635B]";
+  const themeBorder = isNight ? "border-[#FAF6EE]/12" : "border-[#1A1614]/10";
+  const themeAccent = isNight ? "text-[#E28C46]" : "text-[#B86B32]";
+  const themeAccentBg = isNight ? "bg-[#E28C46]" : "bg-[#B86B32]";
+
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#FAF6EE] text-[#1A1614]">
-      {/* ─── Top Architectural Bar with Minimal Cabin Logo Element ─── */}
-      <header className="sticky top-0 z-50 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-[#1A1614]/10 px-4 sm:px-8 py-3.5">
+    <div className={`min-h-screen flex flex-col justify-between ${themeBg} ${themeText} transition-colors duration-300`}>
+      {/* ─── Top Architectural Bar with Minimal Cabin Logo Element & Global Theme Switcher ─── */}
+      <header className={`sticky top-0 z-50 ${isNight ? "bg-[#141210]/95" : "bg-[#FAF6EE]/95"} backdrop-blur-md border-b ${themeBorder} px-4 sm:px-8 py-3.5 transition-colors duration-300`}>
         <div className="max-w-[1300px] mx-auto flex items-center justify-between">
           <button
             type="button"
@@ -186,24 +248,34 @@ export function App() {
             className="text-left cursor-pointer group flex items-center gap-3 transition-opacity hover:opacity-90"
             aria-label="Pensiunea Simi — Acasă"
           >
-            {/* Minimal Architectural Cabin Mark with Hearth Amber Glow */}
-            <div className="w-7 h-7 shrink-0 text-[#1A1614] transition-colors group-hover:text-[#B86B32]">
+            {/* Minimal Architectural Cabin Mark with Hearth Amber Glow & Smoke Micro-Motion */}
+            <div className="relative w-8 h-8 shrink-0 transition-colors">
               <svg
                 className="w-full h-full"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                {/* Chimney */}
                 <path
                   d="M16 6.5V3H18.5V8.8"
-                  stroke="currentColor"
+                  stroke={isNight ? "#FAF6EE" : "#1A1614"}
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+                {/* Chimney Smoke Puff Micro-Motion */}
+                <path
+                  d="M17.2 2.5 C 16.5 1, 18.2 0.2, 17.5 -1.2"
+                  stroke={isNight ? "#E28C46" : "#B86B32"}
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  style={{ animation: "chimneyLogoSmoke 3.6s ease-out infinite" }}
+                />
+                {/* Steep Roof */}
                 <path
                   d="M2.5 12.5L12 3.5L21.5 12.5"
-                  stroke="currentColor"
+                  stroke={isNight ? "#FAF6EE" : "#1A1614"}
                   strokeWidth="1.6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -213,27 +285,30 @@ export function App() {
                   y1="12.5"
                   x2="19.5"
                   y2="12.5"
-                  stroke="currentColor"
+                  stroke={isNight ? "#FAF6EE" : "#1A1614"}
                   strokeWidth="1.3"
                   strokeLinecap="round"
                 />
+                {/* Cabin Walls */}
                 <path
                   d="M5.5 12.5V20.5H18.5V12.5"
-                  stroke="currentColor"
+                  stroke={isNight ? "#FAF6EE" : "#1A1614"}
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+                {/* Hearth Amber Portal */}
                 <path
                   d="M10 20.5V16C10 14.9 10.9 14 12 14C13.1 14 14 14.9 14 16V20.5H10Z"
                   fill="#D4803E"
                 />
+                {/* Base Ground Line */}
                 <line
                   x1="3"
                   y1="20.5"
                   x2="21"
                   y2="20.5"
-                  stroke="currentColor"
+                  stroke={isNight ? "#FAF6EE" : "#1A1614"}
                   strokeWidth="1.5"
                   strokeLinecap="round"
                 />
@@ -241,18 +316,18 @@ export function App() {
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
-              <span className="font-chalet text-2xl sm:text-[26px] font-medium tracking-tight text-[#1A1614] leading-none">
+              <span className={`font-chalet text-2xl sm:text-[26px] font-medium tracking-tight ${themeText} leading-none`}>
                 Pensiunea Simi
               </span>
-              <span className="hidden sm:inline text-xs uppercase tracking-[0.14em] text-[#6B635B]">
+              <span className={`hidden sm:inline text-xs uppercase tracking-[0.14em] ${themeTextMuted}`}>
                 Moisei · Maramureș
               </span>
             </div>
           </button>
 
-          {/* Desktop Nav: Clean Disciplined Links */}
-          <div className="hidden md:flex items-center gap-8">
-            <nav className="flex items-center gap-6 text-xs uppercase tracking-[0.12em] font-medium text-[#6B635B]">
+          {/* Desktop Nav: Clean Disciplined Links + Global Theme Switcher */}
+          <div className="hidden md:flex items-center gap-6">
+            <nav className={`flex items-center gap-6 text-xs uppercase tracking-[0.12em] font-medium ${themeTextMuted}`}>
               {NAV_ITEMS.map((item) => {
                 const isActive = page === item.id;
                 return (
@@ -262,51 +337,84 @@ export function App() {
                     onClick={() => navigate(item.id)}
                     className={`relative py-1 transition-colors cursor-pointer ${
                       isActive
-                        ? "text-[#1A1614] font-semibold"
-                        : "hover:text-[#1A1614]"
+                        ? `${themeText} font-semibold`
+                        : `hover:${themeText}`
                     }`}
                   >
                     <span>{item.label}</span>
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#B86B32]" />
+                      <span className={`absolute bottom-0 left-0 right-0 h-[2px] ${themeAccentBg}`} />
                     )}
                   </button>
                 );
               })}
             </nav>
 
+            {/* Global Day / Night Minimal Theme Switcher */}
+            <button
+              type="button"
+              onClick={() => setIsNight((prev) => !prev)}
+              className={`inline-flex items-center gap-2 px-3 py-1.5 border text-xs uppercase tracking-[0.12em] font-medium transition-colors cursor-pointer ${
+                isNight
+                  ? "border-[#FAF6EE]/25 bg-[#28231F] text-[#FAF6EE] hover:border-[#D4803E]"
+                  : "border-[#1A1614]/15 bg-[#FAF6EE] text-[#1A1614] hover:border-[#B86B32]"
+              }`}
+              aria-label={isNight ? "Comută pe tema Zi" : "Comută pe tema Noapte"}
+            >
+              <span className={`w-2 h-2 ${isNight ? "bg-[#D4803E]" : "bg-[#B86B32]"}`} />
+              <span>{isNight ? "Noapte" : "Zi"}</span>
+            </button>
+
             <a
               href="tel:+40740981839"
-              className="px-4 py-2 bg-[#1A1614] hover:bg-[#B86B32] text-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold transition-colors"
+              className={`px-4 py-2 ${
+                isNight ? "bg-[#E28C46] text-[#141210] hover:bg-[#FAF6EE]" : "bg-[#1A1614] text-[#FAF6EE] hover:bg-[#B86B32]"
+              } text-xs uppercase tracking-[0.12em] font-semibold transition-colors`}
             >
               0740 981 839
             </a>
           </div>
 
-          {/* Mobile Burger Toggle */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen((prev) => !prev)}
-            aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Închide" : "Meniu"}
-            className="flex md:hidden flex-col justify-center items-end w-8 h-8 gap-1.5 cursor-pointer text-[#1A1614]"
-          >
-            <span
-              className={`block h-[1.5px] bg-[#1A1614] transition-all duration-300 ${
-                menuOpen ? "w-6 translate-y-[4.5px] rotate-45" : "w-6"
+          {/* Mobile Right Controls: Theme Switcher & Burger Toggle */}
+          <div className="flex md:hidden items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setIsNight((prev) => !prev)}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-1 border text-[11px] uppercase tracking-[0.12em] font-medium transition-colors cursor-pointer ${
+                isNight
+                  ? "border-[#FAF6EE]/25 bg-[#28231F] text-[#FAF6EE]"
+                  : "border-[#1A1614]/15 bg-[#FAF6EE] text-[#1A1614]"
               }`}
-            />
-            <span
-              className={`block h-[1.5px] bg-[#B86B32] transition-all duration-300 ${
-                menuOpen ? "opacity-0 w-0" : "w-4"
-              }`}
-            />
-            <span
-              className={`block h-[1.5px] bg-[#1A1614] transition-all duration-300 ${
-                menuOpen ? "w-6 -translate-y-[4.5px] -rotate-45" : "w-5"
-              }`}
-            />
-          </button>
+              aria-label={isNight ? "Comută pe tema Zi" : "Comută pe tema Noapte"}
+            >
+              <span className={`w-1.5 h-1.5 ${isNight ? "bg-[#D4803E]" : "bg-[#B86B32]"}`} />
+              <span>{isNight ? "Noapte" : "Zi"}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Închide" : "Meniu"}
+              className={`flex flex-col justify-center items-end w-8 h-8 gap-1.5 cursor-pointer ${themeText}`}
+            >
+              <span
+                className={`block h-[1.5px] ${isNight ? "bg-[#FAF6EE]" : "bg-[#1A1614]"} transition-all duration-300 ${
+                  menuOpen ? "w-6 translate-y-[4.5px] rotate-45" : "w-6"
+                }`}
+              />
+              <span
+                className={`block h-[1.5px] ${themeAccentBg} transition-all duration-300 ${
+                  menuOpen ? "opacity-0 w-0" : "w-4"
+                }`}
+              />
+              <span
+                className={`block h-[1.5px] ${isNight ? "bg-[#FAF6EE]" : "bg-[#1A1614]"} transition-all duration-300 ${
+                  menuOpen ? "w-6 -translate-y-[4.5px] -rotate-45" : "w-5"
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -315,9 +423,9 @@ export function App() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-x-0 top-[61px] bottom-0 z-40 md:hidden bg-[#FAF6EE] text-[#1A1614] px-6 py-8 flex flex-col justify-between overflow-y-auto border-t border-[#1A1614]/10"
+          className={`fixed inset-x-0 top-[61px] bottom-0 z-40 md:hidden ${themeBg} ${themeText} px-6 py-8 flex flex-col justify-between overflow-y-auto border-t ${themeBorder}`}
         >
-          <nav className="divide-y divide-[#1A1614]/10 border-b border-[#1A1614]/10">
+          <nav className={`divide-y ${themeBorder} border-b ${themeBorder}`}>
             {NAV_ITEMS.map((item) => {
               const isActive = page === item.id;
               return (
@@ -329,12 +437,12 @@ export function App() {
                 >
                   <span
                     className={`font-chalet text-2xl ${
-                      isActive ? "text-[#B86B32] font-semibold" : "text-[#1A1614]"
+                      isActive ? `${themeAccent} font-semibold` : themeText
                     }`}
                   >
                     {item.label}
                   </span>
-                  <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32]">
+                  <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent}`}>
                     {isActive ? "Activ" : "→"}
                   </span>
                 </button>
@@ -346,7 +454,9 @@ export function App() {
             <div className="grid grid-cols-2 gap-3">
               <a
                 href="tel:+40740981839"
-                className="py-3 bg-[#1A1614] text-[#FAF6EE] text-xs font-semibold text-center uppercase tracking-[0.12em]"
+                className={`py-3 ${
+                  isNight ? "bg-[#E28C46] text-[#141210]" : "bg-[#1A1614] text-[#FAF6EE]"
+                } text-xs font-semibold text-center uppercase tracking-[0.12em]`}
               >
                 Sună direct
               </a>
@@ -354,12 +464,12 @@ export function App() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-3 border border-[#1A1614] text-[#1A1614] text-xs font-semibold text-center uppercase tracking-[0.12em]"
+                className={`py-3 border ${themeBorder} ${themeText} text-xs font-semibold text-center uppercase tracking-[0.12em]`}
               >
                 WhatsApp
               </a>
             </div>
-            <p className="text-xs text-[#6B635B] text-center">
+            <p className={`text-xs ${themeTextMuted} text-center`}>
               Str. Izvorul Negru 257B, Moisei · Tichete de vacanță
             </p>
           </div>
@@ -368,62 +478,121 @@ export function App() {
 
       <main className="flex-1 flex flex-col">
         {/* =========================================================
-            PAGE 1: ACASĂ — Claude-Style Vector Alpine Motion Canvas (ZERO BITMAP HERO)
+            PAGE 1: ACASĂ — 10x Claude-Style Vector Alpine Motion Canvas
            ========================================================= */}
         {page === "acasa" && (
-          <section className="flex-1 flex flex-col justify-between bg-[#FAF6EE] min-h-[calc(100svh-65px)]">
-            {/* ─── Claude-Style Tactile Vector Motion Stage (No Bitmap Image) ─── */}
-            <div className="relative w-full border-b border-[#1A1614]/10 bg-[#FAF6EE] overflow-hidden select-none">
-              <div className="relative w-full aspect-[21/9] sm:aspect-[24/10] max-h-[500px] min-h-[300px]">
+          <div className="flex-1 flex flex-col min-h-[calc(100svh-65px)]">
+            {/* ─── 10x Claude-Style Tactile Vector Motion Stage (ZERO BITMAP) ─── */}
+            <div className={`relative w-full border-b ${themeBorder} ${themeBg} overflow-hidden select-none`}>
+              <div className="relative w-full aspect-[21/9] sm:aspect-[24/10] max-h-[520px] min-h-[310px]">
                 <svg
                   viewBox="0 0 1200 480"
                   className="w-full h-full object-cover motion-safe-vector"
                   preserveAspectRatio="xMidYMid slice"
                   xmlns="http://www.w3.org/2000/svg"
-                  aria-label="Peisaj vectorial animat cu Masivul Pietrosul Rodnei și Pensiunea Simi din Moisei"
+                  aria-label="Peisaj vectorial animat cu Masivul Pietrosul Rodnei, râul Izvorul Negru și Pensiunea Simi"
                   role="img"
                 >
                   <defs>
+                    {/* Sky Gradient */}
                     <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor={isDusk ? "#1F1B18" : "#FAF6EE"} />
-                      <stop offset="60%" stopColor={isDusk ? "#2B2420" : "#F4EDE2"} />
-                      <stop offset="100%" stopColor={isDusk ? "#3D2E24" : "#E8DEC8"} />
+                      <stop offset="0%" stopColor={isNight ? "#0B0F15" : "#FAF6EE"} />
+                      <stop offset="50%" stopColor={isNight ? "#121822" : "#F4EDE2"} />
+                      <stop offset="100%" stopColor={isNight ? "#1B202C" : "#E8DEC8"} />
                     </linearGradient>
 
+                    {/* Glacial Stream Valea Izvorul Negru */}
+                    <linearGradient id="streamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={isNight ? "#243A34" : "#8EC3B9"} />
+                      <stop offset="50%" stopColor={isNight ? "#1B2D29" : "#5F948A"} />
+                      <stop offset="100%" stopColor={isNight ? "#14211E" : "#4A786F"} />
+                    </linearGradient>
+
+                    {/* Window Hearth Amber Glow */}
                     <radialGradient id="windowGlow" cx="50%" cy="50%" r="50%">
                       <stop offset="0%" stopColor="#FFF2D6" stopOpacity="0.95" />
                       <stop offset="60%" stopColor="#D4803E" stopOpacity="0.8" />
-                      <stop offset="100%" stopColor="#B86B32" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#B86B32" stopOpacity="0.35" />
                     </radialGradient>
 
+                    {/* Hot Tub Water Gradient */}
                     <linearGradient id="ciubarWater" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#8AC6B8" stopOpacity="0.6" />
-                      <stop offset="100%" stopColor="#3F6358" stopOpacity="0.9" />
+                      <stop offset="0%" stopColor={isNight ? "#3B6158" : "#8AC6B8"} stopOpacity="0.8" />
+                      <stop offset="100%" stopColor={isNight ? "#1F3530" : "#3F6358"} stopOpacity="0.95" />
                     </linearGradient>
                   </defs>
 
-                  {/* Atmosphere Sky */}
+                  {/* Atmosphere Sky Canvas */}
                   <rect width="1200" height="480" fill="url(#skyGrad)" />
 
-                  {/* Sun / Moon Minimalist Line Ring */}
-                  <g transform="translate(940, 95)">
-                    <circle
-                      r="42"
-                      fill="none"
-                      stroke={isDusk ? "#F4EDE2" : "#B86B32"}
-                      strokeWidth="1.25"
-                      strokeDasharray="4 4"
-                      opacity={isDusk ? "0.35" : "0.45"}
-                    />
-                    <circle
-                      r="32"
-                      fill={isDusk ? "#EFE7D8" : "#FAF6EE"}
-                      opacity={isDusk ? "0.15" : "0.5"}
-                    />
-                  </g>
+                  {/* ─── Sky Elements: Sun (Day) or Moon & Twinkling Constellations (Night) ─── */}
+                  {!isNight ? (
+                    <g transform="translate(940, 90)">
+                      <circle
+                        r="44"
+                        fill="none"
+                        stroke="#B86B32"
+                        strokeWidth="1.25"
+                        strokeDasharray="4 4"
+                        opacity="0.45"
+                      />
+                      <circle r="34" fill="#FAF6EE" opacity="0.6" />
+                    </g>
+                  ) : (
+                    <g id="night-celestial">
+                      {/* Crescent Moon with Pulsing Corona */}
+                      <g transform="translate(945, 80)">
+                        <circle
+                          r="36"
+                          fill="none"
+                          stroke="#FFD175"
+                          strokeWidth="1"
+                          strokeDasharray="3 3"
+                          style={{ animation: "moonHaloPulse 5.5s ease-in-out infinite" }}
+                        />
+                        <path
+                          d="M -10 -22 A 22 22 0 1 0 12 14 A 18 18 0 1 1 -10 -22 Z"
+                          fill="#FFF2D6"
+                        />
+                      </g>
 
-                  {/* Drifting High-Altitude Wind Lines across Rodna Saddle */}
-                  <g fill="none" stroke="#6B635B" strokeWidth="1" strokeLinecap="round" opacity="0.3">
+                      {/* Constellation Ursa Major (Carul Mare) over Rodna Saddle */}
+                      <g id="ursa-major" stroke="rgba(255, 242, 214, 0.45)" strokeWidth="0.6" fill="none">
+                        <line x1="210" y1="52" x2="260" y2="48" />
+                        <line x1="260" y1="48" x2="310" y2="68" />
+                        <line x1="310" y1="68" x2="350" y2="76" />
+                        <line x1="350" y1="76" x2="395" y2="72" />
+                        <line x1="395" y1="72" x2="390" y2="102" />
+                        <line x1="390" y1="102" x2="345" y2="104" />
+                        <line x1="345" y1="104" x2="350" y2="76" />
+
+                        <circle cx="210" cy="52" r="1.8" fill="#FFF2D6" style={{ animation: "starTwinkle1 3.2s ease-in-out infinite" }} />
+                        <circle cx="260" cy="48" r="1.5" fill="#FFF2D6" style={{ animation: "starTwinkle2 4.1s ease-in-out infinite" }} />
+                        <circle cx="310" cy="68" r="1.6" fill="#FFF2D6" style={{ animation: "starTwinkle3 3.6s ease-in-out infinite" }} />
+                        <circle cx="350" cy="76" r="2" fill="#FFF2D6" style={{ animation: "starTwinkle1 2.8s ease-in-out infinite -1s" }} />
+                        <circle cx="395" cy="72" r="1.9" fill="#FFF2D6" style={{ animation: "starTwinkle4 4.5s ease-in-out infinite" }} />
+                        <circle cx="390" cy="102" r="1.7" fill="#FFF2D6" style={{ animation: "starTwinkle2 3.8s ease-in-out infinite -1.5s" }} />
+                        <circle cx="345" cy="104" r="1.6" fill="#FFF2D6" style={{ animation: "starTwinkle3 3.3s ease-in-out infinite -0.8s" }} />
+                      </g>
+
+                      {/* Constellation Cassiopeia (W Shape) */}
+                      <g id="cassiopeia" stroke="rgba(255, 242, 214, 0.4)" strokeWidth="0.6" fill="none">
+                        <line x1="680" y1="42" x2="715" y2="60" />
+                        <line x1="715" y1="60" x2="745" y2="45" />
+                        <line x1="745" y1="45" x2="780" y2="68" />
+                        <line x1="780" y1="68" x2="815" y2="52" />
+
+                        <circle cx="680" cy="42" r="1.6" fill="#FFF2D6" style={{ animation: "starTwinkle2 3.5s ease-in-out infinite" }} />
+                        <circle cx="715" cy="60" r="1.8" fill="#FFF2D6" style={{ animation: "starTwinkle4 4.2s ease-in-out infinite" }} />
+                        <circle cx="745" cy="45" r="1.5" fill="#FFF2D6" style={{ animation: "starTwinkle1 3.1s ease-in-out infinite -0.5s" }} />
+                        <circle cx="780" cy="68" r="1.9" fill="#FFF2D6" style={{ animation: "starTwinkle3 3.9s ease-in-out infinite" }} />
+                        <circle cx="815" cy="52" r="1.6" fill="#FFF2D6" style={{ animation: "starTwinkle2 2.9s ease-in-out infinite -1.2s" }} />
+                      </g>
+                    </g>
+                  )}
+
+                  {/* High-Altitude Drifting Wind Lines */}
+                  <g fill="none" stroke={isNight ? "#6B7A8A" : "#6B635B"} strokeWidth="1" strokeLinecap="round" opacity="0.3">
                     <path
                       d="M 160 75 C 290 60, 440 88, 620 68"
                       strokeDasharray="90 140"
@@ -436,12 +605,12 @@ export function App() {
                     />
                   </g>
 
-                  {/* Distant Ridge — Pietrosul Rodnei (2.303 m) */}
+                  {/* ─── High Mountain Ridge: Pietrosul Rodnei (2.303 m) ─── */}
                   <g>
                     <path
                       d="M 0 290 L 110 250 L 220 220 L 290 235 L 390 120 L 430 160 L 510 175 L 590 135 L 690 205 L 810 190 L 960 250 L 1100 240 L 1200 270 L 1200 480 L 0 480 Z"
-                      fill={isDusk ? "#2A2521" : "#EAE0CE"}
-                      stroke={isDusk ? "#3F3732" : "#CDBFA8"}
+                      fill={isNight ? "#1C212B" : "#EAE0CE"}
+                      stroke={isNight ? "#2B3342" : "#CDBFA8"}
                       strokeWidth="1.5"
                       strokeLinejoin="round"
                     />
@@ -456,7 +625,7 @@ export function App() {
                         fontSize="10"
                         fontFamily="'Plus Jakarta Sans', sans-serif"
                         letterSpacing="0.12em"
-                        fill={isDusk ? "#EAE0CE" : "#6B635B"}
+                        fill={isNight ? "#EAE0CE" : "#6B635B"}
                         fontWeight="600"
                       >
                         PIETROSUL RODNEI · 2.303 M
@@ -464,7 +633,7 @@ export function App() {
                     </g>
 
                     {/* Glacial Couloirs & Topographic Hatching */}
-                    <g fill="none" stroke={isDusk ? "#3A332E" : "#CDBFA8"} strokeWidth="1" opacity="0.6">
+                    <g fill="none" stroke={isNight ? "#2E3645" : "#CDBFA8"} strokeWidth="1" opacity="0.6">
                       <path d="M 390 120 C 375 155, 360 200, 340 250" />
                       <path d="M 390 120 C 405 160, 420 195, 445 245" />
                       <path d="M 590 135 C 580 175, 560 210, 540 255" />
@@ -472,29 +641,70 @@ export function App() {
                     </g>
                   </g>
 
-                  {/* Soaring Alpine Swifts over the Ridges */}
-                  <g style={{ animation: "swiftFlightGlide 26s cubic-bezier(0.4, 0, 0.2, 1) infinite" }}>
-                    <g transform="translate(0, 105)" style={{ animation: "wingFlapMotion 1.4s ease-in-out infinite" }}>
+                  {/* ─── Soaring Golden Eagle (Acvilă de Munte) ─── */}
+                  <g style={{ animation: "eagleRaptorThermal 34s cubic-bezier(0.4, 0, 0.2, 1) infinite" }}>
+                    <g transform="translate(0, 95)">
                       <path
-                        d="M -12 4 Q -6 -3 0 0 Q 6 -3 12 4 Q 5 1 0 1.5 Q -5 1 -12 4 Z"
-                        fill={isDusk ? "#FAF6EE" : "#1A1614"}
-                        opacity="0.75"
+                        d="M -14 5 Q -7 -4 0 0 Q 7 -4 14 5 Q 6 1.5 0 2 Q -6 1.5 -14 5 Z"
+                        fill={isNight ? "#FAF6EE" : "#1A1614"}
+                        opacity="0.85"
                       />
                     </g>
                   </g>
 
-                  {/* Mid-Mountain Ridge */}
+                  {/* ─── Mid-Mountain Ridge ─── */}
                   <g>
                     <path
                       d="M 0 345 L 140 310 L 270 270 L 380 300 L 510 280 L 640 315 L 740 250 L 860 290 L 1020 275 L 1200 335 L 1200 480 L 0 480 Z"
-                      fill={isDusk ? "#352F2A" : "#DFD4C0"}
-                      stroke={isDusk ? "#4B423B" : "#C0B29E"}
+                      fill={isNight ? "#222731" : "#DFD4C0"}
+                      stroke={isNight ? "#353D4D" : "#C0B29E"}
                       strokeWidth="1.5"
                       strokeLinejoin="round"
                     />
                   </g>
 
-                  {/* Wildlife — Alert Carpathian Chamois (Capră Neagră) on Crag */}
+                  {/* ─── Majestic Carpathian Stag (Cerb Carpatin cu Coarne) on Rocky Crest ─── */}
+                  <g
+                    transform="translate(268, 268)"
+                    style={{
+                      transformOrigin: "268px 268px",
+                      animation: "cerbBreathing 5.2s ease-in-out infinite",
+                    }}
+                    aria-label="Cerb carpatin pe creastă"
+                  >
+                    {/* Stag Body */}
+                    <path
+                      d="M -16 6 C -18 0, -10 -8, 6 -6 C 16 -5, 20 2, 18 10 L 14 16 L -12 16 Z"
+                      fill={isNight ? "#3E362E" : "#8A7966"}
+                    />
+                    {/* Legs */}
+                    <line x1="-12" y1="16" x2="-14" y2="28" stroke={isNight ? "#2B241E" : "#5E5244"} strokeWidth="1.8" />
+                    <line x1="-8" y1="16" x2="-7" y2="28" stroke={isNight ? "#2B241E" : "#5E5244"} strokeWidth="1.8" />
+                    <line x1="10" y1="16" x2="9" y2="28" stroke={isNight ? "#2B241E" : "#5E5244"} strokeWidth="1.8" />
+                    <line x1="14" y1="16" x2="16" y2="28" stroke={isNight ? "#2B241E" : "#5E5244"} strokeWidth="1.8" />
+
+                    {/* Stag Head & Antlers (Animated Alert Head Scan) */}
+                    <g style={{ transformOrigin: "12px -2px", animation: "cerbHeadAlert 11s ease-in-out infinite" }}>
+                      {/* Neck & Head */}
+                      <path d="M 6 -5 L 14 -14 L 18 -10 L 14 -3 Z" fill={isNight ? "#2B241E" : "#5E5244"} />
+                      <circle cx="15" cy="-12" r="3.2" fill={isNight ? "#2B241E" : "#5E5244"} />
+                      {/* Magnificent 12-point Antlers */}
+                      <g fill="none" stroke={isNight ? "#EAE0CE" : "#1A1614"} strokeWidth="1.1" strokeLinecap="round">
+                        {/* Left Main Beam */}
+                        <path d="M 14 -15 Q 11 -26 6 -32 Q 4 -35 2 -36" />
+                        <path d="M 12 -22 L 7 -25" />
+                        <path d="M 9 -27 L 4 -29" />
+                        <path d="M 6 -32 L 2 -33" />
+                        {/* Right Main Beam */}
+                        <path d="M 15 -15 Q 18 -26 23 -32 Q 25 -35 27 -36" />
+                        <path d="M 17 -22 L 22 -25" />
+                        <path d="M 20 -27 L 25 -29" />
+                        <path d="M 23 -32 L 27 -33" />
+                      </g>
+                    </g>
+                  </g>
+
+                  {/* Carpathian Chamois (Capră Neagră) on Opposite Crag */}
                   <g
                     transform="translate(738, 248)"
                     style={{
@@ -503,9 +713,9 @@ export function App() {
                     }}
                     aria-label="Capră neagră carpatină pe creastă"
                   >
-                    <polygon points="-12,2 -4,-6 8,-4 14,3" fill={isDusk ? "#4A423C" : "#A69885"} />
+                    <polygon points="-12,2 -4,-6 8,-4 14,3" fill={isNight ? "#36302B" : "#A69885"} />
                     <g style={{ transformOrigin: "0px -10px", animation: "chamoisHeadLook 10s ease-in-out infinite" }}>
-                      <ellipse cx="0" cy="-8" rx="6" ry="4" fill={isDusk ? "#1A1614" : "#28231F"} />
+                      <ellipse cx="0" cy="-8" rx="6" ry="4" fill={isNight ? "#141210" : "#28231F"} />
                       <line x1="-4" y1="-5" x2="-5" y2="0" stroke="#1A1614" strokeWidth="1.4" />
                       <line x1="-2" y1="-5" x2="-2" y2="0" stroke="#1A1614" strokeWidth="1.4" />
                       <line x1="2" y1="-5" x2="2" y2="0" stroke="#1A1614" strokeWidth="1.4" />
@@ -521,76 +731,101 @@ export function App() {
                     </g>
                   </g>
 
-                  {/* Carpathian Pine Trees (Organic Swaying) */}
+                  {/* Swaying Fir Trees along Ridge */}
                   <g style={{ transformOrigin: "115px 400px", animation: "pineSwayGentle 6.4s ease-in-out infinite" }}>
                     <line x1="115" y1="400" x2="115" y2="330" stroke="#1A1614" strokeWidth="2" />
-                    <polygon points="115,315 102,345 128,345" fill={isDusk ? "#1B231D" : "#4A5647"} />
-                    <polygon points="115,335 97,365 133,365" fill={isDusk ? "#1B231D" : "#4A5647"} />
-                    <polygon points="115,355 92,390 138,390" fill={isDusk ? "#161D18" : "#3B4539"} />
-                  </g>
-
-                  <g style={{ transformOrigin: "155px 410px", animation: "pineSwaySubtle 7.8s ease-in-out infinite -2.3s" }}>
-                    <line x1="155" y1="410" x2="155" y2="350" stroke="#1A1614" strokeWidth="1.8" />
-                    <polygon points="155,338 144,365 166,365" fill={isDusk ? "#1B231D" : "#515E4E"} />
-                    <polygon points="155,358 139,385 171,385" fill={isDusk ? "#161D18" : "#424D3F"} />
-                    <polygon points="155,378 135,404 175,404" fill={isDusk ? "#161D18" : "#353E32"} />
+                    <polygon points="115,315 102,345 128,345" fill={isNight ? "#121A15" : "#4A5647"} />
+                    <polygon points="115,335 97,365 133,365" fill={isNight ? "#121A15" : "#4A5647"} />
+                    <polygon points="115,355 92,390 138,390" fill={isNight ? "#0C120E" : "#3B4539"} />
                   </g>
 
                   <g style={{ transformOrigin: "670px 405px", animation: "pineSwayGentle 8.2s ease-in-out infinite -4.1s" }}>
                     <line x1="670" y1="405" x2="670" y2="320" stroke="#1A1614" strokeWidth="2.2" />
-                    <polygon points="670,305 654,340 686,340" fill={isDusk ? "#18201A" : "#455142"} />
-                    <polygon points="670,328 648,362 692,362" fill={isDusk ? "#18201A" : "#3C473A"} />
-                    <polygon points="670,350 642,392 698,392" fill={isDusk ? "#121813" : "#323B30"} />
+                    <polygon points="670,305 654,340 686,340" fill={isNight ? "#121A15" : "#455142"} />
+                    <polygon points="670,328 648,362 692,362" fill={isNight ? "#121A15" : "#3C473A"} />
+                    <polygon points="670,350 642,392 698,392" fill={isNight ? "#0C120E" : "#323B30"} />
                   </g>
 
-                  <g style={{ transformOrigin: "1065px 420px", animation: "pineSwaySubtle 7.1s ease-in-out infinite -1.5s" }}>
-                    <line x1="1065" y1="420" x2="1065" y2="345" stroke="#1A1614" strokeWidth="2" />
-                    <polygon points="1065,330 1050,360 1080,360" fill={isDusk ? "#1B231D" : "#4A5647"} />
-                    <polygon points="1065,352 1044,385 1086,385" fill={isDusk ? "#161D18" : "#3D483B"} />
-                    <polygon points="1065,375 1038,412 1092,412" fill={isDusk ? "#161D18" : "#323B30"} />
-                  </g>
-
-                  {/* Lower Valley Foreground */}
+                  {/* ─── Valley Meadow Foreground ─── */}
                   <path
                     d="M 0 405 Q 260 380 520 415 T 980 410 L 1200 425 L 1200 480 L 0 480 Z"
-                    fill={isDusk ? "#241F1C" : "#D2C5B0"}
-                    stroke={isDusk ? "#3A322C" : "#B2A189"}
+                    fill={isNight ? "#191614" : "#D2C5B0"}
+                    stroke={isNight ? "#2B2521" : "#B2A189"}
                     strokeWidth="1.5"
                   />
 
-                  {/* Handcrafted Wooden Chalet (Pensiunea Simi) */}
+                  {/* ─── Valea Izvorul Negru Glacial Stream (Winding with Flowing Ripples) ─── */}
+                  <g id="valea-izvorul-negru">
+                    {/* Winding River Bed */}
+                    <path
+                      d="M 420 310 C 445 345, 510 375, 485 410 C 460 445, 390 455, 340 480 L 440 480 C 490 455, 555 440, 565 405 C 575 370, 485 335, 465 310 Z"
+                      fill="url(#streamGrad)"
+                      stroke={isNight ? "#1B2F29" : "#3B6158"}
+                      strokeWidth="1.2"
+                    />
+
+                    {/* Animated Glacial Water Current Ripples */}
+                    <path
+                      d="M 435 320 C 460 350, 495 375, 480 402"
+                      stroke={isNight ? "#6FA398" : "#FAF6EE"}
+                      strokeWidth="1.3"
+                      strokeDasharray="22 40"
+                      fill="none"
+                      opacity="0.6"
+                      style={{ animation: "streamFlowRipple1 3.2s linear infinite" }}
+                    />
+                    <path
+                      d="M 455 352 C 490 385, 505 415, 470 445"
+                      stroke={isNight ? "#55877D" : "#FAF6EE"}
+                      strokeWidth="1.1"
+                      strokeDasharray="18 36"
+                      fill="none"
+                      opacity="0.5"
+                      style={{ animation: "streamFlowRipple2 3.8s linear infinite -1.6s" }}
+                    />
+                    <path
+                      d="M 470 395 C 495 425, 450 455, 395 475"
+                      stroke={isNight ? "#6FA398" : "#FAF6EE"}
+                      strokeWidth="1.2"
+                      strokeDasharray="20 38"
+                      fill="none"
+                      opacity="0.55"
+                      style={{ animation: "streamFlowRipple1 3.5s linear infinite -0.9s" }}
+                    />
+                  </g>
+
+                  {/* ─── Handcrafted Wooden Chalet (Pensiunea Simi) ─── */}
                   <g transform="translate(710, 290)" id="pensiunea-simi-chalet">
-                    {/* Chimney & Woodsmoke */}
+                    {/* Chimney & Curling Woodsmoke Plumes */}
                     <rect x="26" y="0" width="10" height="24" fill="#3D3631" stroke="#1A1614" strokeWidth="1" />
                     <line x1="24" y1="0" x2="38" y2="0" stroke="#1A1614" strokeWidth="1.5" />
 
                     <g transform="translate(31, 0)" fill="none" strokeLinecap="round">
                       <path
                         d="M 0 0 C -6 -18, -16 -32, -8 -54 C -2 -72, -18 -92, -12 -118"
-                        stroke={isDusk ? "#EAE0CE" : "#6B635B"}
+                        stroke={isNight ? "#EAE0CE" : "#6B635B"}
                         strokeWidth="1.75"
                         strokeDasharray="45 80"
                         style={{ animation: "simiSmokeWisp1 5.8s ease-out infinite" }}
                       />
                       <path
                         d="M 0 0 C 8 -16, 18 -36, 10 -58 C 4 -78, 22 -98, 16 -125"
-                        stroke={isDusk ? "#EAE0CE" : "#8A8177"}
+                        stroke={isNight ? "#EAE0CE" : "#8A8177"}
                         strokeWidth="1.4"
                         strokeDasharray="40 70"
                         style={{ animation: "simiSmokeWisp2 6.6s ease-out infinite -2.8s" }}
                       />
                     </g>
 
-                    {/* Steep Roof with Shingle Texture */}
+                    {/* Steep Shingle Roof */}
                     <polygon
                       points="65,18 2,82 128,82"
-                      fill={isDusk ? "#1E1A17" : "#3A322C"}
+                      fill={isNight ? "#14110F" : "#3A322C"}
                       stroke="#1A1614"
                       strokeWidth="1.75"
                     />
                     <line x1="22" y1="62" x2="108" y2="62" stroke="#FAF6EE" strokeWidth="0.8" opacity="0.25" />
                     <line x1="38" y1="46" x2="92" y2="46" stroke="#FAF6EE" strokeWidth="0.8" opacity="0.25" />
-
                     <line x1="-2" y1="83" x2="132" y2="83" stroke="#1A1614" strokeWidth="2.5" />
 
                     {/* Timber Walls */}
@@ -599,7 +834,7 @@ export function App() {
                       y="84"
                       width="106"
                       height="58"
-                      fill={isDusk ? "#2F2722" : "#B86B32"}
+                      fill={isNight ? "#261F1A" : "#B86B32"}
                       stroke="#1A1614"
                       strokeWidth="1.75"
                     />
@@ -607,7 +842,7 @@ export function App() {
                     <line x1="12" y1="112" x2="118" y2="112" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
                     <line x1="12" y1="126" x2="118" y2="126" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
 
-                    {/* Hearth Light Glowing in Windows */}
+                    {/* Glowing Windows with Window Panes */}
                     <g transform="translate(24, 95)">
                       <rect
                         width="16"
@@ -634,16 +869,16 @@ export function App() {
                       <line x1="0" y1="10" x2="18" y2="10" stroke="#1A1614" strokeWidth="0.8" />
                     </g>
 
+                    {/* Doorway */}
                     <rect x="88" y="96" width="16" height="46" fill="#1A1614" />
-
                     <rect x="8" y="132" width="114" height="10" fill="#28231F" stroke="#1A1614" strokeWidth="1" />
                   </g>
 
-                  {/* Steaming Outdoor Ciubăr (39°C) */}
+                  {/* ─── Steaming Outdoor Wooden Ciubăr (39°C) ─── */}
                   <g transform="translate(865, 392)" id="ciubar-cald">
                     <path
                       d="M 0 16 L 4 44 Q 26 49 48 44 L 52 16 Z"
-                      fill={isDusk ? "#2E2621" : "#5C4638"}
+                      fill={isNight ? "#241D18" : "#5C4638"}
                       stroke="#1A1614"
                       strokeWidth="1.5"
                     />
@@ -652,8 +887,8 @@ export function App() {
 
                     <ellipse cx="26" cy="16" rx="26" ry="7" fill="url(#ciubarWater)" stroke="#1A1614" strokeWidth="1.2" />
 
-                    {/* Rising Steam */}
-                    <g fill="none" stroke="#FAF6EE" strokeWidth="1.2" strokeLinecap="round">
+                    {/* Rising Steam Micro-Motion */}
+                    <g fill="none" stroke={isNight ? "#EAE0CE" : "#FAF6EE"} strokeWidth="1.2" strokeLinecap="round">
                       <path
                         d="M 18 14 Q 14 6 20 -2 Q 26 -10 22 -18"
                         strokeDasharray="14 18"
@@ -667,69 +902,65 @@ export function App() {
                     </g>
                   </g>
 
-                  {/* Campfire Embers Glow */}
-                  <g transform="translate(640, 422)" id="hearth-campfire">
-                    <ellipse cx="0" cy="0" rx="14" ry="5" fill="#3D3631" stroke="#1A1614" strokeWidth="1" />
-                    <ellipse cx="0" cy="-1" rx="8" ry="3" fill="#D4803E" />
+                  {/* ─── Campfire with 3-Layer Flickering Flames & Drifting Embers ─── */}
+                  <g transform="translate(635, 420)" id="hearth-campfire">
+                    {/* Firepit Stones */}
+                    <ellipse cx="0" cy="4" rx="16" ry="6" fill="#3D3631" stroke="#1A1614" strokeWidth="1" />
+                    <ellipse cx="0" cy="3" rx="10" ry="4" fill="#6B3214" />
 
-                    <circle
-                      cx="-2"
-                      cy="-4"
-                      r="1.4"
+                    {/* Outer Flame (Orange) */}
+                    <path
+                      d="M -7 3 Q -10 -8 0 -18 Q 10 -8 7 3 Z"
                       fill="#D4803E"
-                      style={{ animation: "emberDrift1 3.8s ease-out infinite" }}
+                      style={{ animation: "flameLickOuter 1.2s ease-in-out infinite" }}
                     />
-                    <circle
-                      cx="3"
-                      cy="-5"
-                      r="1.1"
-                      fill="#B86B32"
-                      style={{ animation: "emberDrift2 4.6s ease-out infinite -1.8s" }}
+                    {/* Mid Flame (Warm Amber) */}
+                    <path
+                      d="M -4 3 Q -6 -5 0 -13 Q 6 -5 4 3 Z"
+                      fill="#FF9233"
+                      style={{ animation: "flameLickMid 0.9s ease-in-out infinite" }}
                     />
+                    {/* Core Flame (Bright Yellow) */}
+                    <path
+                      d="M -2 3 Q -3 -2 0 -8 Q 3 -2 2 3 Z"
+                      fill="#FFF1B8"
+                      style={{ animation: "flameLickCore 0.7s ease-in-out infinite" }}
+                    />
+
+                    {/* Drifting Embers */}
+                    <circle cx="-3" cy="-10" r="1.3" fill="#FFD175" style={{ animation: "emberDrift1 3.2s ease-out infinite" }} />
+                    <circle cx="4" cy="-12" r="1.1" fill="#FF9233" style={{ animation: "emberDrift2 3.9s ease-out infinite -1.4s" }} />
+                    <circle cx="1" cy="-15" r="0.9" fill="#D4803E" style={{ animation: "emberDrift1 4.2s ease-out infinite -2.1s" }} />
                   </g>
                 </svg>
-
-                {/* Tactile Ambient Switcher (Dimineață / Amurg) */}
-                <div className="absolute top-3 right-4 sm:top-5 sm:right-8 z-20">
-                  <button
-                    type="button"
-                    onClick={() => setIsDusk(!isDusk)}
-                    className="flex items-center gap-2 px-3 py-1.5 border border-[#1A1614]/15 bg-[#FAF6EE]/90 backdrop-blur-md text-xs uppercase tracking-[0.12em] font-medium text-[#1A1614] hover:border-[#B86B32] transition-colors cursor-pointer"
-                  >
-                    <span
-                      className={`w-2 h-2 ${
-                        isDusk ? "bg-[#D4803E]" : "bg-[#B86B32]"
-                      }`}
-                    />
-                    <span>{isDusk ? "Amurg la Pietrosul" : "Dimineață în Moisei"}</span>
-                  </button>
-                </div>
               </div>
             </div>
 
             {/* ─── Concise Disciplined Hero Text Lockup (Radically Short) ─── */}
-            <div className="max-w-[1300px] w-full mx-auto px-4 sm:px-8 py-8 sm:py-10">
+            <section className="max-w-[1300px] w-full mx-auto px-4 sm:px-8 py-8 sm:py-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
                 <div className="lg:col-span-8 space-y-4">
-                  <div className="flex items-center gap-3 text-xs uppercase tracking-[0.14em] text-[#B86B32] font-semibold">
+                  <div className={`flex items-center gap-3 text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold`}>
                     <span>Pensiunea Agroturistică Simi</span>
                     <span>·</span>
                     <span>Moisei · Maramureș</span>
                   </div>
 
-                  <h1 className="font-chalet text-3xl sm:text-5xl lg:text-6xl font-normal text-[#1A1614] leading-[1.08] tracking-tight">
+                  <h1 className={`font-chalet text-3xl sm:text-5xl lg:text-6xl font-normal ${themeText} leading-[1.08] tracking-tight`}>
                     Liniște, lemn cald și ciubăr la poalele Munților Rodnei.
                   </h1>
 
-                  <p className="font-ui text-base sm:text-lg text-[#6B635B] max-w-2xl leading-relaxed">
-                    Șapte camere primitoare cu balcon propriu, foișor cu foc de lemne și apă caldă la 39°C pe Valea Izvorul Negru în Moisei.
+                  <p className={`font-ui text-base sm:text-lg ${themeTextMuted} max-w-2xl leading-relaxed`}>
+                    Șapte camere cu balcon propriu, foișor cu foc de lemne și apă caldă la 39°C pe Valea Izvorul Negru în Moisei.
                   </p>
                 </div>
 
                 <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
                   <a
                     href="tel:+40740981839"
-                    className="w-full py-3.5 px-6 bg-[#1A1614] hover:bg-[#B86B32] text-[#FAF6EE] text-xs uppercase tracking-[0.14em] font-semibold text-center transition-colors"
+                    className={`w-full py-3.5 px-6 ${
+                      isNight ? "bg-[#E28C46] text-[#141210] hover:bg-[#FAF6EE]" : "bg-[#1A1614] text-[#FAF6EE] hover:bg-[#B86B32]"
+                    } text-xs uppercase tracking-[0.14em] font-semibold text-center transition-colors`}
                   >
                     Sună gazda · 0740 981 839
                   </a>
@@ -738,67 +969,548 @@ export function App() {
                     <button
                       type="button"
                       onClick={() => navigate("rezervare")}
-                      className="py-3 px-4 border border-[#1A1614] hover:bg-[#1A1614] hover:text-[#FAF6EE] text-[#1A1614] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer"
+                      className={`py-3 px-4 border ${themeBorder} hover:${themeAccentBg} hover:text-[#FAF6EE] ${themeText} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer`}
                     >
                       Rezervare rapidă
                     </button>
                     <button
                       type="button"
                       onClick={() => navigate("trasee")}
-                      className="py-3 px-4 border border-[#1A1614]/20 hover:border-[#1A1614] text-[#6B635B] hover:text-[#1A1614] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer"
+                      className={`py-3 px-4 border ${themeBorder} ${themeTextMuted} hover:${themeText} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer`}
                     >
                       Trasee 2.303m →
                     </button>
                   </div>
                 </div>
               </div>
+            </section>
 
-              {/* 3 Architectural Anchors: Authentic Hospitality Pop */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 mt-8 border-t border-[#1A1614]/10 text-xs text-[#6B635B]">
-                <div className="space-y-1">
-                  <span className="font-chalet text-lg text-[#B86B32] font-semibold block">01</span>
-                  <strong className="block text-[#1A1614] font-medium text-sm">
-                    Masivul Pietrosul în fereastră
-                  </strong>
-                  <p>7 camere cu balcon, baie proprie și vedere spre crestele Rodnei.</p>
+            {/* ─── SECTION A: Căldura Lemnului & Camerele (Curated Suite Peek) ─── */}
+            <section className={`border-t ${themeBorder} py-12 sm:py-16 ${themeSurface} transition-colors duration-300`}>
+              <div className="max-w-[1300px] mx-auto px-4 sm:px-8 space-y-8">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b pb-6 ${themeBorder}">
+                  <div>
+                    <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
+                      01 · Odihnă &amp; Intimitate
+                    </span>
+                    <h2 className={`font-chalet text-2xl sm:text-3xl font-normal ${themeText} mt-1`}>
+                      Cele 7 Camere cu vedere spre Masivul Pietrosul
+                    </h2>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => navigate("camere")}
+                    className={`text-xs uppercase tracking-[0.12em] font-semibold ${themeAccent} hover:underline cursor-pointer`}
+                  >
+                    Vezi toate detaliile camerelor →
+                  </button>
                 </div>
 
-                <div className="space-y-1">
-                  <span className="font-chalet text-lg text-[#B86B32] font-semibold block">02</span>
-                  <strong className="block text-[#1A1614] font-medium text-sm">
-                    Ciubăr cu lemne &amp; Foișor
-                  </strong>
-                  <p>Apă caldă la 39°C sub cerul liber, grătar mare, ceaun și cuptor pe lemne.</p>
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                  {SUITES.map((suite) => (
+                    <div
+                      key={suite.id}
+                      className={`border ${themeBorder} ${themeSurfaceElevated} flex flex-col justify-between group transition-all hover:border-[#D4803E]`}
+                    >
+                      <div className="relative h-64 overflow-hidden bg-[#231F1C]">
+                        <ResilientPhoto
+                          src={suite.primaryImg}
+                          fallback={suite.fallbackImg}
+                          alt={suite.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-3 left-3 bg-[#1A1614]/90 text-[#FAF6EE] px-3 py-1 text-xs uppercase tracking-[0.12em] font-medium">
+                          {suite.index} · {suite.count}
+                        </div>
+                        <div className="absolute bottom-3 right-3 bg-[#FAF6EE] text-[#1A1614] px-3 py-1 text-xs uppercase tracking-[0.12em] font-semibold">
+                          {suite.capacity}
+                        </div>
+                      </div>
 
-                <div className="space-y-1">
-                  <span className="font-chalet text-lg text-[#B86B32] font-semibold block">03</span>
-                  <strong className="block text-[#1A1614] font-medium text-sm">
-                    Tichete &amp; Carduri de Vacanță
-                  </strong>
-                  <p>Plată acceptată cu cardurile Sodexo, Edenred și Up Vacanță.</p>
+                      <div className="p-6 space-y-3">
+                        <h3 className={`font-chalet text-xl ${themeText}`}>
+                          {suite.name}
+                        </h3>
+                        <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                          {suite.spec}
+                        </p>
+                        <div className="pt-2 flex items-center justify-between border-t ${themeBorder}">
+                          <button
+                            type="button"
+                            onClick={() => selectRoomAndBook(suite.name)}
+                            className={`text-xs uppercase tracking-[0.12em] font-semibold ${themeAccent} hover:underline cursor-pointer`}
+                          >
+                            Rezervă camera →
+                          </button>
+                          <span className={`text-[11px] ${themeTextMuted}`}>
+                            Balcon privat
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+
+            {/* ─── SECTION B: Ciubăr Cald (39°C) & Foișor Tradițional ─── */}
+            <section className={`border-t ${themeBorder} py-12 sm:py-16 ${themeBg} transition-colors duration-300`}>
+              <div className="max-w-[1300px] mx-auto px-4 sm:px-8 space-y-8">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b pb-6 ${themeBorder}">
+                  <div>
+                    <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
+                      02 · Tihnă &amp; Gastronomie
+                    </span>
+                    <h2 className={`font-chalet text-2xl sm:text-3xl font-normal ${themeText} mt-1`}>
+                      Ciubăr fierbinte sub cerul liber și foișor cu cuptor pe lemne
+                    </h2>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => navigate("ciubar")}
+                    className={`text-xs uppercase tracking-[0.12em] font-semibold ${themeAccent} hover:underline cursor-pointer`}
+                  >
+                    Descoperă curtea și facilitățile →
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                  <div className="lg:col-span-7 relative h-80 sm:h-[440px] overflow-hidden bg-[#231F1C] border ${themeBorder}">
+                    <ResilientPhoto
+                      src={
+                        isNight
+                          ? "https://img.directbooking.ro/getimage.ashx?w=1200&h=900&file=df59a858-ffea-4824-be91-f59c2bc25c24.jpg"
+                          : "https://a0.muscache.com/im/pictures/hosting/Hosting-34697625/original/fd98f82b-38db-4d5a-b993-9825ca007860.jpeg?im_w=1200"
+                      }
+                      fallback="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85"
+                      alt="Ciubar si Curte Pensiunea Simi Moisei"
+                      className="w-full h-full object-cover"
+                    />
+
+                    {/* Live Vector Steam Badge Overlay */}
+                    <div className="absolute top-4 left-4 bg-[#1A1614]/90 backdrop-blur-md text-[#FAF6EE] px-3.5 py-2 border border-[#FAF6EE]/15 flex items-center gap-2.5">
+                      <div className="w-4 h-4 text-[#D4803E]">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                          <path d="M 6 18 Q 4 10 8 4" style={{ animation: "steamRiseWisp 3.8s ease-out infinite" }} />
+                          <path d="M 12 18 Q 14 10 10 4" style={{ animation: "steamRiseWisp 4.4s ease-out infinite -1.5s" }} />
+                          <path d="M 18 18 Q 16 10 20 4" style={{ animation: "steamRiseWisp 4.1s ease-out infinite -0.8s" }} />
+                        </svg>
+                      </div>
+                      <span className="text-xs uppercase tracking-[0.12em] font-semibold">
+                        Apă la 39°C · Încălzit cu lemne
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-5 flex flex-col justify-between gap-4">
+                    <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
+                      <div className="flex items-center justify-between">
+                        <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold`}>
+                          01 · Ciubăr din Lemn Masiv
+                        </span>
+                        <span className={`text-[11px] ${themeTextMuted}`}>6–8 persoane</span>
+                      </div>
+                      <h3 className={`font-chalet text-xl ${themeText}`}>
+                        Hidromasaj și apă caldă sub creasta Pietrosului
+                      </h3>
+                      <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                        Pregătit la cerere cu lemne uscate de fag. O experiență terapeutică după o drumeție pe munte, fie ziua la soare, fie noaptea sub cerul înstelat.
+                      </p>
+                    </div>
+
+                    <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
+                      <div className="flex items-center justify-between">
+                        <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold`}>
+                          02 · Foișor cu Grătar &amp; Cuptor de Pizza
+                        </span>
+                        <span className={`text-[11px] ${themeTextMuted}`}>Zonă acoperită</span>
+                      </div>
+                      <h3 className={`font-chalet text-xl ${themeText}`}>
+                        Gătit tradițional în aer liber
+                      </h3>
+                      <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                        Echipat complet cu grătar generos din cărămidă, plită pentru ceaun de fontă și cuptor pe lemne. Lemnele de foc sunt puse la dispoziție de gazdă.
+                      </p>
+                    </div>
+
+                    <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
+                      <div className="flex items-center justify-between">
+                        <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold`}>
+                          03 · Curte Mare &amp; Livadă
+                        </span>
+                        <span className={`text-[11px] ${themeTextMuted}`}>Râu &amp; Pajiște</span>
+                      </div>
+                      <h3 className={`font-chalet text-xl ${themeText}`}>
+                        Relaxare pe malul Văii Izvorul Negru
+                      </h3>
+                      <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                        Curte îngrădită sigură pentru copii, parcare privată pentru 8 autoturisme și terasă la soare cu bănci din lemn masiv.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ─── SECTION C: Busola Munților Rodnei (LIVE INTERACTIVE NAVIGATION INSTRUMENT) ─── */}
+            <section className={`border-t ${themeBorder} py-12 sm:py-16 ${themeSurface} transition-colors duration-300`}>
+              <div className="max-w-[1300px] mx-auto px-4 sm:px-8 space-y-8">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b pb-6 ${themeBorder}">
+                  <div>
+                    <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
+                      03 · Orientare &amp; Drumeții
+                    </span>
+                    <h2 className={`font-chalet text-2xl sm:text-3xl font-normal ${themeText} mt-1`}>
+                      Busola Munților Rodnei · Moisei (620 m)
+                    </h2>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs ${themeTextMuted}`}>
+                      Apasă orice destinație pentru a roti busola live
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                  {/* Left: The Genuine Live Interactive Vector Instrument */}
+                  <div className={`lg:col-span-5 bg-[#141210] text-[#FAF6EE] p-6 sm:p-8 flex flex-col justify-between gap-6 border ${themeBorder}`}>
+                    <div className="flex items-center justify-between text-xs text-[#E28C46] uppercase tracking-[0.14em] font-semibold border-b border-[#FAF6EE]/10 pb-3">
+                      <span>47.6556° N, 24.5401° E</span>
+                      <span className="font-mono text-sm">{activeBearing}° {activeTrail.direction.split(" ")[1] || "S-SV"}</span>
+                    </div>
+
+                    {/* Live Rotating Vector Compass SVG Dial */}
+                    <div className="relative w-56 h-56 mx-auto flex items-center justify-center select-none">
+                      <svg viewBox="0 0 220 220" className="w-full h-full" aria-label="Instrument Busolă Live">
+                        {/* Outer Azimuth Degree Tick Marks Ring */}
+                        <circle cx="110" cy="110" r="100" stroke="rgba(250,246,238,0.15)" strokeWidth="1.5" fill="none" />
+                        <circle cx="110" cy="110" r="92" stroke="rgba(250,246,238,0.08)" strokeWidth="1" strokeDasharray="2 6" fill="none" />
+                        <circle cx="110" cy="110" r="74" stroke="rgba(226,140,70,0.3)" strokeWidth="1" strokeDasharray="4 4" fill="none" />
+
+                        {/* Cardinal Direction Marks */}
+                        <text x="106" y="22" fill="#E28C46" fontSize="12" fontWeight="700" fontFamily="sans-serif">N</text>
+                        <text x="107" y="206" fill="#FAF6EE" opacity="0.6" fontSize="11" fontFamily="sans-serif">S</text>
+                        <text x="198" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11" fontFamily="sans-serif">E</text>
+                        <text x="14" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11" fontFamily="sans-serif">V</text>
+
+                        {/* Radar Pulse Beacon on Target Angle */}
+                        <circle
+                          cx={110 + 72 * Math.sin((activeBearing * Math.PI) / 180)}
+                          cy={110 - 72 * Math.cos((activeBearing * Math.PI) / 180)}
+                          r="6"
+                          fill="none"
+                          stroke="#E28C46"
+                          style={{ animation: "radarBeacon 2s ease-out infinite" }}
+                        />
+
+                        {/* Dynamic Smooth Rotating Magnetic Needle */}
+                        <g
+                          className="needle-rotate"
+                          style={{
+                            transform: `rotate(${activeBearing}deg)`,
+                            transformOrigin: "110px 110px",
+                          }}
+                        >
+                          {/* North Pointer (Amber) */}
+                          <polygon points="110,24 117,110 103,110" fill="#E28C46" />
+                          <polygon points="110,24 110,110 103,110" fill="#F4A261" />
+                          {/* South Pointer (Muted Silver) */}
+                          <polygon points="110,196 117,110 103,110" fill="rgba(250,246,238,0.35)" />
+                          <polygon points="110,196 110,110 103,110" fill="rgba(250,246,238,0.2)" />
+                          {/* Center Brass Pivot */}
+                          <circle cx="110" cy="110" r="6" fill="#FAF6EE" stroke="#1A1614" strokeWidth="1.5" />
+                          <circle cx="110" cy="110" r="2" fill="#E28C46" />
+                        </g>
+                      </svg>
+                    </div>
+
+                    {/* Live Telemetry Display */}
+                    <div className="space-y-2 border-t border-[#FAF6EE]/15 pt-4">
+                      <div className="flex items-center justify-between text-xs text-[#E28C46] uppercase tracking-[0.12em] font-semibold">
+                        <span>{activeTrail.elevation}</span>
+                        <span>{activeTrail.distance}</span>
+                      </div>
+                      <h3 className="font-chalet text-2xl text-[#FAF6EE]">{activeTrail.name}</h3>
+                      <p className="text-xs text-[#FAF6EE]/75 leading-relaxed">{activeTrail.desc}</p>
+                      <div className="pt-2 flex items-center justify-between text-[11px] text-[#FAF6EE]/60 border-t border-[#FAF6EE]/10">
+                        <span>Timp: <strong className="text-[#FAF6EE]">{activeTrail.duration}</strong></span>
+                        <span>Dificultate: <strong className="text-[#FAF6EE]">{activeTrail.difficulty}</strong></span>
+                      </div>
+                    </div>
+
+                    {/* Manual Angle Offset Controls */}
+                    <div className="flex items-center justify-between gap-2 border-t border-[#FAF6EE]/10 pt-3 text-[11px]">
+                      <button
+                        type="button"
+                        onClick={() => setManualBearingOffset((p) => p - 15)}
+                        className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
+                        title="Rotește cu 15 grade spre stânga"
+                      >
+                        -15° Stânga
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setManualBearingOffset(0)}
+                        className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer text-[#E28C46]"
+                        title="Resetează la azimutul țintei"
+                      >
+                        Centrare Azimut
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setManualBearingOffset((p) => p + 15)}
+                        className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
+                        title="Rotește cu 15 grade spre dreapta"
+                      >
+                        +15° Dreapta
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Right: The 4 Selectable Destination Waypoints */}
+                  <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {TRAILS.map((t, idx) => {
+                      const isSelected = idx === selectedTrail;
+                      return (
+                        <button
+                          key={t.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedTrail(idx);
+                            setManualBearingOffset(0);
+                          }}
+                          className={`border p-4 text-left transition-all flex flex-col justify-between cursor-pointer group ${
+                            isSelected
+                              ? `border-[#E28C46] ${isNight ? "bg-[#28231F]" : "bg-[#1A1614]"} text-[#FAF6EE]`
+                              : `border ${themeBorder} ${themeSurfaceElevated} ${themeText} hover:border-[#E28C46]`
+                          }`}
+                        >
+                          <div className="relative h-36 w-full overflow-hidden bg-[#231F1C]">
+                            <img
+                              src={t.img}
+                              alt={t.name}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute top-2 right-2 bg-[#1A1614]/90 text-[#FAF6EE] px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] font-medium">
+                              {t.direction}
+                            </div>
+                            {isSelected && (
+                              <div className="absolute top-2 left-2 bg-[#E28C46] text-[#141210] px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] font-semibold">
+                                Direcție Activă
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="pt-3 space-y-1">
+                            <div className="flex items-center justify-between text-xs">
+                              <span className={`uppercase tracking-[0.12em] font-semibold ${isSelected ? "text-[#E28C46]" : themeAccent}`}>
+                                {t.distance}
+                              </span>
+                              <span className={isSelected ? "text-[#FAF6EE]/70" : themeTextMuted}>
+                                {t.elevation}
+                              </span>
+                            </div>
+                            <h3 className="font-chalet text-lg font-normal leading-snug">
+                              {t.name}
+                            </h3>
+                            <p className={`text-xs line-clamp-2 ${isSelected ? "text-[#FAF6EE]/80" : themeTextMuted}`}>
+                              {t.desc}
+                            </p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* ─── SECTION D: Ospitalitate Verificată & Rezervare Rapidă ─── */}
+            <section className={`border-t ${themeBorder} py-12 sm:py-16 ${themeBg} transition-colors duration-300`}>
+              <div className="max-w-[1300px] mx-auto px-4 sm:px-8 space-y-8">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b pb-6 ${themeBorder}">
+                  <div>
+                    <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
+                      04 · Încredere &amp; Rezervare Directă
+                    </span>
+                    <h2 className={`font-chalet text-2xl sm:text-3xl font-normal ${themeText} mt-1`}>
+                      Configurează cererea pe WhatsApp în 3 atingeri
+                    </h2>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full bg-[#D4803E] opacity-75"></span>
+                      <span className="relative inline-flex h-2 w-2 bg-[#D4803E]"></span>
+                    </span>
+                    <span className={themeTextMuted}>Gazda răspunde de obicei în ~15 minute</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  {/* Left: 3-Tap WhatsApp Builder */}
+                  <div className={`lg:col-span-7 ${isNight ? "bg-[#1F1B18]" : "bg-[#1A1614]"} text-[#FAF6EE] p-6 sm:p-8 space-y-6 border ${themeBorder}`}>
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-[0.12em] text-[#FAF6EE]/75 block font-semibold">
+                        1. Alege Tipul de Cazare
+                      </label>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        {["Cameră Dublă", "Cameră Triplă", "Integral (15 locuri)"].map((opt) => (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() => setBookRoom(opt)}
+                            className={`p-3 text-xs text-left border transition-colors cursor-pointer ${
+                              bookRoom === opt
+                                ? "bg-[#E28C46] border-[#E28C46] text-[#141210] font-semibold"
+                                : "border-[#FAF6EE]/15 text-[#FAF6EE]/80 hover:bg-[#28231F]"
+                            }`}
+                          >
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-[0.12em] text-[#FAF6EE]/75 block font-semibold">
+                        2. Durata Sejurului
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {["Weekend (2 nopți)", "Sejur 3–4 nopți", "Vacanță 5+ nopți"].map((dur) => (
+                          <button
+                            key={dur}
+                            type="button"
+                            onClick={() => setBookPeriod(dur)}
+                            className={`p-3 text-xs text-center border transition-colors cursor-pointer ${
+                              bookPeriod === dur
+                                ? "bg-[#E28C46] border-[#E28C46] text-[#141210] font-semibold"
+                                : "border-[#FAF6EE]/15 text-[#FAF6EE]/80 hover:bg-[#28231F]"
+                            }`}
+                          >
+                            {dur}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-[0.12em] text-[#FAF6EE]/75 block font-semibold">
+                        3. Opțiuni Dorite
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          "Ciubăr cald",
+                          "Mic dejun local",
+                          "Tichete vacanță",
+                          "Ghidaj Pietrosul",
+                        ].map((extra) => {
+                          const active = bookExtras.includes(extra);
+                          return (
+                            <button
+                              key={extra}
+                              type="button"
+                              onClick={() => toggleExtra(extra)}
+                              className={`px-3.5 py-2 text-xs border transition-colors cursor-pointer ${
+                                active
+                                  ? "bg-[#FAF6EE] text-[#1A1614] font-semibold border-[#FAF6EE]"
+                                  : "border-[#FAF6EE]/20 text-[#FAF6EE]/75 hover:border-[#FAF6EE]/40"
+                              }`}
+                            >
+                              {extra}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="border border-[#FAF6EE]/15 p-4 bg-[#141210] space-y-1">
+                      <span className="text-[10px] uppercase tracking-[0.12em] text-[#E28C46] block font-semibold">
+                        Mesaj generat pentru gazdă (+40 740 981 839):
+                      </span>
+                      <p className="text-xs text-[#FAF6EE]/90 italic leading-relaxed">
+                        „{whatsappMessage}”
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                      <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-3.5 px-4 bg-[#E28C46] hover:bg-[#FAF6EE] hover:text-[#141210] text-[#141210] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors"
+                      >
+                        Trimite pe WhatsApp →
+                      </a>
+                      <a
+                        href="tel:+40740981839"
+                        className="py-3.5 px-4 border border-[#FAF6EE]/30 hover:bg-[#FAF6EE]/10 text-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors"
+                      >
+                        Sună direct: 0740 981 839
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Right: Address & Verified Social Proof */}
+                  <div className="lg:col-span-5 space-y-6">
+                    <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-4`}>
+                      <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold block`}>
+                        Adresă &amp; Contact Direct
+                      </span>
+                      <h3 className={`font-chalet text-xl ${themeText}`}>
+                        Str. Izvorul Negru nr. 257B, Moisei, Maramureș
+                      </h3>
+                      <div className={`space-y-1 text-xs ${themeTextMuted} pt-2 border-t ${themeBorder}`}>
+                        <p>Telefon: <strong className={themeText}>+40 740 981 839</strong></p>
+                        <p>Check-in: 13:00–15:00 · Check-out: până la 12:00</p>
+                        <p>Carduri de vacanță: Pluxee (Sodexo), Edenred, Up Vacanță</p>
+                      </div>
+                      <a
+                        href="https://www.google.com/maps/search/?api=1&query=Pensiunea+Simi+Moisei+Maramures+257B"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`block w-full py-2.5 border ${themeBorder} ${themeText} text-xs uppercase tracking-[0.12em] font-semibold text-center hover:${themeAccentBg} hover:text-[#FAF6EE] transition-colors`}
+                      >
+                        Deschide în Google Maps →
+                      </a>
+                    </div>
+
+                    <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
+                      <div className="flex items-baseline justify-between">
+                        <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold`}>
+                          Nota 10 / 10 TuristInfo.ro
+                        </span>
+                        <span className={`font-chalet text-base ${themeText}`}>Oaspeți Verificați</span>
+                      </div>
+                      <p className={`font-chalet text-base ${themeText} italic leading-snug`}>
+                        „Camere impecabil de curate, ciubărul și foișorul au fost un mare plus, iar priveliștea spre Pietrosul Rodnei îți taie răsuflarea.”
+                      </p>
+                      <span className={`text-xs ${themeTextMuted} block`}>
+                        — Bumbas Costin &amp; Maria, oaspeți verificați
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         )}
 
         {/* =========================================================
-            PAGE 2: CAMERE — 3-Column Architectural Suite Showcase (Real Photography)
+            PAGE 2: CAMERE — Deep Architectural Suite Specifications
            ========================================================= */}
         {page === "camere" && (
           <section className="px-4 sm:px-8 py-10 max-w-[1300px] w-full mx-auto space-y-8">
-            <div className="border-b border-[#1A1614]/10 pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className={`border-b ${themeBorder} pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4`}>
               <div>
-                <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold">
-                  Cazare · Moisei
+                <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
+                  Cazare · Moisei, Maramureș
                 </span>
-                <h1 className="font-chalet text-3xl sm:text-4xl font-normal text-[#1A1614] mt-1">
-                  Cele 7 Camere ale Pensiunii
+                <h1 className={`font-chalet text-3xl sm:text-4xl font-normal ${themeText} mt-1`}>
+                  Cele 7 Camere ale Pensiunii Simi
                 </h1>
               </div>
-              <p className="text-xs text-[#6B635B]">
-                Check-in 13:00 · Check-out 12:00 · Tichete de vacanță
+              <p className={`text-xs ${themeTextMuted}`}>
+                Check-in 13:00 · Check-out 12:00 · Tichete de vacanță acceptate
               </p>
             </div>
 
@@ -806,14 +1518,14 @@ export function App() {
               {SUITES.map((suite) => (
                 <div
                   key={suite.id}
-                  className="border border-[#1A1614]/12 bg-[#FAF6EE] flex flex-col justify-between"
+                  className={`border ${themeBorder} ${themeSurfaceElevated} flex flex-col justify-between group transition-all hover:border-[#D4803E]`}
                 >
                   <div className="relative h-72 overflow-hidden bg-[#231F1C]">
                     <ResilientPhoto
                       src={suite.primaryImg}
                       fallback={suite.fallbackImg}
                       alt={suite.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute top-3 left-3 bg-[#1A1614]/90 text-[#FAF6EE] px-3 py-1 text-xs uppercase tracking-[0.12em] font-medium">
                       {suite.index} · {suite.count}
@@ -823,17 +1535,27 @@ export function App() {
                     </div>
                   </div>
 
-                  <div className="p-6 space-y-2.5">
-                    <h2 className="font-chalet text-xl text-[#1A1614]">
+                  <div className="p-6 space-y-3">
+                    <h2 className={`font-chalet text-xl ${themeText}`}>
                       {suite.name}
                     </h2>
-                    <p className="text-xs text-[#6B635B] leading-relaxed">
+                    <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
                       {suite.spec}
                     </p>
+
+                    <div className="pt-2 border-t ${themeBorder} space-y-1">
+                      {suite.highlights.map((h, i) => (
+                        <div key={i} className={`flex items-center gap-2 text-xs ${themeText}`}>
+                          <span className={`w-1.5 h-1.5 ${themeAccentBg} shrink-0`} />
+                          <span>{h}</span>
+                        </div>
+                      ))}
+                    </div>
+
                     <button
                       type="button"
                       onClick={() => selectRoomAndBook(suite.name)}
-                      className="pt-2 text-xs uppercase tracking-[0.12em] font-semibold text-[#B86B32] hover:text-[#1A1614] transition-colors cursor-pointer block"
+                      className={`pt-3 text-xs uppercase tracking-[0.12em] font-semibold ${themeAccent} hover:underline cursor-pointer block`}
                     >
                       Alege această cameră →
                     </button>
@@ -842,161 +1564,208 @@ export function App() {
               ))}
             </div>
 
-            <div className="border-t border-[#1A1614]/10 pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#6B635B]">
-              <span>Toate camerele au baie proprie, balcon și vedere spre munte.</span>
-              <a href="tel:+40740981839" className="font-semibold text-[#1A1614] underline">
-                Rezervare directă: 0740 981 839
-              </a>
+            <div className={`border-t ${themeBorder} pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs ${themeTextMuted}`}>
+              <div>
+                <strong className={`block ${themeText} font-medium`}>Toate Camerele Includ</strong>
+                <p>Baie proprie cu duș, balcon cu vedere montană, lenjerii curate, prosoape și Wi-Fi.</p>
+              </div>
+              <div>
+                <strong className={`block ${themeText} font-medium`}>Curte &amp; Facilități Comune</strong>
+                <p>Salon de zi, bucătărie utilată complet, foișor cu grătar și cuptor, parcare securizată.</p>
+              </div>
+              <div>
+                <strong className={`block ${themeText} font-medium`}>Rezervare Rapidă</strong>
+                <p>Fără comisioane intermediare: <a href="tel:+40740981839" className={`underline font-semibold ${themeText}`}>0740 981 839</a></p>
+              </div>
             </div>
           </section>
         )}
 
         {/* =========================================================
-            PAGE 3: CIUBĂR & CURTE — Asymmetric Day/Night Spread (Real Photography)
+            PAGE 3: CIUBĂR & CURTE — Steaming Outdoor Wellness
            ========================================================= */}
         {page === "ciubar" && (
           <section className="px-4 sm:px-8 py-10 max-w-[1300px] w-full mx-auto space-y-8">
-            <div className="border-b border-[#1A1614]/10 pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className={`border-b ${themeBorder} pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4`}>
               <div>
-                <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold">
-                  Exterior &amp; Gastronomie
+                <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
+                  Exterior &amp; Gastronomie · Valea Izvorul Negru
                 </span>
-                <h1 className="font-chalet text-3xl sm:text-4xl font-normal text-[#1A1614] mt-1">
-                  {nightMode ? "Seara la ciubăr sub stele" : "Ziua în livadă și foișor"}
+                <h1 className={`font-chalet text-3xl sm:text-4xl font-normal ${themeText} mt-1`}>
+                  Ciubăr cu lemne la 39°C și Foișor Tradițional
                 </h1>
               </div>
 
-              {/* Day / Night Switcher */}
-              <div className="inline-flex border border-[#1A1614]/20">
-                <button
-                  type="button"
-                  onClick={() => setNightMode(false)}
-                  className={`px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold transition-colors cursor-pointer ${
-                    !nightMode ? "bg-[#1A1614] text-[#FAF6EE]" : "text-[#1A1614]"
-                  }`}
-                >
-                  Ziua în Livadă
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setNightMode(true)}
-                  className={`px-4 py-2 text-xs uppercase tracking-[0.12em] font-semibold transition-colors cursor-pointer ${
-                    nightMode ? "bg-[#B86B32] text-[#FAF6EE]" : "text-[#1A1614]"
-                  }`}
-                >
-                  Seara la Ciubăr (39°C)
-                </button>
+              <div className="flex items-center gap-2">
+                <span className={`text-xs uppercase tracking-[0.12em] font-semibold ${themeAccent}`}>
+                  Pregătit cu lemne uscate de fag
+                </span>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-              <div className="lg:col-span-7 relative h-96 sm:h-[440px] overflow-hidden bg-[#231F1C]">
+              <div className="lg:col-span-7 relative h-96 sm:h-[460px] overflow-hidden bg-[#231F1C] border ${themeBorder}">
                 <ResilientPhoto
                   src={
-                    nightMode
+                    isNight
                       ? "https://img.directbooking.ro/getimage.ashx?w=1200&h=900&file=df59a858-ffea-4824-be91-f59c2bc25c24.jpg"
                       : "https://a0.muscache.com/im/pictures/hosting/Hosting-34697625/original/fd98f82b-38db-4d5a-b993-9825ca007860.jpeg?im_w=1200"
                   }
                   fallback="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85"
-                  alt="Ciubar si Curte Pensiunea Simi"
+                  alt="Ciubar si Curte Pensiunea Simi Moisei"
                   className="w-full h-full object-cover"
                 />
+
+                {/* Animated Steam Callout */}
+                <div className="absolute bottom-4 left-4 bg-[#1A1614]/90 backdrop-blur-md text-[#FAF6EE] px-4 py-2 border border-[#FAF6EE]/15 flex items-center gap-3">
+                  <div className="w-5 h-5 text-[#E28C46]">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <path d="M 6 18 Q 4 10 8 4" style={{ animation: "steamRiseWisp 3.8s ease-out infinite" }} />
+                      <path d="M 12 18 Q 14 10 10 4" style={{ animation: "steamRiseWisp 4.4s ease-out infinite -1.5s" }} />
+                      <path d="M 18 18 Q 16 10 20 4" style={{ animation: "steamRiseWisp 4.1s ease-out infinite -0.8s" }} />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-[0.12em] font-semibold block">Cadă Rustic Molid</span>
+                    <span className="text-[11px] text-[#FAF6EE]/75">Temperatură constantă 39°C</span>
+                  </div>
+                </div>
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-between gap-4">
-                <div className="border border-[#1A1614]/12 p-6 bg-[#FAF6EE] space-y-1.5">
-                  <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
+                <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
+                  <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold block`}>
                     01 · Ciubăr din Lemn Masiv
                   </span>
-                  <h3 className="font-chalet text-xl text-[#1A1614]">
+                  <h3 className={`font-chalet text-xl ${themeText}`}>
                     Apă caldă la 39°C pentru 6–8 persoane
                   </h3>
-                  <p className="text-xs text-[#6B635B] leading-relaxed">
-                    Cadă rustică cu hidromasaj, amplasată în aer liber cu vedere spre creasta Rodnei.
+                  <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                    Cadă rustică dotată cu aeromasaj și hidromasaj, amplasată în aer liber pe terasă cu vedere directă spre creasta Munților Rodnei.
                   </p>
                 </div>
 
-                <div className="border border-[#1A1614]/12 p-6 bg-[#FAF6EE] space-y-1.5">
-                  <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
-                    02 · Foișor cu Grătar &amp; Cuptor
+                <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
+                  <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold block`}>
+                    02 · Foișor Tradițional Acoperit
                   </span>
-                  <h3 className="font-chalet text-xl text-[#1A1614]">
-                    Zonă acoperită de gătit în aer liber
+                  <h3 className={`font-chalet text-xl ${themeText}`}>
+                    Grătar mare, ceaun &amp; cuptor de pizza
                   </h3>
-                  <p className="text-xs text-[#6B635B] leading-relaxed">
-                    Dotat cu grătar mare, ceaun tradițional și cuptor pe lemne pentru pizza.
+                  <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                    Spațiu de mese acoperit unde oaspeții pot găti bucate maramureșene, fripturi la grătar sau pizza pe vatră de lemne.
                   </p>
                 </div>
 
-                <div className="border border-[#1A1614]/12 p-6 bg-[#FAF6EE] space-y-1.5">
-                  <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
-                    03 · Livadă Verde
+                <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
+                  <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold block`}>
+                    03 · Râu &amp; Curte Verde
                   </span>
-                  <h3 className="font-chalet text-xl text-[#1A1614]">
-                    Curte spațioasă și terasă la soare
+                  <h3 className={`font-chalet text-xl ${themeText}`}>
+                    Liniștea Văii Izvorul Negru
                   </h3>
-                  <p className="text-xs text-[#6B635B] leading-relaxed">
-                    Spațiu generos pentru copii și după-amiezi de relaxare la umbra pomilor.
+                  <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                    Râul curge chiar la marginea proprietății. Curtea generoasă oferă spațiu pentru relaxare în șezlonguri și loc de joacă.
                   </p>
                 </div>
               </div>
+            </div>
+
+            <div className={`border-t ${themeBorder} pt-6 flex flex-col sm:flex-row items-center justify-between gap-4`}>
+              <span className={`text-xs ${themeTextMuted}`}>
+                Ciubărul este curățat și dezinfectat complet înainte de fiecare utilizare.
+              </span>
+              <button
+                type="button"
+                onClick={() => navigate("rezervare")}
+                className={`py-3 px-6 ${
+                  isNight ? "bg-[#E28C46] text-[#141210]" : "bg-[#1A1614] text-[#FAF6EE]"
+                } text-xs uppercase tracking-[0.14em] font-semibold text-center transition-colors cursor-pointer`}
+              >
+                Rezervă un sejur cu ciubăr →
+              </button>
             </div>
           </section>
         )}
 
         {/* =========================================================
-            PAGE 4: TRASEE & ZONĂ — The Beloved Munții Rodnei Compass
+            PAGE 4: TRASEE & ZONĂ — Full Mountain Trail Guide & Interactive Compass
            ========================================================= */}
         {page === "trasee" && (
           <section className="px-4 sm:px-8 py-10 max-w-[1300px] w-full mx-auto space-y-8">
-            <div className="border-b border-[#1A1614]/10 pb-6">
-              <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold">
-                Busola Munților Rodnei · Moisei (620 m)
+            <div className={`border-b ${themeBorder} pb-6`}>
+              <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
+                Ghid de Drumeții · Munții Rodnei &amp; Maramureș
               </span>
-              <h1 className="font-chalet text-3xl sm:text-4xl font-normal text-[#1A1614] mt-1">
-                Atracții și trasee în apropiere
+              <h1 className={`font-chalet text-3xl sm:text-4xl font-normal ${themeText} mt-1`}>
+                Atracții și trasee montane în apropiere
               </h1>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
               {/* Left: Interactive Compass Instrument */}
-              <div className="lg:col-span-5 bg-[#1A1614] text-[#FAF6EE] p-6 sm:p-8 flex flex-col justify-between gap-6">
-                <div className="flex items-center justify-between text-xs text-[#B86B32] uppercase tracking-[0.12em]">
-                  <span>47.6556° N, 24.5401° E</span>
-                  <span>{trail.direction}</span>
+              <div className={`lg:col-span-5 bg-[#141210] text-[#FAF6EE] p-6 sm:p-8 flex flex-col justify-between gap-6 border ${themeBorder}`}>
+                <div className="flex items-center justify-between text-xs text-[#E28C46] uppercase tracking-[0.14em] font-semibold border-b border-[#FAF6EE]/10 pb-3">
+                  <span>Moisei · 620 m</span>
+                  <span className="font-mono text-sm">{activeBearing}° {activeTrail.direction.split(" ")[1]}</span>
                 </div>
 
                 {/* Rotating Compass SVG */}
-                <div className="relative w-48 h-48 mx-auto flex items-center justify-center">
-                  <svg viewBox="0 0 200 200" className="w-full h-full" aria-hidden="true">
-                    <circle cx="100" cy="100" r="90" stroke="rgba(250,246,238,0.2)" strokeWidth="1.5" fill="none" />
-                    <circle cx="100" cy="100" r="65" stroke="rgba(184,107,50,0.3)" strokeWidth="1" strokeDasharray="4 4" fill="none" />
-                    <text x="96" y="24" fill="#B86B32" fontSize="10" fontWeight="600">N</text>
-                    <text x="96" y="186" fill="#FAF6EE" opacity="0.5" fontSize="10">S</text>
-                    <text x="178" y="104" fill="#FAF6EE" opacity="0.5" fontSize="10">E</text>
-                    <text x="14" y="104" fill="#FAF6EE" opacity="0.5" fontSize="10">V</text>
+                <div className="relative w-56 h-56 mx-auto flex items-center justify-center select-none">
+                  <svg viewBox="0 0 220 220" className="w-full h-full" aria-label="Busola Muntilor Rodnei">
+                    <circle cx="110" cy="110" r="100" stroke="rgba(250,246,238,0.15)" strokeWidth="1.5" fill="none" />
+                    <circle cx="110" cy="110" r="74" stroke="rgba(226,140,70,0.3)" strokeWidth="1" strokeDasharray="4 4" fill="none" />
+                    <text x="106" y="22" fill="#E28C46" fontSize="12" fontWeight="700">N</text>
+                    <text x="107" y="206" fill="#FAF6EE" opacity="0.6" fontSize="11">S</text>
+                    <text x="198" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11">E</text>
+                    <text x="14" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11">V</text>
 
                     {/* Rotating Needle */}
                     <g
                       className="needle-rotate"
                       style={{
-                        transform: `rotate(${trail.bearing}deg)`,
-                        transformOrigin: "100px 100px",
+                        transform: `rotate(${activeBearing}deg)`,
+                        transformOrigin: "110px 110px",
                       }}
                     >
-                      <polygon points="100,26 106,100 94,100" fill="#B86B32" />
-                      <polygon points="100,174 106,100 94,100" fill="rgba(250,246,238,0.3)" />
-                      <circle cx="100" cy="100" r="5" fill="#FAF6EE" />
+                      <polygon points="110,24 117,110 103,110" fill="#E28C46" />
+                      <polygon points="110,196 117,110 103,110" fill="rgba(250,246,238,0.3)" />
+                      <circle cx="110" cy="110" r="6" fill="#FAF6EE" stroke="#1A1614" strokeWidth="1.5" />
                     </g>
                   </svg>
                 </div>
 
-                <div className="space-y-1 border-t border-[#FAF6EE]/15 pt-4">
-                  <span className="text-xs font-semibold text-[#B86B32] uppercase tracking-[0.12em] block">
-                    {trail.elevation}
+                <div className="space-y-2 border-t border-[#FAF6EE]/15 pt-4">
+                  <span className="text-xs font-semibold text-[#E28C46] uppercase tracking-[0.12em] block">
+                    {activeTrail.elevation} · {activeTrail.distance}
                   </span>
-                  <h2 className="font-chalet text-2xl text-[#FAF6EE]">{trail.name}</h2>
-                  <p className="text-xs text-[#FAF6EE]/75 leading-relaxed">{trail.desc}</p>
+                  <h2 className="font-chalet text-2xl text-[#FAF6EE]">{activeTrail.name}</h2>
+                  <p className="text-xs text-[#FAF6EE]/75 leading-relaxed">{activeTrail.desc}</p>
+                </div>
+
+                {/* Manual Calibration Controls */}
+                <div className="flex items-center justify-between gap-2 border-t border-[#FAF6EE]/10 pt-3 text-[11px]">
+                  <button
+                    type="button"
+                    onClick={() => setManualBearingOffset((p) => p - 15)}
+                    className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
+                  >
+                    -15° Stânga
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setManualBearingOffset(0)}
+                    className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer text-[#E28C46]"
+                  >
+                    Resetează
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setManualBearingOffset((p) => p + 15)}
+                    className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
+                  >
+                    +15° Dreapta
+                  </button>
                 </div>
               </div>
 
@@ -1008,52 +1777,69 @@ export function App() {
                     <button
                       key={t.id}
                       type="button"
-                      onClick={() => setSelectedTrail(idx)}
-                      className={`border p-4 text-left transition-all flex flex-col justify-between cursor-pointer ${
+                      onClick={() => {
+                        setSelectedTrail(idx);
+                        setManualBearingOffset(0);
+                      }}
+                      className={`border p-4 text-left transition-all flex flex-col justify-between cursor-pointer group ${
                         isSelected
-                          ? "border-[#B86B32] bg-[#1A1614] text-[#FAF6EE]"
-                          : "border-[#1A1614]/12 bg-[#FAF6EE] text-[#1A1614] hover:bg-[#F4EDE2]"
+                          ? `border-[#E28C46] ${isNight ? "bg-[#28231F]" : "bg-[#1A1614]"} text-[#FAF6EE]`
+                          : `border ${themeBorder} ${themeSurfaceElevated} ${themeText} hover:border-[#E28C46]`
                       }`}
                     >
                       <div className="relative h-36 w-full overflow-hidden bg-[#231F1C]">
-                        <img src={t.img} alt={t.name} className="w-full h-full object-cover" />
+                        <img src={t.img} alt={t.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                         <span className="absolute top-2 right-2 bg-[#1A1614]/90 text-[#FAF6EE] px-2 py-0.5 text-[10px] uppercase tracking-[0.12em]">
                           {t.direction}
                         </span>
                       </div>
                       <div className="pt-3 space-y-1">
-                        <span className={`text-xs uppercase tracking-[0.12em] font-semibold ${isSelected ? "text-[#B86B32]" : "text-[#B86B32]"}`}>
+                        <span className={`text-xs uppercase tracking-[0.12em] font-semibold ${isSelected ? "text-[#E28C46]" : themeAccent}`}>
                           {t.distance}
                         </span>
                         <h3 className="font-chalet text-lg font-normal leading-snug">
                           {t.name}
                         </h3>
+                        <p className={`text-xs line-clamp-2 ${isSelected ? "text-[#FAF6EE]/80" : themeTextMuted}`}>
+                          {t.desc}
+                        </p>
                       </div>
                     </button>
                   );
                 })}
               </div>
             </div>
+
+            <div className={`border-t ${themeBorder} pt-6 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs ${themeTextMuted}`}>
+              <div className={`p-5 border ${themeBorder} ${themeSurfaceElevated} space-y-1.5`}>
+                <strong className={`block ${themeText} text-sm font-medium`}>Sfaturi pentru urcarea pe Pietrosul Rodnei</strong>
+                <p>Plecarea recomandată este dimineața devreme (ora 07:00–08:00). Traseul trece pe lângă Schitul Moisei și Stația Meteo Iezer, ajungând la lacul glaciar Iezer (în formă de hartă a României) și pe creasta de 2.303 m.</p>
+              </div>
+              <div className={`p-5 border ${themeBorder} ${themeSurfaceElevated} space-y-1.5`}>
+                <strong className={`block ${themeText} text-sm font-medium`}>Recomandări pentru Mocănița Valea Vaserului</strong>
+                <p>Gara Vișeu de Sus se află la 13 km de pensiune (aproximativ 18 minute cu mașina). Biletele se achiziționează online în avans în sezonul cald sau direct de la casa de bilete dimineața.</p>
+              </div>
+            </div>
           </section>
         )}
 
         {/* =========================================================
-            PAGE 5: REZERVARE — 3-Tap WhatsApp Builder & Verified Social Proof
+            PAGE 5: REZERVARE — Direct WhatsApp Builder & Info
            ========================================================= */}
         {page === "rezervare" && (
           <section className="px-4 sm:px-8 py-10 max-w-[1300px] w-full mx-auto space-y-8">
-            <div className="border-b border-[#1A1614]/10 pb-6">
-              <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold">
+            <div className={`border-b ${themeBorder} pb-6`}>
+              <span className={`text-xs uppercase tracking-[0.14em] ${themeAccent} font-semibold block`}>
                 Rezervare Directă · Fără Comisioane
               </span>
-              <h1 className="font-chalet text-3xl sm:text-4xl font-normal text-[#1A1614] mt-1">
-                Configurează cererea pe WhatsApp
+              <h1 className={`font-chalet text-3xl sm:text-4xl font-normal ${themeText} mt-1`}>
+                Trimite cererea de cazare pe WhatsApp
               </h1>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left: 3-Tap Selector */}
-              <div className="lg:col-span-7 bg-[#1A1614] text-[#FAF6EE] p-6 sm:p-8 space-y-6">
+              <div className={`lg:col-span-7 ${isNight ? "bg-[#1F1B18]" : "bg-[#1A1614]"} text-[#FAF6EE] p-6 sm:p-8 space-y-6 border ${themeBorder}`}>
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-[0.12em] text-[#FAF6EE]/75 block font-semibold">
                     1. Alege Tipul de Cazare
@@ -1066,7 +1852,7 @@ export function App() {
                         onClick={() => setBookRoom(opt)}
                         className={`p-3 text-xs text-left border transition-colors cursor-pointer ${
                           bookRoom === opt
-                            ? "bg-[#B86B32] border-[#B86B32] text-[#FAF6EE] font-semibold"
+                            ? "bg-[#E28C46] border-[#E28C46] text-[#141210] font-semibold"
                             : "border-[#FAF6EE]/15 text-[#FAF6EE]/80 hover:bg-[#28231F]"
                         }`}
                       >
@@ -1088,7 +1874,7 @@ export function App() {
                         onClick={() => setBookPeriod(dur)}
                         className={`p-3 text-xs text-center border transition-colors cursor-pointer ${
                           bookPeriod === dur
-                            ? "bg-[#B86B32] border-[#B86B32] text-[#FAF6EE] font-semibold"
+                            ? "bg-[#E28C46] border-[#E28C46] text-[#141210] font-semibold"
                             : "border-[#FAF6EE]/15 text-[#FAF6EE]/80 hover:bg-[#28231F]"
                         }`}
                       >
@@ -1128,9 +1914,9 @@ export function App() {
                   </div>
                 </div>
 
-                <div className="border border-[#FAF6EE]/15 p-4 bg-[#231F1C] space-y-1">
-                  <span className="text-[10px] uppercase tracking-[0.12em] text-[#B86B32] block">
-                    Mesaj pentru 0740 981 839:
+                <div className="border border-[#FAF6EE]/15 p-4 bg-[#141210] space-y-1">
+                  <span className="text-[10px] uppercase tracking-[0.12em] text-[#E28C46] block font-semibold">
+                    Mesaj pentru gazdă (+40 740 981 839):
                   </span>
                   <p className="text-xs text-[#FAF6EE]/90 italic leading-relaxed">
                     „{whatsappMessage}”
@@ -1142,7 +1928,7 @@ export function App() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-3.5 px-4 bg-[#B86B32] hover:bg-[#A05A28] text-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors"
+                    className="py-3.5 px-4 bg-[#E28C46] hover:bg-[#FAF6EE] hover:text-[#141210] text-[#141210] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors"
                   >
                     Trimite pe WhatsApp →
                   </a>
@@ -1157,15 +1943,15 @@ export function App() {
 
               {/* Right: Coordinates & 10/10 TuristInfo Proof */}
               <div className="lg:col-span-5 space-y-6">
-                <div className="border border-[#1A1614]/12 p-6 bg-[#FAF6EE] space-y-4">
-                  <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
-                    Adresă &amp; Contact
+                <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-4`}>
+                  <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold block`}>
+                    Adresă &amp; Contact Direct
                   </span>
-                  <h2 className="font-chalet text-xl text-[#1A1614]">
+                  <h2 className={`font-chalet text-xl ${themeText}`}>
                     Str. Izvorul Negru nr. 257B, Moisei, Maramureș
                   </h2>
-                  <div className="space-y-1 text-xs text-[#6B635B] pt-2 border-t border-[#1A1614]/10">
-                    <p>Telefon: <strong className="text-[#1A1614]">+40 740 981 839</strong></p>
+                  <div className={`space-y-1 text-xs ${themeTextMuted} pt-2 border-t ${themeBorder}`}>
+                    <p>Telefon: <strong className={themeText}>+40 740 981 839</strong></p>
                     <p>Check-in: 13:00–15:00 · Check-out: până la 12:00</p>
                     <p>Carduri de vacanță: Pluxee, Up, Edenred</p>
                   </div>
@@ -1173,23 +1959,23 @@ export function App() {
                     href="https://www.google.com/maps/search/?api=1&query=Pensiunea+Simi+Moisei+Maramures+257B"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full py-2.5 border border-[#1A1614] text-[#1A1614] text-xs uppercase tracking-[0.12em] font-semibold text-center hover:bg-[#1A1614] hover:text-[#FAF6EE] transition-colors"
+                    className={`block w-full py-2.5 border ${themeBorder} ${themeText} text-xs uppercase tracking-[0.12em] font-semibold text-center hover:${themeAccentBg} hover:text-[#FAF6EE] transition-colors`}
                   >
                     Deschide în Google Maps →
                   </a>
                 </div>
 
-                <div className="border border-[#1A1614]/12 p-6 bg-[#FAF6EE] space-y-2">
+                <div className={`border ${themeBorder} p-6 ${themeSurfaceElevated} space-y-2`}>
                   <div className="flex items-baseline justify-between">
-                    <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold">
+                    <span className={`text-xs uppercase tracking-[0.12em] ${themeAccent} font-semibold`}>
                       Nota 10 / 10 TuristInfo.ro
                     </span>
-                    <span className="font-chalet text-base text-[#1A1614]">Verificat</span>
+                    <span className={`font-chalet text-base ${themeText}`}>Verificat</span>
                   </div>
-                  <p className="font-chalet text-base text-[#1A1614] italic leading-snug">
+                  <p className={`font-chalet text-base ${themeText} italic leading-snug`}>
                     „Camere impecabil de curate, ciubărul și foișorul au fost un mare plus, iar priveliștea spre Pietrosul Rodnei îți taie răsuflarea.”
                   </p>
-                  <span className="text-xs text-[#6B635B] block">
+                  <span className={`text-xs ${themeTextMuted} block`}>
                     — Bumbas Costin &amp; Maria, oaspeți verificați
                   </span>
                 </div>
@@ -1200,7 +1986,7 @@ export function App() {
       </main>
 
       {/* ─── Architectural Footer ─── */}
-      <footer className="border-t border-[#1A1614]/10 px-4 sm:px-8 py-5 text-xs text-[#6B635B]">
+      <footer className={`border-t ${themeBorder} px-4 sm:px-8 py-5 text-xs ${themeTextMuted} transition-colors duration-300`}>
         <div className="max-w-[1300px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>Pensiunea Simi · Str. Izvorul Negru 257B, Moisei, jud. Maramureș</span>
 
@@ -1209,7 +1995,7 @@ export function App() {
               href="https://www.instagram.com/pensiunea_simi"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#1A1614] transition-colors"
+              className={`hover:${themeText} transition-colors`}
             >
               Instagram
             </a>
@@ -1217,7 +2003,7 @@ export function App() {
               href="https://www.facebook.com/share/1Dr11vWoRq/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#1A1614] transition-colors"
+              className={`hover:${themeText} transition-colors`}
             >
               Facebook
             </a>
@@ -1225,7 +2011,7 @@ export function App() {
               href="https://www.turistinfo.ro/moisei/cazare-moisei/pensiunea_simi-951496.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#1A1614] transition-colors"
+              className={`hover:${themeText} transition-colors`}
             >
               TuristInfo (10/10)
             </a>
