@@ -554,13 +554,16 @@ export function App() {
                             href={getRoomWhatsAppUrl(suite.name)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`text-xs uppercase tracking-[0.12em] font-semibold ${themeAccent} hover:underline`}
+                            className="py-1.5 px-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-[11px] uppercase tracking-[0.12em] font-semibold transition-colors"
                           >
-                            Rezervă pe WhatsApp →
+                            WhatsApp
                           </a>
-                          <span className={`text-[11px] ${themeTextMuted}`}>
-                            Balcon
-                          </span>
+                          <a
+                            href={`tel:+${WHATSAPP_NUMBER}`}
+                            className={`text-xs ${themeTextMuted} hover:${themeText} transition-colors`}
+                          >
+                            Sună: {PHONE_DISPLAY}
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -731,35 +734,35 @@ export function App() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                   {/* Butoane directe WhatsApp & Telefon */}
-                  <div className={`lg:col-span-7 ${isNight ? "bg-[#1F1B18]" : "bg-[#1A1614]"} text-[#FAF6EE] p-6 sm:p-8 space-y-6 border ${themeBorder}`}>
-                    <div className="space-y-2">
-                      <h3 className="font-chalet text-2xl text-[#FAF6EE]">
-                        Scrie-ne sau sună-ne direct
+                  <div className={`lg:col-span-7 ${themeSurfaceElevated} p-6 sm:p-8 space-y-6 border ${themeBorder} border-l-4 border-l-[#25D366]`}>
+                    <div className="space-y-1.5">
+                      <h3 className={`font-chalet text-2xl ${themeText}`}>
+                        Rezervare directă la gazdă
                       </h3>
-                      <p className="text-xs text-[#FAF6EE]/75 leading-relaxed">
-                        Spune-ne perioada în care dorești să vii și numărul de persoane. Îți răspundem rapid cu disponibilitatea și cel mai bun tarif.
+                      <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                        Scrie-ne perioada dorită și numărul de persoane. Răspundem rapid cu disponibilitatea și cel mai bun tarif.
                       </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                    <div className="flex flex-col sm:flex-row gap-3 pt-1">
                       <a
                         href={WHATSAPP_DEFAULT_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 py-3.5 px-6 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors shadow-md"
+                        className="flex-1 py-3.5 px-6 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors shadow-sm"
                       >
-                        Scrie pe WhatsApp · {PHONE_DISPLAY}
+                        WhatsApp · {PHONE_DISPLAY}
                       </a>
                       <a
                         href={`tel:+${WHATSAPP_NUMBER}`}
-                        className="py-3.5 px-6 bg-[#E28C46] hover:bg-[#FAF6EE] hover:text-[#141210] text-[#141210] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors"
+                        className={`py-3.5 px-6 border ${themeBorder} ${themeText} hover:${themeSurface} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors`}
                       >
-                        Sună acum: {PHONE_DISPLAY}
+                        Sună: {PHONE_DISPLAY}
                       </a>
                     </div>
 
-                    <div className="border-t border-[#FAF6EE]/15 pt-4 text-xs text-[#FAF6EE]/70 space-y-1">
-                      <p>Răspundem de obicei în câteva minute.</p>
+                    <div className={`border-t ${themeBorder} pt-4 text-xs ${themeTextMuted} space-y-1`}>
+                      <p>Răspundem de regulă în câteva minute.</p>
                       <p>Acceptăm tichete și carduri de vacanță (Pluxee, Edenred, Up).</p>
                     </div>
                   </div>
@@ -867,35 +870,20 @@ export function App() {
                         href={getRoomWhatsAppUrl(suite.name)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`text-xs uppercase tracking-[0.12em] font-semibold ${themeAccent} hover:underline`}
+                        className="py-1.5 px-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-[11px] uppercase tracking-[0.12em] font-semibold transition-colors"
                       >
-                        Rezervă pe WhatsApp →
+                        WhatsApp
                       </a>
                       <a
                         href={`tel:+${WHATSAPP_NUMBER}`}
-                        className={`text-xs ${themeTextMuted} hover:${themeText}`}
+                        className={`text-xs ${themeTextMuted} hover:${themeText} transition-colors`}
                       >
-                        Sună
+                        Sună: {PHONE_DISPLAY}
                       </a>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className={`border-t ${themeBorder} pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs ${themeTextMuted}`}>
-              <div>
-                <strong className={`block ${themeText} font-medium`}>În Toate Camerele</strong>
-                <p>Baie proprie cu duș, balcon spre munte, lenjerii curate, prosoape și Wi-Fi gratuit.</p>
-              </div>
-              <div>
-                <strong className={`block ${themeText} font-medium`}>Facilități Comune</strong>
-                <p>Salon de zi, bucătărie utilată complet, foișor cu grătar și cuptor, parcare în curte.</p>
-              </div>
-              <div>
-                <strong className={`block ${themeText} font-medium`}>Contact Rapid</strong>
-                <p>Telefon și WhatsApp: <a href={`tel:+${WHATSAPP_NUMBER}`} className={`underline font-semibold ${themeText}`}>{PHONE_DISPLAY}</a></p>
-              </div>
             </div>
           </section>
         )}
@@ -994,11 +982,11 @@ export function App() {
                   rel="noopener noreferrer"
                   className="py-3 px-6 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors shadow-sm"
                 >
-                  Rezervă pe WhatsApp
+                  WhatsApp
                 </a>
                 <a
                   href={`tel:+${WHATSAPP_NUMBER}`}
-                  className={`py-3 px-6 border ${themeBorder} ${themeText} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors`}
+                  className={`py-3 px-6 border ${themeBorder} ${themeText} hover:${themeSurfaceElevated} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors`}
                 >
                   Sună: {PHONE_DISPLAY}
                 </a>
@@ -1058,17 +1046,6 @@ export function App() {
                 </div>
               ))}
             </div>
-
-            <div className={`border-t ${themeBorder} pt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs ${themeTextMuted}`}>
-              <div className={`p-6 border ${themeBorder} ${themeSurfaceElevated} space-y-2`}>
-                <strong className={`block ${themeText} text-base font-medium`}>Pietrosul Rodnei (2.303 m)</strong>
-                <p className="leading-relaxed">Traseul marcat cu bandă albastră pornește din Moisei sau Borșa, trecând pe lângă Lacul glaciar Iezer și stația meteo până pe cel mai înalt vârf din Carpații Orientali.</p>
-              </div>
-              <div className={`p-6 border ${themeBorder} ${themeSurfaceElevated} space-y-2`}>
-                <strong className={`block ${themeText} text-base font-medium`}>Mocănița de pe Valea Vaserului</strong>
-                <p className="leading-relaxed">Gara CFF Vișeu de Sus se află la 13 km de pensiune (circa 18 minute cu mașina). Este ultima cale ferată forestieră cu abur din Europa, o experiență deosebită pentru orice călător.</p>
-              </div>
-            </div>
           </section>
         )}
 
@@ -1088,37 +1065,37 @@ export function App() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Card Direct WhatsApp & Telefon */}
-              <div className={`lg:col-span-7 ${isNight ? "bg-[#1F1B18]" : "bg-[#1A1614]"} text-[#FAF6EE] p-6 sm:p-8 space-y-6 border ${themeBorder}`}>
-                <div className="space-y-2">
-                  <h2 className="font-chalet text-2xl text-[#FAF6EE]">
-                    Trimite o cerere de disponibilitate
+              <div className={`lg:col-span-7 ${themeSurfaceElevated} p-6 sm:p-8 space-y-6 border ${themeBorder} border-l-4 border-l-[#25D366]`}>
+                <div className="space-y-1.5">
+                  <h2 className={`font-chalet text-2xl ${themeText}`}>
+                    Rezervare directă la gazdă
                   </h2>
-                  <p className="text-xs text-[#FAF6EE]/80 leading-relaxed">
-                    Apasă butonul de mai jos pentru a deschide conversația direct pe WhatsApp cu gazda pensiunii.
+                  <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                    Scrie-ne perioada dorită și numărul de persoane. Răspundem direct pe WhatsApp sau telefonic.
                   </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row gap-3 pt-1">
                   <a
                     href={WHATSAPP_DEFAULT_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-4 px-6 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase tracking-[0.14em] font-semibold text-center transition-colors shadow-md"
+                    className="flex-1 py-3.5 px-6 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors shadow-sm"
                   >
-                    Scrie pe WhatsApp · {PHONE_DISPLAY}
+                    WhatsApp · {PHONE_DISPLAY}
                   </a>
 
                   <a
                     href={`tel:+${WHATSAPP_NUMBER}`}
-                    className="py-4 px-6 bg-[#E28C46] hover:bg-[#FAF6EE] hover:text-[#141210] text-[#141210] text-xs uppercase tracking-[0.14em] font-semibold text-center transition-colors"
+                    className={`py-3.5 px-6 border ${themeBorder} ${themeText} hover:${themeSurface} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors`}
                   >
                     Sună: {PHONE_DISPLAY}
                   </a>
                 </div>
 
-                <div className="border-t border-[#FAF6EE]/15 pt-4 text-xs text-[#FAF6EE]/75 space-y-2">
-                  <p>Informații utile de menționat în mesaj: perioada dorită, numărul de adulți și copii, și dacă dorești pregătirea ciubărului.</p>
-                  <p>Acceptăm tichete de vacanță: Pluxee (Sodexo), Edenred, Up Vacanță.</p>
+                <div className={`border-t ${themeBorder} pt-4 text-xs ${themeTextMuted} space-y-1.5`}>
+                  <p>Informații utile în mesaj: perioada dorită, numărul de oaspeți și dacă dorești pregătirea ciubărului.</p>
+                  <p>Acceptăm carduri și tichete de vacanță: Pluxee, Edenred, Up Vacanță.</p>
                 </div>
               </div>
 

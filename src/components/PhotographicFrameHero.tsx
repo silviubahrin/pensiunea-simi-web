@@ -125,19 +125,19 @@ export const PhotographicFrameHero: React.FC<PhotographicFrameHeroProps> = ({
 
         <div className="pt-2 flex flex-wrap items-center gap-3">
           <a
-            href="tel:+40740981839"
-            className="py-3 px-6 bg-[#E28C46] text-[#141210] hover:bg-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors shadow-md"
-          >
-            Sună: 0740 981 839
-          </a>
-
-          <a
             href="https://wa.me/40740981839?text=Bună%20ziua!%20Aș%20dori%20informații%20despre%20cazare%20la%20Pensiunea%20Simi."
             target="_blank"
             rel="noopener noreferrer"
-            className="py-3 px-6 bg-[#1A1614]/85 hover:bg-[#FAF6EE]/20 border border-[#FAF6EE]/25 text-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors backdrop-blur-sm"
+            className="py-3 px-6 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors shadow-sm"
           >
-            Scrie pe WhatsApp
+            WhatsApp
+          </a>
+
+          <a
+            href="tel:+40740981839"
+            className="py-3 px-6 bg-[#1A1614]/80 hover:bg-[#FAF6EE]/15 border border-[#FAF6EE]/25 text-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors backdrop-blur-sm"
+          >
+            Sună: 0740 981 839
           </a>
 
           {onNavigate && (
