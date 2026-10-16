@@ -14,7 +14,7 @@ export interface HeroChapter {
   caption: string;
 }
 
-export const HERO_CHAPTERS: HeroChapter[] = [
+const HERO_CHAPTERS: HeroChapter[] = [
   {
     id: "pensiunea",
     num: "I",
