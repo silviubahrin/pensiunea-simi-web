@@ -391,11 +391,9 @@ export function App() {
 
             <a
               href={`tel:+${WHATSAPP_NUMBER}`}
-              className={`px-4 py-2 ${
-                isNight ? "bg-[#E28C46] text-[#141210] hover:bg-[#FAF6EE]" : "bg-[#1A1614] text-[#FAF6EE] hover:bg-[#B86B32]"
-              } text-xs uppercase tracking-[0.12em] font-semibold transition-colors`}
+              className={`px-4 py-2 border ${themeBorder} ${themeText} hover:${themeSurfaceElevated} text-xs uppercase tracking-[0.12em] font-semibold transition-colors`}
             >
-              {PHONE_DISPLAY}
+              Sună
             </a>
           </div>
 
@@ -469,17 +467,15 @@ export function App() {
             <div className="grid grid-cols-2 gap-3">
               <a
                 href={`tel:+${WHATSAPP_NUMBER}`}
-                className={`py-3 ${
-                  isNight ? "bg-[#E28C46] text-[#141210]" : "bg-[#1A1614] text-[#FAF6EE]"
-                } text-xs font-semibold text-center uppercase tracking-[0.12em]`}
+                className={`py-3 border ${themeBorder} ${themeText} text-xs font-semibold text-center uppercase tracking-[0.12em]`}
               >
-                Sună direct
+                Sună
               </a>
               <a
                 href={WHATSAPP_DEFAULT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`py-3 border ${themeBorder} ${themeText} text-xs font-semibold text-center uppercase tracking-[0.12em]`}
+                className="py-3 bg-[#25D366] text-white text-xs font-semibold text-center uppercase tracking-[0.12em]"
               >
                 WhatsApp
               </a>
@@ -562,7 +558,7 @@ export function App() {
                             href={`tel:+${WHATSAPP_NUMBER}`}
                             className={`text-xs ${themeTextMuted} hover:${themeText} transition-colors`}
                           >
-                            Sună: {PHONE_DISPLAY}
+                            Sună
                           </a>
                         </div>
                       </div>
@@ -757,7 +753,7 @@ export function App() {
                         href={`tel:+${WHATSAPP_NUMBER}`}
                         className={`py-3.5 px-6 border ${themeBorder} ${themeText} hover:${themeSurface} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors`}
                       >
-                        Sună: {PHONE_DISPLAY}
+                        Sună
                       </a>
                     </div>
 
@@ -878,7 +874,7 @@ export function App() {
                         href={`tel:+${WHATSAPP_NUMBER}`}
                         className={`text-xs ${themeTextMuted} hover:${themeText} transition-colors`}
                       >
-                        Sună: {PHONE_DISPLAY}
+                        Sună
                       </a>
                     </div>
                   </div>
@@ -988,7 +984,7 @@ export function App() {
                   href={`tel:+${WHATSAPP_NUMBER}`}
                   className={`py-3 px-6 border ${themeBorder} ${themeText} hover:${themeSurfaceElevated} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors`}
                 >
-                  Sună: {PHONE_DISPLAY}
+                  Sună
                 </a>
               </div>
             </div>
@@ -1089,7 +1085,7 @@ export function App() {
                     href={`tel:+${WHATSAPP_NUMBER}`}
                     className={`py-3.5 px-6 border ${themeBorder} ${themeText} hover:${themeSurface} text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors`}
                   >
-                    Sună: {PHONE_DISPLAY}
+                    Sună
                   </a>
                 </div>
 

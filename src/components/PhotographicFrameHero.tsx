@@ -137,7 +137,7 @@ export const PhotographicFrameHero: React.FC<PhotographicFrameHeroProps> = ({
             href="tel:+40740981839"
             className="py-3 px-6 bg-[#1A1614]/80 hover:bg-[#FAF6EE]/15 border border-[#FAF6EE]/25 text-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors backdrop-blur-sm"
           >
-            Sună: 0740 981 839
+            Sună
           </a>
 
           {onNavigate && (
