@@ -57,8 +57,6 @@ interface TrailItem {
   name: string;
   elevation: string;
   distance: string;
-  bearing: number;
-  direction: string;
   duration: string;
   difficulty: string;
   desc: string;
@@ -72,12 +70,10 @@ const TRAILS: TrailItem[] = [
     name: "Vârful Pietrosul Rodnei",
     elevation: "2.303 m",
     distance: "8,4 km",
-    bearing: 195,
-    direction: "195° S-SV",
     duration: "4–5 ore urcare",
     difficulty: "Mediu / Dificil",
     desc: "Cel mai înalt vârf din Carpații Orientali, vizibil direct din curtea și balcoanele pensiunii.",
-    img: "/images/fb/564574628623035.jpg",
+    img: "/images/fb/564574535289711.jpg",
   },
   {
     id: "manastirea",
@@ -85,12 +81,10 @@ const TRAILS: TrailItem[] = [
     name: "Mănăstirea Moisei",
     elevation: "Anul 1672",
     distance: "2,1 km",
-    bearing: 155,
-    direction: "155° S-SE",
     duration: "25 min pe jos",
     difficulty: "Plimbare ușoară",
-    desc: "Biserică istorică din lemn într-o poiană liniștită pe drumul Izvorul Negru.",
-    img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=900&q=80",
+    desc: "Biserica istorică din lemn într-o poiană liniștită, pe drumul Izvorul Negru.",
+    img: "/images/attractions/manastirea_moisei.jpg",
   },
   {
     id: "mocanita",
@@ -98,12 +92,10 @@ const TRAILS: TrailItem[] = [
     name: "Mocănița Valea Vaserului",
     elevation: "Tren cu abur",
     distance: "13 km (Vișeu)",
-    bearing: 320,
-    direction: "320° N-NV",
     duration: "18 min cu mașina",
     difficulty: "Agrement turistic",
     desc: "Plimbare cu trenul pe ecartament îngust prin defileul sălbatic al râului Vaser.",
-    img: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=900&q=80",
+    img: "/images/attractions/mocanita_vaser.jpg",
   },
   {
     id: "borsa",
@@ -111,8 +103,6 @@ const TRAILS: TrailItem[] = [
     name: "Cascada Cailor",
     elevation: "Cădere de 90 m",
     distance: "14 km (Borșa)",
-    bearing: 110,
-    direction: "110° E-SE",
     duration: "20 min cu mașina",
     difficulty: "Accesibil",
     desc: "Cea mai înaltă cascadă din România, alimentată de zăpezile masivului Rodnei.",
@@ -237,9 +227,6 @@ export function App() {
     }
   });
 
-  const [selectedTrail, setSelectedTrail] = useState(0);
-  const [manualBearingOffset, setManualBearingOffset] = useState(0);
-
   // Persist Theme Selection
   useEffect(() => {
     try {
@@ -272,9 +259,6 @@ export function App() {
     const message = `Bună ziua! Aș dori informații despre disponibilitate pentru ${roomName} la Pensiunea Simi Moisei.`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   };
-
-  const activeTrail = TRAILS[selectedTrail];
-  const activeBearing = (activeTrail.bearing + manualBearingOffset + 360) % 360;
 
   // Theme-aware tokens
   const themeBg = isNight ? "bg-[#141210]" : "bg-[#FAF6EE]";
@@ -671,16 +655,16 @@ export function App() {
               </div>
             </section>
 
-            {/* ─── SECȚIUNEA C: Trasee & Busolă ─── */}
+            {/* ─── SECȚIUNEA C: Trasee & Atracții ─── */}
             <section className={`border-t ${themeBorder} py-12 sm:py-16 ${themeSurface} transition-colors duration-300`}>
               <div className="max-w-[1300px] mx-auto px-4 sm:px-8 space-y-8">
                 <div className={`flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b pb-6 ${themeBorder}`}>
                   <div>
                     <h2 className={`font-chalet text-2xl sm:text-3xl font-normal ${themeText}`}>
-                      Atracții și Trasee din Moisei
+                      Trasee și Atracții în Zonă
                     </h2>
                     <p className={`text-sm ${themeTextMuted} mt-1`}>
-                      Apasă orice destinație pentru a orienta busola.
+                      Destinații naturale și obiective emblematice ușor accesibile din Moisei.
                     </p>
                   </div>
                   <button
@@ -692,143 +676,43 @@ export function App() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                  {/* Busola Interactivă */}
-                  <div className={`lg:col-span-5 bg-[#141210] text-[#FAF6EE] p-6 sm:p-8 flex flex-col justify-between gap-6 border ${themeBorder}`}>
-                    <div className="flex items-center justify-between text-xs text-[#E28C46] uppercase tracking-[0.14em] font-semibold border-b border-[#FAF6EE]/10 pb-3">
-                      <span>Moisei · 620 m</span>
-                      <span className="font-mono text-sm">{activeBearing}° {activeTrail.direction.split(" ")[1] || "S-SV"}</span>
-                    </div>
-
-                    <div className="relative w-56 h-56 mx-auto flex items-center justify-center select-none">
-                      <svg viewBox="0 0 220 220" className="w-full h-full" aria-label="Busolă Live">
-                        <circle cx="110" cy="110" r="100" stroke="rgba(250,246,238,0.15)" strokeWidth="1.5" fill="none" />
-                        <circle cx="110" cy="110" r="92" stroke="rgba(250,246,238,0.08)" strokeWidth="1" strokeDasharray="2 6" fill="none" />
-                        <circle cx="110" cy="110" r="74" stroke="rgba(226,140,70,0.3)" strokeWidth="1" strokeDasharray="4 4" fill="none" />
-
-                        <text x="106" y="22" fill="#E28C46" fontSize="12" fontWeight="700" fontFamily="sans-serif">N</text>
-                        <text x="107" y="206" fill="#FAF6EE" opacity="0.6" fontSize="11" fontFamily="sans-serif">S</text>
-                        <text x="198" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11" fontFamily="sans-serif">E</text>
-                        <text x="14" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11" fontFamily="sans-serif">V</text>
-
-                        <circle
-                          cx={110 + 72 * Math.sin((activeBearing * Math.PI) / 180)}
-                          cy={110 - 72 * Math.cos((activeBearing * Math.PI) / 180)}
-                          r="6"
-                          fill="none"
-                          stroke="#E28C46"
-                          style={{ animation: "radarBeacon 2s ease-out infinite" }}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {TRAILS.map((t) => (
+                    <div
+                      key={t.id}
+                      className={`border ${themeBorder} ${themeSurfaceElevated} flex flex-col justify-between group transition-all hover:border-[#D4803E]`}
+                    >
+                      <div className="relative h-48 overflow-hidden bg-[#231F1C]">
+                        <img
+                          src={t.img}
+                          alt={t.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
                         />
-
-                        <g
-                          className="needle-rotate"
-                          style={{
-                            transform: `rotate(${activeBearing}deg)`,
-                            transformOrigin: "110px 110px",
-                          }}
-                        >
-                          <polygon points="110,24 117,110 103,110" fill="#E28C46" />
-                          <polygon points="110,24 110,110 103,110" fill="#F4A261" />
-                          <polygon points="110,196 117,110 103,110" fill="rgba(250,246,238,0.35)" />
-                          <polygon points="110,196 110,110 103,110" fill="rgba(250,246,238,0.2)" />
-                          <circle cx="110" cy="110" r="6" fill="#FAF6EE" stroke="#1A1614" strokeWidth="1.5" />
-                          <circle cx="110" cy="110" r="2" fill="#E28C46" />
-                        </g>
-                      </svg>
-                    </div>
-
-                    <div className="space-y-2 border-t border-[#FAF6EE]/15 pt-4">
-                      <div className="flex items-center justify-between text-xs text-[#E28C46] uppercase tracking-[0.12em] font-semibold">
-                        <span>{activeTrail.elevation}</span>
-                        <span>{activeTrail.distance}</span>
+                        <div className="absolute top-3 left-3 bg-[#1A1614]/90 text-[#FAF6EE] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] font-medium">
+                          {t.distance}
+                        </div>
+                        <div className="absolute bottom-3 right-3 bg-[#FAF6EE] text-[#1A1614] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] font-semibold">
+                          {t.elevation}
+                        </div>
                       </div>
-                      <h3 className="font-chalet text-2xl text-[#FAF6EE]">{activeTrail.name}</h3>
-                      <p className="text-xs text-[#FAF6EE]/75 leading-relaxed">{activeTrail.desc}</p>
-                      <div className="pt-2 flex items-center justify-between text-[11px] text-[#FAF6EE]/60 border-t border-[#FAF6EE]/10">
-                        <span>Timp: <strong className="text-[#FAF6EE]">{activeTrail.duration}</strong></span>
-                        <span>Dificultate: <strong className="text-[#FAF6EE]">{activeTrail.difficulty}</strong></span>
+
+                      <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        <div className="space-y-1.5">
+                          <h3 className={`font-chalet text-xl ${themeText} leading-tight`}>
+                            {t.name}
+                          </h3>
+                          <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                            {t.desc}
+                          </p>
+                        </div>
+                        <div className={`pt-3 border-t ${themeBorder} flex items-center justify-between text-[11px] ${themeTextMuted}`}>
+                          <span>{t.duration}</span>
+                          <span className={`font-medium ${themeAccent}`}>{t.difficulty}</span>
+                        </div>
                       </div>
                     </div>
-
-                    <div className="flex items-center justify-between gap-2 border-t border-[#FAF6EE]/10 pt-3 text-[11px]">
-                      <button
-                        type="button"
-                        onClick={() => setManualBearingOffset((p) => p - 15)}
-                        className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
-                      >
-                        -15° Stânga
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setManualBearingOffset(0)}
-                        className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer text-[#E28C46]"
-                      >
-                        Resetează
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setManualBearingOffset((p) => p + 15)}
-                        className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
-                      >
-                        +15° Dreapta
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* 4 Destinații */}
-                  <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {TRAILS.map((t, idx) => {
-                      const isSelected = idx === selectedTrail;
-                      return (
-                        <button
-                          key={t.id}
-                          type="button"
-                          onClick={() => {
-                            setSelectedTrail(idx);
-                            setManualBearingOffset(0);
-                          }}
-                          className={`border p-4 text-left transition-all flex flex-col justify-between cursor-pointer group ${
-                            isSelected
-                              ? `border-[#E28C46] ${isNight ? "bg-[#28231F]" : "bg-[#1A1614]"} text-[#FAF6EE]`
-                              : `border ${themeBorder} ${themeSurfaceElevated} ${themeText} hover:border-[#E28C46]`
-                          }`}
-                        >
-                          <div className="relative h-36 w-full overflow-hidden bg-[#231F1C]">
-                            <img
-                              src={t.img}
-                              alt={t.name}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute top-2 right-2 bg-[#1A1614]/90 text-[#FAF6EE] px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] font-medium">
-                              {t.direction}
-                            </div>
-                            {isSelected && (
-                              <div className="absolute top-2 left-2 bg-[#E28C46] text-[#141210] px-2 py-0.5 text-[10px] uppercase tracking-[0.12em] font-semibold">
-                                Selectat
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="pt-3 space-y-1">
-                            <div className="flex items-center justify-between text-xs">
-                              <span className={`uppercase tracking-[0.12em] font-semibold ${isSelected ? "text-[#E28C46]" : themeAccent}`}>
-                                {t.distance}
-                              </span>
-                              <span className={isSelected ? "text-[#FAF6EE]/70" : themeTextMuted}>
-                                {t.elevation}
-                              </span>
-                            </div>
-                            <h3 className="font-chalet text-lg font-normal leading-snug">
-                              {t.name}
-                            </h3>
-                            <p className={`text-xs line-clamp-2 ${isSelected ? "text-[#FAF6EE]/80" : themeTextMuted}`}>
-                              {t.desc}
-                            </p>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+                  ))}
                 </div>
               </div>
             </section>
@@ -1137,120 +1021,52 @@ export function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-              {/* Busola Interactivă */}
-              <div className={`lg:col-span-5 bg-[#141210] text-[#FAF6EE] p-6 sm:p-8 flex flex-col justify-between gap-6 border ${themeBorder}`}>
-                <div className="flex items-center justify-between text-xs text-[#E28C46] uppercase tracking-[0.14em] font-semibold border-b border-[#FAF6EE]/10 pb-3">
-                  <span>Moisei · 620 m</span>
-                  <span className="font-mono text-sm">{activeBearing}° {activeTrail.direction.split(" ")[1]}</span>
-                </div>
-
-                <div className="relative w-56 h-56 mx-auto flex items-center justify-center select-none">
-                  <svg viewBox="0 0 220 220" className="w-full h-full" aria-label="Busola Muntilor Rodnei">
-                    <circle cx="110" cy="110" r="100" stroke="rgba(250,246,238,0.15)" strokeWidth="1.5" fill="none" />
-                    <circle cx="110" cy="110" r="74" stroke="rgba(226,140,70,0.3)" strokeWidth="1" strokeDasharray="4 4" fill="none" />
-                    <text x="106" y="22" fill="#E28C46" fontSize="12" fontWeight="700">N</text>
-                    <text x="107" y="206" fill="#FAF6EE" opacity="0.6" fontSize="11">S</text>
-                    <text x="198" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11">E</text>
-                    <text x="14" y="114" fill="#FAF6EE" opacity="0.6" fontSize="11">V</text>
-
-                    <g
-                      className="needle-rotate"
-                      style={{
-                        transform: `rotate(${activeBearing}deg)`,
-                        transformOrigin: "110px 110px",
-                      }}
-                    >
-                      <polygon points="110,24 117,110 103,110" fill="#E28C46" />
-                      <polygon points="110,196 117,110 103,110" fill="rgba(250,246,238,0.3)" />
-                      <circle cx="110" cy="110" r="6" fill="#FAF6EE" stroke="#1A1614" strokeWidth="1.5" />
-                    </g>
-                  </svg>
-                </div>
-
-                <div className="space-y-2 border-t border-[#FAF6EE]/15 pt-4">
-                  <div className="flex items-center justify-between text-xs font-semibold text-[#E28C46] uppercase tracking-[0.12em]">
-                    <span>{activeTrail.elevation}</span>
-                    <span>{activeTrail.distance}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {TRAILS.map((t) => (
+                <div
+                  key={t.id}
+                  className={`border ${themeBorder} ${themeSurfaceElevated} flex flex-col justify-between group transition-all hover:border-[#D4803E]`}
+                >
+                  <div className="relative h-52 overflow-hidden bg-[#231F1C]">
+                    <img
+                      src={t.img}
+                      alt={t.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <span className="absolute top-3 left-3 bg-[#1A1614]/90 text-[#FAF6EE] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] font-medium">
+                      {t.distance}
+                    </span>
+                    <span className="absolute bottom-3 right-3 bg-[#FAF6EE] text-[#1A1614] px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] font-semibold">
+                      {t.elevation}
+                    </span>
                   </div>
-                  <h2 className="font-chalet text-2xl text-[#FAF6EE]">{activeTrail.name}</h2>
-                  <p className="text-xs text-[#FAF6EE]/75 leading-relaxed">{activeTrail.desc}</p>
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                    <div className="space-y-1.5">
+                      <h2 className={`font-chalet text-xl ${themeText} leading-tight`}>
+                        {t.name}
+                      </h2>
+                      <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
+                        {t.desc}
+                      </p>
+                    </div>
+                    <div className={`pt-3 border-t ${themeBorder} flex items-center justify-between text-[11px] ${themeTextMuted}`}>
+                      <span>{t.duration}</span>
+                      <span className={`font-medium ${themeAccent}`}>{t.difficulty}</span>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="flex items-center justify-between gap-2 border-t border-[#FAF6EE]/10 pt-3 text-[11px]">
-                  <button
-                    type="button"
-                    onClick={() => setManualBearingOffset((p) => p - 15)}
-                    className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
-                  >
-                    -15° Stânga
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setManualBearingOffset(0)}
-                    className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer text-[#E28C46]"
-                  >
-                    Resetează
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setManualBearingOffset((p) => p + 15)}
-                    className="px-2.5 py-1 border border-[#FAF6EE]/20 hover:border-[#E28C46] transition-colors cursor-pointer"
-                  >
-                    +15° Dreapta
-                  </button>
-                </div>
-              </div>
-
-              {/* Lista Destinațiilor */}
-              <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {TRAILS.map((t, idx) => {
-                  const isSelected = idx === selectedTrail;
-                  return (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => {
-                        setSelectedTrail(idx);
-                        setManualBearingOffset(0);
-                      }}
-                      className={`border p-4 text-left transition-all flex flex-col justify-between cursor-pointer group ${
-                        isSelected
-                          ? `border-[#E28C46] ${isNight ? "bg-[#28231F]" : "bg-[#1A1614]"} text-[#FAF6EE]`
-                          : `border ${themeBorder} ${themeSurfaceElevated} ${themeText} hover:border-[#E28C46]`
-                      }`}
-                    >
-                      <div className="relative h-36 w-full overflow-hidden bg-[#231F1C]">
-                        <img src={t.img} alt={t.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                        <span className="absolute top-2 right-2 bg-[#1A1614]/90 text-[#FAF6EE] px-2 py-0.5 text-[10px] uppercase tracking-[0.12em]">
-                          {t.direction}
-                        </span>
-                      </div>
-                      <div className="pt-3 space-y-1">
-                        <span className={`text-xs uppercase tracking-[0.12em] font-semibold ${isSelected ? "text-[#E28C46]" : themeAccent}`}>
-                          {t.distance}
-                        </span>
-                        <h3 className="font-chalet text-lg font-normal leading-snug">
-                          {t.name}
-                        </h3>
-                        <p className={`text-xs line-clamp-2 ${isSelected ? "text-[#FAF6EE]/80" : themeTextMuted}`}>
-                          {t.desc}
-                        </p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+              ))}
             </div>
 
-            <div className={`border-t ${themeBorder} pt-6 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs ${themeTextMuted}`}>
-              <div className={`p-5 border ${themeBorder} ${themeSurfaceElevated} space-y-1.5`}>
-                <strong className={`block ${themeText} text-sm font-medium`}>Pietrosul Rodnei (2.303 m)</strong>
-                <p>Urcarea începe din Moisei sau de la Schit, traseul trecând pe lângă Lacul glaciar Iezer și stația meteo până pe vârf.</p>
+            <div className={`border-t ${themeBorder} pt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs ${themeTextMuted}`}>
+              <div className={`p-6 border ${themeBorder} ${themeSurfaceElevated} space-y-2`}>
+                <strong className={`block ${themeText} text-base font-medium`}>Pietrosul Rodnei (2.303 m)</strong>
+                <p className="leading-relaxed">Traseul marcat cu bandă albastră pornește din Moisei sau Borșa, trecând pe lângă Lacul glaciar Iezer și stația meteo până pe cel mai înalt vârf din Carpații Orientali.</p>
               </div>
-              <div className={`p-5 border ${themeBorder} ${themeSurfaceElevated} space-y-1.5`}>
-                <strong className={`block ${themeText} text-sm font-medium`}>Mocănița de pe Valea Vaserului</strong>
-                <p>Gara Vișeu de Sus se află la doar 13 km de pensiune (circa 18 minute cu mașina). Traseul oferă peisaje sălbatice de-a lungul defileului.</p>
+              <div className={`p-6 border ${themeBorder} ${themeSurfaceElevated} space-y-2`}>
+                <strong className={`block ${themeText} text-base font-medium`}>Mocănița de pe Valea Vaserului</strong>
+                <p className="leading-relaxed">Gara CFF Vișeu de Sus se află la 13 km de pensiune (circa 18 minute cu mașina). Este ultima cale ferată forestieră cu abur din Europa, o experiență deosebită pentru orice călător.</p>
               </div>
             </div>
           </section>

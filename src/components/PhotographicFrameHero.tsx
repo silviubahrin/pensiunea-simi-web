@@ -116,11 +116,11 @@ export const PhotographicFrameHero: React.FC<PhotographicFrameHeroProps> = ({
       {/* ─── Ultra-Concise Hero Headline & Actions ─── */}
       <div className="relative z-30 px-5 sm:px-8 lg:px-12 pb-8 sm:pb-10 max-w-3xl space-y-3">
         <h1 className="font-chalet text-3xl sm:text-5xl lg:text-6xl text-[#FAF6EE] font-normal leading-[1.08] tracking-tight">
-          Liniște și lemn cald în Maramureș.
+          Tihnă la poalele Munților Rodnei.
         </h1>
 
         <p className="font-ui text-base sm:text-lg text-[#FAF6EE]/85 max-w-xl leading-relaxed">
-          Pensiune cu ciubăr și foișor la poalele Munților Rodnei, în Moisei.
+          Pensiune primitoare cu ciubăr cald, foișor și grătar, în inima Moiseiului.
         </p>
 
         <div className="pt-2 flex flex-wrap items-center gap-3">

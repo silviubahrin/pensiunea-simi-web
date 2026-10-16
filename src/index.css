@@ -44,10 +44,6 @@
   font-family: var(--font-sans-chalet);
 }
 
-/* Subtle compass needle transition */
-.needle-rotate {
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-}
 
 /* ─────────────────────────────────────────────────────────────
    Claude-Style Vector Alpine Motion Keyframes (60 FPS GPU-Only)
