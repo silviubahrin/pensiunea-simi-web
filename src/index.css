@@ -3,19 +3,21 @@
 @layer base {
   :root {
     --bg-cream: #FAF6EE;
-    --bg-forest: #14241B;
-    --bg-forest-elevated: #1B2F23;
-    --accent-honey: #B87333;
-    --accent-ember: #D48C46;
-    --ink-forest: #111E16;
-    --ink-muted: #5A6D62;
+    --bg-linen-warm: #F4EDE2;
+    --bg-timber: #1F1B18;
+    --bg-timber-elevated: #28231F;
+    --accent-honey: #C4823F;
+    --accent-ember: #E08238;
+    --accent-copper: #B86B32;
+    --ink-timber: #1A1614;
+    --ink-muted: #6B635B;
     --font-serif-chalet: 'Fraunces', Georgia, serif;
     --font-sans-chalet: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   body {
     background-color: var(--bg-cream);
-    color: var(--ink-forest);
+    color: var(--ink-timber);
     font-family: var(--font-sans-chalet);
     margin: 0;
     padding: 0;
@@ -23,7 +25,7 @@
   }
 
   ::selection {
-    background-color: #14241B;
+    background-color: #B86B32;
     color: #FAF6EE;
   }
 
@@ -41,7 +43,7 @@
   font-family: var(--font-sans-chalet);
 }
 
-/* Smooth alpine photo transition */
+/* Smooth warm retreat crossfade */
 .photo-crossfade {
   transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
               transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -50,6 +52,11 @@
 /* Subtle compass needle transition */
 .needle-rotate {
   transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Analog polaroid soft shadow */
+.polaroid-shadow {
+  box-shadow: 0 20px 45px -12px rgba(27, 21, 16, 0.45);
 }
 
 @media (prefers-reduced-motion: reduce) {
