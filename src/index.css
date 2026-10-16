@@ -3,13 +3,12 @@
 @layer base {
   :root {
     --bg-cream: #FAF6EE;
-    --bg-sage: #E6ECE8;
     --bg-forest: #14241B;
-    --bg-forest-card: #1C3125;
+    --bg-forest-elevated: #1B2F23;
     --accent-honey: #B87333;
     --accent-ember: #D48C46;
     --ink-forest: #111E16;
-    --ink-moss: #4A5D52;
+    --ink-muted: #5A6D62;
     --font-serif-chalet: 'Fraunces', Georgia, serif;
     --font-sans-chalet: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -42,41 +41,20 @@
   font-family: var(--font-sans-chalet);
 }
 
-/* Smooth photo crossfade & Ken Burns drift */
-@keyframes alpineZoom {
-  from {
-    opacity: 0.35;
-    transform: scale(1.04);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+/* Smooth alpine photo transition */
+.photo-crossfade {
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-alpine-photo {
-  animation: alpineZoom 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Gentle steam rise for the hot ciubăr badge */
-@keyframes steamFloat {
-  0%, 100% {
-    transform: translateY(0);
-    opacity: 0.55;
-  }
-  50% {
-    transform: translateY(-4px);
-    opacity: 0.95;
-  }
-}
-
-.animate-steam {
-  animation: steamFloat 3.2s ease-in-out infinite;
+/* Subtle compass needle transition */
+.needle-rotate {
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-alpine-photo,
-  .animate-steam {
-    animation: none !important;
+  .photo-crossfade,
+  .needle-rotate {
+    transition: none !important;
   }
 }
