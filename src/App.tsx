@@ -123,6 +123,7 @@ export function App() {
     return NAV_ITEMS.some((i) => i.id === hash) ? hash : "acasa";
   });
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isDusk, setIsDusk] = useState(false);
   const [nightMode, setNightMode] = useState(false);
   const [selectedTrail, setSelectedTrail] = useState(0);
 
@@ -176,20 +177,77 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[#FAF6EE] text-[#1A1614]">
-      {/* ─── Top Architectural Bar ─── */}
-      <header className="sticky top-0 z-50 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-[#1A1614]/10 px-4 sm:px-8 py-4">
+      {/* ─── Top Architectural Bar with Minimal Cabin Logo Element ─── */}
+      <header className="sticky top-0 z-50 bg-[#FAF6EE]/95 backdrop-blur-md border-b border-[#1A1614]/10 px-4 sm:px-8 py-3.5">
         <div className="max-w-[1300px] mx-auto flex items-center justify-between">
           <button
             type="button"
             onClick={() => navigate("acasa")}
-            className="text-left cursor-pointer group flex items-baseline gap-3"
+            className="text-left cursor-pointer group flex items-center gap-3 transition-opacity hover:opacity-90"
+            aria-label="Pensiunea Simi — Acasă"
           >
-            <span className="font-chalet text-2xl sm:text-3xl font-medium tracking-tight text-[#1A1614]">
-              Pensiunea Simi
-            </span>
-            <span className="hidden sm:inline text-xs uppercase tracking-[0.12em] text-[#6B635B]">
-              Moisei · Maramureș
-            </span>
+            {/* Minimal Architectural Cabin Mark with Hearth Amber Glow */}
+            <div className="w-7 h-7 shrink-0 text-[#1A1614] transition-colors group-hover:text-[#B86B32]">
+              <svg
+                className="w-full h-full"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16 6.5V3H18.5V8.8"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M2.5 12.5L12 3.5L21.5 12.5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  x1="4.5"
+                  y1="12.5"
+                  x2="19.5"
+                  y2="12.5"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M5.5 12.5V20.5H18.5V12.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M10 20.5V16C10 14.9 10.9 14 12 14C13.1 14 14 14.9 14 16V20.5H10Z"
+                  fill="#D4803E"
+                />
+                <line
+                  x1="3"
+                  y1="20.5"
+                  x2="21"
+                  y2="20.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
+              <span className="font-chalet text-2xl sm:text-[26px] font-medium tracking-tight text-[#1A1614] leading-none">
+                Pensiunea Simi
+              </span>
+              <span className="hidden sm:inline text-xs uppercase tracking-[0.14em] text-[#6B635B]">
+                Moisei · Maramureș
+              </span>
+            </div>
           </button>
 
           {/* Desktop Nav: Clean Disciplined Links */}
@@ -257,7 +315,7 @@ export function App() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-x-0 top-[65px] bottom-0 z-40 md:hidden bg-[#FAF6EE] text-[#1A1614] px-6 py-8 flex flex-col justify-between overflow-y-auto border-t border-[#1A1614]/10"
+          className="fixed inset-x-0 top-[61px] bottom-0 z-40 md:hidden bg-[#FAF6EE] text-[#1A1614] px-6 py-8 flex flex-col justify-between overflow-y-auto border-t border-[#1A1614]/10"
         >
           <nav className="divide-y divide-[#1A1614]/10 border-b border-[#1A1614]/10">
             {NAV_ITEMS.map((item) => {
@@ -310,104 +368,416 @@ export function App() {
 
       <main className="flex-1 flex flex-col">
         {/* =========================================================
-            PAGE 1: ACASĂ — Pure Typographic Sanctuary (NO Hero Image)
+            PAGE 1: ACASĂ — Claude-Style Vector Alpine Motion Canvas (ZERO BITMAP HERO)
            ========================================================= */}
         {page === "acasa" && (
-          <section className="flex-1 flex flex-col justify-between px-4 sm:px-8 py-8 sm:py-12 max-w-[1300px] w-full mx-auto min-h-[calc(100svh-73px)]">
-            {/* Top Minimal Label */}
-            <div className="flex items-center justify-between text-xs uppercase tracking-[0.12em] text-[#6B635B] pb-6 border-b border-[#1A1614]/10">
-              <span>Moisei · La poalele Pietrosului Rodnei</span>
-              <span>Nota 10 TuristInfo · 7 Camere</span>
-            </div>
-
-            {/* Central Editorial Lockup (No background image, pure warm typography) */}
-            <div className="my-auto py-8 sm:py-12 max-w-3xl space-y-6">
-              <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
-                Pensiunea Agroturistică Simi
-              </span>
-
-              <h1 className="font-chalet text-4xl sm:text-6xl font-normal text-[#1A1614] leading-[1.08] tracking-tight">
-                Liniște și lemn cald la poalele Munților Rodnei.
-              </h1>
-
-              <p className="text-base sm:text-lg text-[#6B635B] leading-relaxed font-ui max-w-2xl">
-                Șapte camere luminoase cu balcon propriu, ciubăr cu apă caldă la 39°C și foișor cu foc de lemne în Moisei, Maramureș.
-              </p>
-
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <a
-                  href="tel:+40740981839"
-                  className="px-6 py-3.5 bg-[#1A1614] hover:bg-[#B86B32] text-[#FAF6EE] text-xs uppercase tracking-[0.12em] font-semibold transition-colors"
+          <section className="flex-1 flex flex-col justify-between bg-[#FAF6EE] min-h-[calc(100svh-65px)]">
+            {/* ─── Claude-Style Tactile Vector Motion Stage (No Bitmap Image) ─── */}
+            <div className="relative w-full border-b border-[#1A1614]/10 bg-[#FAF6EE] overflow-hidden select-none">
+              <div className="relative w-full aspect-[21/9] sm:aspect-[24/10] max-h-[500px] min-h-[300px]">
+                <svg
+                  viewBox="0 0 1200 480"
+                  className="w-full h-full object-cover motion-safe-vector"
+                  preserveAspectRatio="xMidYMid slice"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-label="Peisaj vectorial animat cu Masivul Pietrosul Rodnei și Pensiunea Simi din Moisei"
+                  role="img"
                 >
-                  Sună gazda: 0740 981 839
-                </a>
-                <button
-                  type="button"
-                  onClick={() => navigate("rezervare")}
-                  className="px-6 py-3.5 border border-[#1A1614] hover:bg-[#1A1614] hover:text-[#FAF6EE] text-[#1A1614] text-xs uppercase tracking-[0.12em] font-semibold transition-colors cursor-pointer"
-                >
-                  Rezervare pe WhatsApp
-                </button>
+                  <defs>
+                    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor={isDusk ? "#1F1B18" : "#FAF6EE"} />
+                      <stop offset="60%" stopColor={isDusk ? "#2B2420" : "#F4EDE2"} />
+                      <stop offset="100%" stopColor={isDusk ? "#3D2E24" : "#E8DEC8"} />
+                    </linearGradient>
+
+                    <radialGradient id="windowGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#FFF2D6" stopOpacity="0.95" />
+                      <stop offset="60%" stopColor="#D4803E" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#B86B32" stopOpacity="0.4" />
+                    </radialGradient>
+
+                    <linearGradient id="ciubarWater" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#8AC6B8" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="#3F6358" stopOpacity="0.9" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Atmosphere Sky */}
+                  <rect width="1200" height="480" fill="url(#skyGrad)" />
+
+                  {/* Sun / Moon Minimalist Line Ring */}
+                  <g transform="translate(940, 95)">
+                    <circle
+                      r="42"
+                      fill="none"
+                      stroke={isDusk ? "#F4EDE2" : "#B86B32"}
+                      strokeWidth="1.25"
+                      strokeDasharray="4 4"
+                      opacity={isDusk ? "0.35" : "0.45"}
+                    />
+                    <circle
+                      r="32"
+                      fill={isDusk ? "#EFE7D8" : "#FAF6EE"}
+                      opacity={isDusk ? "0.15" : "0.5"}
+                    />
+                  </g>
+
+                  {/* Drifting High-Altitude Wind Lines across Rodna Saddle */}
+                  <g fill="none" stroke="#6B635B" strokeWidth="1" strokeLinecap="round" opacity="0.3">
+                    <path
+                      d="M 160 75 C 290 60, 440 88, 620 68"
+                      strokeDasharray="90 140"
+                      style={{ animation: "windStream 14s linear infinite" }}
+                    />
+                    <path
+                      d="M 480 105 C 620 90, 780 120, 960 95"
+                      strokeDasharray="70 120"
+                      style={{ animation: "windStream 18s linear infinite -6s" }}
+                    />
+                  </g>
+
+                  {/* Distant Ridge — Pietrosul Rodnei (2.303 m) */}
+                  <g>
+                    <path
+                      d="M 0 290 L 110 250 L 220 220 L 290 235 L 390 120 L 430 160 L 510 175 L 590 135 L 690 205 L 810 190 L 960 250 L 1100 240 L 1200 270 L 1200 480 L 0 480 Z"
+                      fill={isDusk ? "#2A2521" : "#EAE0CE"}
+                      stroke={isDusk ? "#3F3732" : "#CDBFA8"}
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+
+                    {/* Summit Elevation Indicator Pin */}
+                    <g transform="translate(390, 114)">
+                      <line x1="0" y1="0" x2="0" y2="-26" stroke="#B86B32" strokeWidth="1.2" />
+                      <circle cx="0" cy="-26" r="2.5" fill="#D4803E" />
+                      <text
+                        x="8"
+                        y="-22"
+                        fontSize="10"
+                        fontFamily="'Plus Jakarta Sans', sans-serif"
+                        letterSpacing="0.12em"
+                        fill={isDusk ? "#EAE0CE" : "#6B635B"}
+                        fontWeight="600"
+                      >
+                        PIETROSUL RODNEI · 2.303 M
+                      </text>
+                    </g>
+
+                    {/* Glacial Couloirs & Topographic Hatching */}
+                    <g fill="none" stroke={isDusk ? "#3A332E" : "#CDBFA8"} strokeWidth="1" opacity="0.6">
+                      <path d="M 390 120 C 375 155, 360 200, 340 250" />
+                      <path d="M 390 120 C 405 160, 420 195, 445 245" />
+                      <path d="M 590 135 C 580 175, 560 210, 540 255" />
+                      <path d="M 220 220 C 240 245, 270 265, 300 280" />
+                    </g>
+                  </g>
+
+                  {/* Soaring Alpine Swifts over the Ridges */}
+                  <g style={{ animation: "swiftFlightGlide 26s cubic-bezier(0.4, 0, 0.2, 1) infinite" }}>
+                    <g transform="translate(0, 105)" style={{ animation: "wingFlapMotion 1.4s ease-in-out infinite" }}>
+                      <path
+                        d="M -12 4 Q -6 -3 0 0 Q 6 -3 12 4 Q 5 1 0 1.5 Q -5 1 -12 4 Z"
+                        fill={isDusk ? "#FAF6EE" : "#1A1614"}
+                        opacity="0.75"
+                      />
+                    </g>
+                  </g>
+
+                  {/* Mid-Mountain Ridge */}
+                  <g>
+                    <path
+                      d="M 0 345 L 140 310 L 270 270 L 380 300 L 510 280 L 640 315 L 740 250 L 860 290 L 1020 275 L 1200 335 L 1200 480 L 0 480 Z"
+                      fill={isDusk ? "#352F2A" : "#DFD4C0"}
+                      stroke={isDusk ? "#4B423B" : "#C0B29E"}
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                  </g>
+
+                  {/* Wildlife — Alert Carpathian Chamois (Capră Neagră) on Crag */}
+                  <g
+                    transform="translate(738, 248)"
+                    style={{
+                      transformOrigin: "738px 248px",
+                      animation: "chamoisBreathing 4.5s ease-in-out infinite",
+                    }}
+                    aria-label="Capră neagră carpatină pe creastă"
+                  >
+                    <polygon points="-12,2 -4,-6 8,-4 14,3" fill={isDusk ? "#4A423C" : "#A69885"} />
+                    <g style={{ transformOrigin: "0px -10px", animation: "chamoisHeadLook 10s ease-in-out infinite" }}>
+                      <ellipse cx="0" cy="-8" rx="6" ry="4" fill={isDusk ? "#1A1614" : "#28231F"} />
+                      <line x1="-4" y1="-5" x2="-5" y2="0" stroke="#1A1614" strokeWidth="1.4" />
+                      <line x1="-2" y1="-5" x2="-2" y2="0" stroke="#1A1614" strokeWidth="1.4" />
+                      <line x1="2" y1="-5" x2="2" y2="0" stroke="#1A1614" strokeWidth="1.4" />
+                      <line x1="4" y1="-5" x2="4" y2="0" stroke="#1A1614" strokeWidth="1.4" />
+                      <path d="M 3 -10 L 6 -15 L 8 -14 L 5 -9 Z" fill="#1A1614" />
+                      <path
+                        d="M 6 -15 Q 7 -21 5 -22 Q 4 -22 3 -20"
+                        fill="none"
+                        stroke="#1A1614"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                      />
+                    </g>
+                  </g>
+
+                  {/* Carpathian Pine Trees (Organic Swaying) */}
+                  <g style={{ transformOrigin: "115px 400px", animation: "pineSwayGentle 6.4s ease-in-out infinite" }}>
+                    <line x1="115" y1="400" x2="115" y2="330" stroke="#1A1614" strokeWidth="2" />
+                    <polygon points="115,315 102,345 128,345" fill={isDusk ? "#1B231D" : "#4A5647"} />
+                    <polygon points="115,335 97,365 133,365" fill={isDusk ? "#1B231D" : "#4A5647"} />
+                    <polygon points="115,355 92,390 138,390" fill={isDusk ? "#161D18" : "#3B4539"} />
+                  </g>
+
+                  <g style={{ transformOrigin: "155px 410px", animation: "pineSwaySubtle 7.8s ease-in-out infinite -2.3s" }}>
+                    <line x1="155" y1="410" x2="155" y2="350" stroke="#1A1614" strokeWidth="1.8" />
+                    <polygon points="155,338 144,365 166,365" fill={isDusk ? "#1B231D" : "#515E4E"} />
+                    <polygon points="155,358 139,385 171,385" fill={isDusk ? "#161D18" : "#424D3F"} />
+                    <polygon points="155,378 135,404 175,404" fill={isDusk ? "#161D18" : "#353E32"} />
+                  </g>
+
+                  <g style={{ transformOrigin: "670px 405px", animation: "pineSwayGentle 8.2s ease-in-out infinite -4.1s" }}>
+                    <line x1="670" y1="405" x2="670" y2="320" stroke="#1A1614" strokeWidth="2.2" />
+                    <polygon points="670,305 654,340 686,340" fill={isDusk ? "#18201A" : "#455142"} />
+                    <polygon points="670,328 648,362 692,362" fill={isDusk ? "#18201A" : "#3C473A"} />
+                    <polygon points="670,350 642,392 698,392" fill={isDusk ? "#121813" : "#323B30"} />
+                  </g>
+
+                  <g style={{ transformOrigin: "1065px 420px", animation: "pineSwaySubtle 7.1s ease-in-out infinite -1.5s" }}>
+                    <line x1="1065" y1="420" x2="1065" y2="345" stroke="#1A1614" strokeWidth="2" />
+                    <polygon points="1065,330 1050,360 1080,360" fill={isDusk ? "#1B231D" : "#4A5647"} />
+                    <polygon points="1065,352 1044,385 1086,385" fill={isDusk ? "#161D18" : "#3D483B"} />
+                    <polygon points="1065,375 1038,412 1092,412" fill={isDusk ? "#161D18" : "#323B30"} />
+                  </g>
+
+                  {/* Lower Valley Foreground */}
+                  <path
+                    d="M 0 405 Q 260 380 520 415 T 980 410 L 1200 425 L 1200 480 L 0 480 Z"
+                    fill={isDusk ? "#241F1C" : "#D2C5B0"}
+                    stroke={isDusk ? "#3A322C" : "#B2A189"}
+                    strokeWidth="1.5"
+                  />
+
+                  {/* Handcrafted Wooden Chalet (Pensiunea Simi) */}
+                  <g transform="translate(710, 290)" id="pensiunea-simi-chalet">
+                    {/* Chimney & Woodsmoke */}
+                    <rect x="26" y="0" width="10" height="24" fill="#3D3631" stroke="#1A1614" strokeWidth="1" />
+                    <line x1="24" y1="0" x2="38" y2="0" stroke="#1A1614" strokeWidth="1.5" />
+
+                    <g transform="translate(31, 0)" fill="none" strokeLinecap="round">
+                      <path
+                        d="M 0 0 C -6 -18, -16 -32, -8 -54 C -2 -72, -18 -92, -12 -118"
+                        stroke={isDusk ? "#EAE0CE" : "#6B635B"}
+                        strokeWidth="1.75"
+                        strokeDasharray="45 80"
+                        style={{ animation: "simiSmokeWisp1 5.8s ease-out infinite" }}
+                      />
+                      <path
+                        d="M 0 0 C 8 -16, 18 -36, 10 -58 C 4 -78, 22 -98, 16 -125"
+                        stroke={isDusk ? "#EAE0CE" : "#8A8177"}
+                        strokeWidth="1.4"
+                        strokeDasharray="40 70"
+                        style={{ animation: "simiSmokeWisp2 6.6s ease-out infinite -2.8s" }}
+                      />
+                    </g>
+
+                    {/* Steep Roof with Shingle Texture */}
+                    <polygon
+                      points="65,18 2,82 128,82"
+                      fill={isDusk ? "#1E1A17" : "#3A322C"}
+                      stroke="#1A1614"
+                      strokeWidth="1.75"
+                    />
+                    <line x1="22" y1="62" x2="108" y2="62" stroke="#FAF6EE" strokeWidth="0.8" opacity="0.25" />
+                    <line x1="38" y1="46" x2="92" y2="46" stroke="#FAF6EE" strokeWidth="0.8" opacity="0.25" />
+
+                    <line x1="-2" y1="83" x2="132" y2="83" stroke="#1A1614" strokeWidth="2.5" />
+
+                    {/* Timber Walls */}
+                    <rect
+                      x="12"
+                      y="84"
+                      width="106"
+                      height="58"
+                      fill={isDusk ? "#2F2722" : "#B86B32"}
+                      stroke="#1A1614"
+                      strokeWidth="1.75"
+                    />
+                    <line x1="12" y1="98" x2="118" y2="98" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
+                    <line x1="12" y1="112" x2="118" y2="112" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
+                    <line x1="12" y1="126" x2="118" y2="126" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
+
+                    {/* Hearth Light Glowing in Windows */}
+                    <g transform="translate(24, 95)">
+                      <rect
+                        width="16"
+                        height="18"
+                        fill="url(#windowGlow)"
+                        stroke="#1A1614"
+                        strokeWidth="1.2"
+                        style={{ animation: "hearthWarmGlow 4.8s ease-in-out infinite" }}
+                      />
+                      <line x1="8" y1="0" x2="8" y2="18" stroke="#1A1614" strokeWidth="0.8" />
+                      <line x1="0" y1="9" x2="16" y2="9" stroke="#1A1614" strokeWidth="0.8" />
+                    </g>
+
+                    <g transform="translate(56, 95)">
+                      <rect
+                        width="18"
+                        height="20"
+                        fill="url(#windowGlow)"
+                        stroke="#1A1614"
+                        strokeWidth="1.2"
+                        style={{ animation: "hearthWarmGlow 5.2s ease-in-out infinite -1.6s" }}
+                      />
+                      <line x1="9" y1="0" x2="9" y2="20" stroke="#1A1614" strokeWidth="0.8" />
+                      <line x1="0" y1="10" x2="18" y2="10" stroke="#1A1614" strokeWidth="0.8" />
+                    </g>
+
+                    <rect x="88" y="96" width="16" height="46" fill="#1A1614" />
+
+                    <rect x="8" y="132" width="114" height="10" fill="#28231F" stroke="#1A1614" strokeWidth="1" />
+                  </g>
+
+                  {/* Steaming Outdoor Ciubăr (39°C) */}
+                  <g transform="translate(865, 392)" id="ciubar-cald">
+                    <path
+                      d="M 0 16 L 4 44 Q 26 49 48 44 L 52 16 Z"
+                      fill={isDusk ? "#2E2621" : "#5C4638"}
+                      stroke="#1A1614"
+                      strokeWidth="1.5"
+                    />
+                    <path d="M 2 26 Q 26 31 50 26" fill="none" stroke="#1A1614" strokeWidth="1.4" />
+                    <path d="M 3 37 Q 26 42 49 37" fill="none" stroke="#1A1614" strokeWidth="1.4" />
+
+                    <ellipse cx="26" cy="16" rx="26" ry="7" fill="url(#ciubarWater)" stroke="#1A1614" strokeWidth="1.2" />
+
+                    {/* Rising Steam */}
+                    <g fill="none" stroke="#FAF6EE" strokeWidth="1.2" strokeLinecap="round">
+                      <path
+                        d="M 18 14 Q 14 6 20 -2 Q 26 -10 22 -18"
+                        strokeDasharray="14 18"
+                        style={{ animation: "steamRiseWisp 4.4s ease-out infinite" }}
+                      />
+                      <path
+                        d="M 32 14 Q 38 6 30 -4 Q 24 -12 30 -22"
+                        strokeDasharray="12 16"
+                        style={{ animation: "steamRiseWisp 5.1s ease-out infinite -2.2s" }}
+                      />
+                    </g>
+                  </g>
+
+                  {/* Campfire Embers Glow */}
+                  <g transform="translate(640, 422)" id="hearth-campfire">
+                    <ellipse cx="0" cy="0" rx="14" ry="5" fill="#3D3631" stroke="#1A1614" strokeWidth="1" />
+                    <ellipse cx="0" cy="-1" rx="8" ry="3" fill="#D4803E" />
+
+                    <circle
+                      cx="-2"
+                      cy="-4"
+                      r="1.4"
+                      fill="#D4803E"
+                      style={{ animation: "emberDrift1 3.8s ease-out infinite" }}
+                    />
+                    <circle
+                      cx="3"
+                      cy="-5"
+                      r="1.1"
+                      fill="#B86B32"
+                      style={{ animation: "emberDrift2 4.6s ease-out infinite -1.8s" }}
+                    />
+                  </g>
+                </svg>
+
+                {/* Tactile Ambient Switcher (Dimineață / Amurg) */}
+                <div className="absolute top-3 right-4 sm:top-5 sm:right-8 z-20">
+                  <button
+                    type="button"
+                    onClick={() => setIsDusk(!isDusk)}
+                    className="flex items-center gap-2 px-3 py-1.5 border border-[#1A1614]/15 bg-[#FAF6EE]/90 backdrop-blur-md text-xs uppercase tracking-[0.12em] font-medium text-[#1A1614] hover:border-[#B86B32] transition-colors cursor-pointer"
+                  >
+                    <span
+                      className={`w-2 h-2 ${
+                        isDusk ? "bg-[#D4803E]" : "bg-[#B86B32]"
+                      }`}
+                    />
+                    <span>{isDusk ? "Amurg la Pietrosul" : "Dimineață în Moisei"}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Bottom 3-Pillar Architectural Ledger (Concise & Pure) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#1A1614]/10">
-              <div className="space-y-1.5">
-                <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
-                  01 · Camere
-                </span>
-                <h3 className="font-chalet text-xl text-[#1A1614]">
-                  6 Duble &amp; 1 Triplă
-                </h3>
-                <p className="text-xs text-[#6B635B] leading-relaxed">
-                  Băi proprii, balcoane spre masiv și paturi matrimoniale comode.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("camere")}
-                  className="text-xs text-[#1A1614] hover:text-[#B86B32] font-semibold pt-1 block cursor-pointer"
-                >
-                  Vezi camerele →
-                </button>
+            {/* ─── Concise Disciplined Hero Text Lockup (Radically Short) ─── */}
+            <div className="max-w-[1300px] w-full mx-auto px-4 sm:px-8 py-8 sm:py-10">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+                <div className="lg:col-span-8 space-y-4">
+                  <div className="flex items-center gap-3 text-xs uppercase tracking-[0.14em] text-[#B86B32] font-semibold">
+                    <span>Pensiunea Agroturistică Simi</span>
+                    <span>·</span>
+                    <span>Moisei · Maramureș</span>
+                  </div>
+
+                  <h1 className="font-chalet text-3xl sm:text-5xl lg:text-6xl font-normal text-[#1A1614] leading-[1.08] tracking-tight">
+                    Liniște, lemn cald și ciubăr la poalele Munților Rodnei.
+                  </h1>
+
+                  <p className="font-ui text-base sm:text-lg text-[#6B635B] max-w-2xl leading-relaxed">
+                    Șapte camere primitoare cu balcon propriu, foișor cu foc de lemne și apă caldă la 39°C pe Valea Izvorul Negru în Moisei.
+                  </p>
+                </div>
+
+                <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
+                  <a
+                    href="tel:+40740981839"
+                    className="w-full py-3.5 px-6 bg-[#1A1614] hover:bg-[#B86B32] text-[#FAF6EE] text-xs uppercase tracking-[0.14em] font-semibold text-center transition-colors"
+                  >
+                    Sună gazda · 0740 981 839
+                  </a>
+
+                  <div className="grid grid-cols-2 gap-3 w-full">
+                    <button
+                      type="button"
+                      onClick={() => navigate("rezervare")}
+                      className="py-3 px-4 border border-[#1A1614] hover:bg-[#1A1614] hover:text-[#FAF6EE] text-[#1A1614] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer"
+                    >
+                      Rezervare rapidă
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => navigate("trasee")}
+                      className="py-3 px-4 border border-[#1A1614]/20 hover:border-[#1A1614] text-[#6B635B] hover:text-[#1A1614] text-xs uppercase tracking-[0.12em] font-semibold text-center transition-colors cursor-pointer"
+                    >
+                      Trasee 2.303m →
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
-                  02 · Ciubăr &amp; Curte
-                </span>
-                <h3 className="font-chalet text-xl text-[#1A1614]">
-                  Apă caldă la 39°C
-                </h3>
-                <p className="text-xs text-[#6B635B] leading-relaxed">
-                  Ciubăr din lemn masiv, foișor cu grătar, ceaun și cuptor pe lemne.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("ciubar")}
-                  className="text-xs text-[#1A1614] hover:text-[#B86B32] font-semibold pt-1 block cursor-pointer"
-                >
-                  Vezi curtea &amp; ciubărul →
-                </button>
-              </div>
+              {/* 3 Architectural Anchors: Authentic Hospitality Pop */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8 mt-8 border-t border-[#1A1614]/10 text-xs text-[#6B635B]">
+                <div className="space-y-1">
+                  <span className="font-chalet text-lg text-[#B86B32] font-semibold block">01</span>
+                  <strong className="block text-[#1A1614] font-medium text-sm">
+                    Masivul Pietrosul în fereastră
+                  </strong>
+                  <p>7 camere cu balcon, baie proprie și vedere spre crestele Rodnei.</p>
+                </div>
 
-              <div className="space-y-1.5">
-                <span className="text-xs uppercase tracking-[0.12em] text-[#B86B32] font-semibold block">
-                  03 · Trasee &amp; Zonă
-                </span>
-                <h3 className="font-chalet text-xl text-[#1A1614]">
-                  Pietrosul Rodnei (2.303 m)
-                </h3>
-                <p className="text-xs text-[#6B635B] leading-relaxed">
-                  Mănăstirea Moisei la 2 km, Mocănița Vișeu la 13 km și Cascada Cailor.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("trasee")}
-                  className="text-xs text-[#1A1614] hover:text-[#B86B32] font-semibold pt-1 block cursor-pointer"
-                >
-                  Deschide busola traseelor →
-                </button>
+                <div className="space-y-1">
+                  <span className="font-chalet text-lg text-[#B86B32] font-semibold block">02</span>
+                  <strong className="block text-[#1A1614] font-medium text-sm">
+                    Ciubăr cu lemne &amp; Foișor
+                  </strong>
+                  <p>Apă caldă la 39°C sub cerul liber, grătar mare, ceaun și cuptor pe lemne.</p>
+                </div>
+
+                <div className="space-y-1">
+                  <span className="font-chalet text-lg text-[#B86B32] font-semibold block">03</span>
+                  <strong className="block text-[#1A1614] font-medium text-sm">
+                    Tichete &amp; Carduri de Vacanță
+                  </strong>
+                  <p>Plată acceptată cu cardurile Sodexo, Edenred și Up Vacanță.</p>
+                </div>
               </div>
             </div>
           </section>

@@ -6,9 +6,10 @@
     --bg-linen-warm: #F4EDE2;
     --bg-timber: #1F1B18;
     --bg-timber-elevated: #28231F;
-    --accent-honey: #C4823F;
-    --accent-ember: #E08238;
-    --accent-copper: #B86B32;
+    --timber-caramel: #8C5835;
+    --timber-honey: #C4823F;
+    --hearth-amber: #D4803E;
+    --forest-moss: #2B3B2E;
     --ink-timber: #1A1614;
     --ink-muted: #6B635B;
     --font-serif-chalet: 'Fraunces', Georgia, serif;
@@ -43,24 +44,207 @@
   font-family: var(--font-sans-chalet);
 }
 
-/* Smooth warm retreat crossfade */
-.photo-crossfade {
-  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 /* Subtle compass needle transition */
 .needle-rotate {
   transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Analog polaroid soft shadow */
-.polaroid-shadow {
-  box-shadow: 0 20px 45px -12px rgba(27, 21, 16, 0.45);
+/* ─────────────────────────────────────────────────────────────
+   Claude-Style Vector Alpine Motion Keyframes (60 FPS GPU-Only)
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes simiSmokeWisp1 {
+  0% {
+    stroke-dashoffset: 260;
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scaleX(1);
+  }
+  15% {
+    opacity: 0.75;
+  }
+  75% {
+    opacity: 0.35;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+    transform: translate3d(-14px, -52px, 0) scaleX(1.45);
+  }
+}
+
+@keyframes simiSmokeWisp2 {
+  0% {
+    stroke-dashoffset: 220;
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scaleX(0.9);
+  }
+  20% {
+    opacity: 0.65;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+    transform: translate3d(18px, -62px, 0) scaleX(1.6);
+  }
+}
+
+@keyframes pineSwayGentle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  32% {
+    transform: rotate(1.8deg);
+  }
+  74% {
+    transform: rotate(-1.2deg);
+  }
+}
+
+@keyframes pineSwaySubtle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  38% {
+    transform: rotate(-1.5deg);
+  }
+  78% {
+    transform: rotate(1.2deg);
+  }
+}
+
+@keyframes windStream {
+  0% {
+    stroke-dashoffset: 320;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.45;
+  }
+  75% {
+    opacity: 0.45;
+  }
+  100% {
+    stroke-dashoffset: -320;
+    opacity: 0;
+  }
+}
+
+@keyframes swiftFlightGlide {
+  0% {
+    transform: translate3d(-80px, 15px, 0);
+  }
+  50% {
+    transform: translate3d(550px, -8px, 0);
+  }
+  100% {
+    transform: translate3d(1280px, 20px, 0);
+  }
+}
+
+@keyframes wingFlapMotion {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.68) translateY(1.5px);
+  }
+}
+
+@keyframes hearthWarmGlow {
+  0%, 100% {
+    opacity: 0.82;
+    filter: drop-shadow(0 0 6px rgba(212, 128, 62, 0.45));
+  }
+  48% {
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(212, 128, 62, 0.85));
+  }
+  72% {
+    opacity: 0.88;
+    filter: drop-shadow(0 0 9px rgba(212, 128, 62, 0.55));
+  }
+}
+
+@keyframes emberDrift1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(-18px, -55px, 0) scale(0.3);
+    opacity: 0;
+  }
+}
+
+@keyframes emberDrift2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate3d(14px, -65px, 0) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes steamRiseWisp {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.9);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.25;
+  }
+  100% {
+    transform: translate3d(6px, -28px, 0) scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes chamoisBreathing {
+  0%, 100% {
+    transform: scale(1, 1);
+  }
+  45% {
+    transform: scale(1, 1.02);
+  }
+}
+
+@keyframes chamoisHeadLook {
+  0%, 82%, 100% {
+    transform: rotate(0deg);
+  }
+  88% {
+    transform: rotate(-3.5deg);
+  }
+  94% {
+    transform: rotate(2deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .photo-crossfade,
+  .motion-safe-vector * {
+    animation: none !important;
+    transition: none !important;
+  }
   .needle-rotate {
     transition: none !important;
   }
