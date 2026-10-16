@@ -2,152 +2,81 @@
 
 @layer base {
   :root {
-    --bg-linen: #F4F1EA;
-    --bg-oat: #E7E0D2;
-    --ink-pine: #171C18;
-    --ink-moss: #4E564F;
-    --accent-cedar: #7A5C43;
-    --seam-sand: #D8D2C5;
-    --font-display: 'Newsreader', Georgia, serif;
-    --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --bg-cream: #FAF6EE;
+    --bg-sage: #E6ECE8;
+    --bg-forest: #14241B;
+    --bg-forest-card: #1C3125;
+    --accent-honey: #B87333;
+    --accent-ember: #D48C46;
+    --ink-forest: #111E16;
+    --ink-moss: #4A5D52;
+    --font-serif-chalet: 'Fraunces', Georgia, serif;
+    --font-sans-chalet: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   body {
-    background-color: var(--bg-linen);
-    color: var(--ink-pine);
-    font-family: var(--font-body);
+    background-color: var(--bg-cream);
+    color: var(--ink-forest);
+    font-family: var(--font-sans-chalet);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: #171C18;
-    color: #F4F1EA;
+    background-color: #14241B;
+    color: #FAF6EE;
   }
 
   h1, h2, h3 {
-    font-family: var(--font-display);
+    font-family: var(--font-serif-chalet);
     text-wrap: balance;
   }
 }
 
-.font-display {
-  font-family: var(--font-display);
+.font-chalet {
+  font-family: var(--font-serif-chalet);
 }
 
-.font-body {
-  font-family: var(--font-body);
+.font-ui {
+  font-family: var(--font-sans-chalet);
 }
 
-/* Weighted architectural panel transition */
-.panel-transition {
-  transition: flex 750ms cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 400ms ease,
-              box-shadow 500ms ease,
-              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Morning mountain sunlight sweep across active panel */
-@keyframes morningLight {
-  0% {
-    transform: translateX(-120%) skewX(-18deg);
-    opacity: 0;
-  }
-  30% {
-    opacity: 0.42;
-  }
-  70% {
-    opacity: 0.42;
-  }
-  100% {
-    transform: translateX(220%) skewX(-18deg);
-    opacity: 0;
-  }
-}
-
-.animate-morning-light {
-  animation: morningLight 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-/* Progress bar sweep */
-@keyframes panelProgress {
+/* Smooth photo crossfade & Ken Burns drift */
+@keyframes alpineZoom {
   from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-.animate-panel-progress {
-  transform-origin: left center;
-  animation: panelProgress 4.8s linear forwards;
-}
-
-/* Staggered card rise */
-@keyframes cardRise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
+    opacity: 0.35;
+    transform: scale(1.04);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
-.animate-card-1 {
-  animation: cardRise 700ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
-}
-.animate-card-2 {
-  animation: cardRise 700ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
-}
-.animate-card-3 {
-  animation: cardRise 700ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
-}
-.animate-card-4 {
-  animation: cardRise 700ms cubic-bezier(0.16, 1, 0.3, 1) 280ms both;
+.animate-alpine-photo {
+  animation: alpineZoom 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Claude-style vector line draw */
-@keyframes drawContour {
-  from {
-    stroke-dashoffset: 240;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.animate-draw-contour {
-  stroke-dasharray: 240;
-  animation: drawContour 850ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-/* Subtle topographic ridge breath */
-@keyframes contourBreath {
+/* Gentle steam rise for the hot ciubăr badge */
+@keyframes steamFloat {
   0%, 100% {
-    opacity: 0.08;
+    transform: translateY(0);
+    opacity: 0.55;
   }
   50% {
-    opacity: 0.14;
+    transform: translateY(-4px);
+    opacity: 0.95;
   }
 }
 
-.animate-contour-breath {
-  animation: contourBreath 9s ease-in-out infinite;
+.animate-steam {
+  animation: steamFloat 3.2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-morning-light,
-  .animate-panel-progress,
-  .animate-card-1,
-  .animate-card-2,
-  .animate-card-3,
-  .animate-card-4,
-  .animate-draw-contour,
-  .animate-contour-breath {
+  .animate-alpine-photo,
+  .animate-steam {
     animation: none !important;
   }
 }
