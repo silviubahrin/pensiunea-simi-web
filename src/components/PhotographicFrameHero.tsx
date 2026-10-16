@@ -120,7 +120,7 @@ export const PhotographicFrameHero: React.FC<PhotographicFrameHeroProps> = ({
         </h1>
 
         <p className="font-ui text-base sm:text-lg text-[#FAF6EE]/85 max-w-xl leading-relaxed">
-          Pensiune primitoare cu ciubăr cald, foișor și grătar, în inima Moiseiului.
+          Pensiune primitoare cu ciubăr, foișor și grătar, în inima Moiseiului.
         </p>
 
         <div className="pt-2 flex flex-wrap items-center gap-3">

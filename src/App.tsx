@@ -44,7 +44,7 @@ const SUITES: SuiteItem[] = [
     name: "Închiriere Integrală",
     capacity: "Până la 15 Oaspeți",
     count: "Toată Pensiunea",
-    spec: "Toate cele 7 camere cu băi proprii, salon de zi, bucătărie utilată, foișor cu grătar și ciubăr cald.",
+    spec: "Toate cele 7 camere cu băi proprii, salon de zi, bucătărie utilată, foișor cu grătar și ciubăr.",
     highlights: ["Intimitate deplină", "Foișor cu grătar și cuptor", "Ciubăr încălzit cu lemne"],
     primaryImg: "/images/fb/1345684012508679.jpg",
     fallbackImg: "/images/fb/100012012794052.jpg",
