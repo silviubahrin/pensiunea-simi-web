@@ -255,11 +255,6 @@ export function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const getRoomWhatsAppUrl = (roomName: string) => {
-    const message = `Bună ziua! Aș dori informații despre disponibilitate pentru ${roomName} la Pensiunea Simi Moisei.`;
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-  };
-
   // Theme-aware tokens
   const themeBg = isNight ? "bg-[#141210]" : "bg-[#FAF6EE]";
   const themeSurface = isNight ? "bg-[#1F1B18]" : "bg-[#FAF6EE]";
@@ -538,29 +533,13 @@ export function App() {
                         </div>
                       </div>
 
-                      <div className="p-6 space-y-3">
+                      <div className="p-6 space-y-2">
                         <h3 className={`font-chalet text-xl ${themeText}`}>
                           {suite.name}
                         </h3>
                         <p className={`text-xs ${themeTextMuted} leading-relaxed`}>
                           {suite.spec}
                         </p>
-                        <div className={`pt-3 flex items-center justify-between border-t ${themeBorder}`}>
-                          <a
-                            href={getRoomWhatsAppUrl(suite.name)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="py-1.5 px-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-[11px] uppercase tracking-[0.12em] font-semibold transition-colors"
-                          >
-                            WhatsApp
-                          </a>
-                          <a
-                            href={`tel:+${WHATSAPP_NUMBER}`}
-                            className={`text-xs ${themeTextMuted} hover:${themeText} transition-colors`}
-                          >
-                            Sună
-                          </a>
-                        </div>
                       </div>
                     </div>
                   ))}
@@ -859,23 +838,6 @@ export function App() {
                           <span>{h}</span>
                         </div>
                       ))}
-                    </div>
-
-                    <div className="pt-3 flex items-center justify-between">
-                      <a
-                        href={getRoomWhatsAppUrl(suite.name)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="py-1.5 px-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-[11px] uppercase tracking-[0.12em] font-semibold transition-colors"
-                      >
-                        WhatsApp
-                      </a>
-                      <a
-                        href={`tel:+${WHATSAPP_NUMBER}`}
-                        className={`text-xs ${themeTextMuted} hover:${themeText} transition-colors`}
-                      >
-                        Sună
-                      </a>
                     </div>
                   </div>
                 </div>
