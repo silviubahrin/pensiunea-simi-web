@@ -520,6 +520,19 @@ export function App() {
                       <stop offset="0%" stopColor={isNight ? "#3B6158" : "#8AC6B8"} stopOpacity="0.8" />
                       <stop offset="100%" stopColor={isNight ? "#1F3530" : "#3F6358"} stopOpacity="0.95" />
                     </linearGradient>
+
+                    {/* Architectural Chalet Shingle Roof Gradient */}
+                    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor={isNight ? "#1F1A16" : "#3D342D"} />
+                      <stop offset="100%" stopColor={isNight ? "#120E0C" : "#261F1A"} />
+                    </linearGradient>
+
+                    {/* Timber Log Facade Gradient */}
+                    <linearGradient id="logWallGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor={isNight ? "#241D17" : "#A8622A"} />
+                      <stop offset="70%" stopColor={isNight ? "#2F251E" : "#C47D3B"} />
+                      <stop offset="100%" stopColor={isNight ? "#1F1712" : "#924E1D"} />
+                    </linearGradient>
                   </defs>
 
                   {/* Atmosphere Sky Canvas */}
@@ -704,11 +717,11 @@ export function App() {
                     </g>
                   </g>
 
-                  {/* Carpathian Chamois (Capră Neagră) on Opposite Crag */}
+                  {/* Carpathian Chamois (Capră Neagră) on Eastern Mountain Crag */}
                   <g
-                    transform="translate(738, 248)"
+                    transform="translate(980, 270)"
                     style={{
-                      transformOrigin: "738px 248px",
+                      transformOrigin: "980px 270px",
                       animation: "chamoisBreathing 4.5s ease-in-out infinite",
                     }}
                     aria-label="Capră neagră carpatină pe creastă"
@@ -794,88 +807,347 @@ export function App() {
                     />
                   </g>
 
-                  {/* ─── Handcrafted Wooden Chalet (Pensiunea Simi) ─── */}
-                  <g transform="translate(710, 290)" id="pensiunea-simi-chalet">
-                    {/* Chimney & Curling Woodsmoke Plumes */}
-                    <rect x="26" y="0" width="10" height="24" fill="#3D3631" stroke="#1A1614" strokeWidth="1" />
-                    <line x1="24" y1="0" x2="38" y2="0" stroke="#1A1614" strokeWidth="1.5" />
-
-                    <g transform="translate(31, 0)" fill="none" strokeLinecap="round">
-                      <path
-                        d="M 0 0 C -6 -18, -16 -32, -8 -54 C -2 -72, -18 -92, -12 -118"
-                        stroke={isNight ? "#EAE0CE" : "#6B635B"}
-                        strokeWidth="1.75"
-                        strokeDasharray="45 80"
-                        style={{ animation: "simiSmokeWisp1 5.8s ease-out infinite" }}
-                      />
-                      <path
-                        d="M 0 0 C 8 -16, 18 -36, 10 -58 C 4 -78, 22 -98, 16 -125"
-                        stroke={isNight ? "#EAE0CE" : "#8A8177"}
-                        strokeWidth="1.4"
-                        strokeDasharray="40 70"
-                        style={{ animation: "simiSmokeWisp2 6.6s ease-out infinite -2.8s" }}
-                      />
-                    </g>
-
-                    {/* Steep Shingle Roof */}
-                    <polygon
-                      points="65,18 2,82 128,82"
-                      fill={isNight ? "#14110F" : "#3A322C"}
-                      stroke="#1A1614"
-                      strokeWidth="1.75"
-                    />
-                    <line x1="22" y1="62" x2="108" y2="62" stroke="#FAF6EE" strokeWidth="0.8" opacity="0.25" />
-                    <line x1="38" y1="46" x2="92" y2="46" stroke="#FAF6EE" strokeWidth="0.8" opacity="0.25" />
-                    <line x1="-2" y1="83" x2="132" y2="83" stroke="#1A1614" strokeWidth="2.5" />
-
-                    {/* Timber Walls */}
-                    <rect
-                      x="12"
-                      y="84"
-                      width="106"
-                      height="58"
-                      fill={isNight ? "#261F1A" : "#B86B32"}
-                      stroke="#1A1614"
-                      strokeWidth="1.75"
-                    />
-                    <line x1="12" y1="98" x2="118" y2="98" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
-                    <line x1="12" y1="112" x2="118" y2="112" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
-                    <line x1="12" y1="126" x2="118" y2="126" stroke="#1A1614" strokeWidth="1" opacity="0.4" />
-
-                    {/* Glowing Windows with Window Panes */}
-                    <g transform="translate(24, 95)">
+                  {/* ─── Ultra-Premium Architectural Alpine Lodge (Pensiunea Simi) ─── */}
+                  <g transform="translate(685, 230)" id="pensiunea-simi-chalet">
+                    {/* 1. Heavy Mountain Fieldstone Chimney Breast */}
+                    <g id="chalet-chimney">
                       <rect
-                        width="16"
-                        height="18"
-                        fill="url(#windowGlow)"
-                        stroke="#1A1614"
-                        strokeWidth="1.2"
-                        style={{ animation: "hearthWarmGlow 4.8s ease-in-out infinite" }}
-                      />
-                      <line x1="8" y1="0" x2="8" y2="18" stroke="#1A1614" strokeWidth="0.8" />
-                      <line x1="0" y1="9" x2="16" y2="9" stroke="#1A1614" strokeWidth="0.8" />
-                    </g>
-
-                    <g transform="translate(56, 95)">
-                      <rect
+                        x="28"
+                        y="10"
                         width="18"
-                        height="20"
-                        fill="url(#windowGlow)"
+                        height="172"
+                        fill={isNight ? "#241F1C" : "#5A5046"}
                         stroke="#1A1614"
                         strokeWidth="1.2"
-                        style={{ animation: "hearthWarmGlow 5.2s ease-in-out infinite -1.6s" }}
                       />
-                      <line x1="9" y1="0" x2="9" y2="20" stroke="#1A1614" strokeWidth="0.8" />
-                      <line x1="0" y1="10" x2="18" y2="10" stroke="#1A1614" strokeWidth="0.8" />
+                      {/* Alternating Stone Masonry Course Joints */}
+                      <g stroke={isNight ? "#14110F" : "#3D352D"} strokeWidth="0.8" opacity="0.65">
+                        <line x1="28" y1="24" x2="46" y2="24" />
+                        <line x1="37" y1="10" x2="37" y2="24" />
+                        <line x1="28" y1="42" x2="46" y2="42" />
+                        <line x1="33" y1="24" x2="33" y2="42" />
+                        <line x1="28" y1="64" x2="46" y2="64" />
+                        <line x1="40" y1="42" x2="40" y2="64" />
+                        <line x1="28" y1="90" x2="46" y2="90" />
+                        <line x1="35" y1="64" x2="35" y2="90" />
+                        <line x1="28" y1="120" x2="46" y2="120" />
+                        <line x1="38" y1="90" x2="38" y2="120" />
+                        <line x1="28" y1="150" x2="46" y2="150" />
+                        <line x1="34" y1="120" x2="34" y2="150" />
+                      </g>
+
+                      {/* Handcrafted Copper Chimney Cap & Spark Hood */}
+                      <rect
+                        x="25"
+                        y="8"
+                        width="24"
+                        height="3.5"
+                        fill={isNight ? "#8C4E22" : "#B86B32"}
+                        stroke="#1A1614"
+                        strokeWidth="1"
+                      />
+                      <polygon
+                        points="24,8 37,1 50,8"
+                        fill={isNight ? "#A05A28" : "#D4803E"}
+                        stroke="#1A1614"
+                        strokeWidth="1.2"
+                      />
+
+                      {/* High-Craft Curling Woodsmoke Plumes */}
+                      <g transform="translate(37, 0)" fill="none" strokeLinecap="round">
+                        <path
+                          d="M 0 0 C -8 -20, -18 -36, -10 -60 C -3 -82, -20 -105, -14 -132"
+                          stroke={isNight ? "#EAE0CE" : "#6B635B"}
+                          strokeWidth="1.8"
+                          strokeDasharray="45 80"
+                          style={{ animation: "simiSmokeWisp1 5.8s ease-out infinite" }}
+                        />
+                        <path
+                          d="M 0 0 C 9 -18, 20 -40, 12 -64 C 5 -88, 24 -110, 18 -138"
+                          stroke={isNight ? "#EAE0CE" : "#8A8177"}
+                          strokeWidth="1.4"
+                          strokeDasharray="40 70"
+                          style={{ animation: "simiSmokeWisp2 6.6s ease-out infinite -2.8s" }}
+                        />
+                      </g>
                     </g>
 
-                    {/* Doorway */}
-                    <rect x="88" y="96" width="16" height="46" fill="#1A1614" />
-                    <rect x="8" y="132" width="114" height="10" fill="#28231F" stroke="#1A1614" strokeWidth="1" />
+                    {/* 2. Natural River-Stone Foundation Plinth */}
+                    <g id="chalet-plinth">
+                      <rect
+                        x="12"
+                        y="166"
+                        width="226"
+                        height="18"
+                        fill={isNight ? "#1C1714" : "#564D44"}
+                        stroke="#1A1614"
+                        strokeWidth="1.5"
+                      />
+                      <g stroke={isNight ? "#120E0C" : "#3F3730"} strokeWidth="0.8" opacity="0.6">
+                        <path d="M 24 166 Q 32 174 42 166 Q 52 174 62 166 Q 74 175 88 166" fill="none" />
+                        <path d="M 30 176 Q 44 182 58 176 Q 72 183 86 176" fill="none" />
+                        <path d="M 100 166 Q 112 175 126 166 Q 138 174 150 166 Q 164 175 180 166 Q 196 175 210 166" fill="none" />
+                        <path d="M 110 176 Q 128 183 146 176 Q 166 182 186 176 Q 204 183 222 176" fill="none" />
+                      </g>
+
+                      {/* Stone Entry Porch Steps */}
+                      <rect x="94" y="174" width="38" height="3.5" fill={isNight ? "#261F1A" : "#6E6356"} stroke="#1A1614" strokeWidth="0.8" />
+                      <rect x="90" y="177.5" width="46" height="3.5" fill={isNight ? "#201A16" : "#60564A"} stroke="#1A1614" strokeWidth="0.8" />
+                      <rect x="86" y="181" width="54" height="3.5" fill={isNight ? "#1A1512" : "#524A40"} stroke="#1A1614" strokeWidth="0.8" />
+                    </g>
+
+                    {/* 3. Right-Side Covered Firewood Store */}
+                    <g id="chalet-wood-shed" transform="translate(230, 126)">
+                      <polygon points="0,0 26,14 26,16 0,2" fill={isNight ? "#14110F" : "#3A322C"} stroke="#1A1614" strokeWidth="1" />
+                      <line x1="0" y1="2" x2="26" y2="16" stroke="#FAF6EE" strokeWidth="0.8" opacity="0.3" />
+                      <rect x="23" y="15" width="3" height="42" fill={isNight ? "#201813" : "#6E4522"} stroke="#1A1614" strokeWidth="0.8" />
+                      <g fill={isNight ? "#3D2B1E" : "#B87A44"} stroke="#1A1614" strokeWidth="0.7">
+                        <circle cx="6" cy="52" r="3.5" />
+                        <circle cx="13" cy="52" r="3.5" />
+                        <circle cx="20" cy="52" r="3.5" />
+                        <circle cx="9.5" cy="46" r="3.5" />
+                        <circle cx="16.5" cy="46" r="3.5" />
+                        <circle cx="6" cy="40" r="3.5" />
+                        <circle cx="13" cy="40" r="3.5" />
+                        <circle cx="20" cy="40" r="3.5" />
+                        <circle cx="9.5" cy="34" r="3.5" />
+                        <circle cx="16.5" cy="34" r="3.5" />
+                        <circle cx="13" cy="28" r="3.5" />
+                      </g>
+                    </g>
+
+                    {/* 4. Ground Floor Timber Log Wall */}
+                    <g id="chalet-ground-floor">
+                      <rect
+                        x="18"
+                        y="98"
+                        width="214"
+                        height="68"
+                        fill="url(#logWallGrad)"
+                        stroke="#1A1614"
+                        strokeWidth="1.5"
+                      />
+                      {/* Dovetail Notches on Left & Right Corners */}
+                      <g fill={isNight ? "#201814" : "#9E5624"} stroke="#1A1614" strokeWidth="1">
+                        <rect x="12" y="99" width="7" height="9" />
+                        <rect x="11" y="117" width="8" height="9" />
+                        <rect x="12" y="135" width="7" height="9" />
+                        <rect x="11" y="153" width="8" height="9" />
+
+                        <rect x="231" y="99" width="7" height="9" />
+                        <rect x="230" y="117" width="8" height="9" />
+                        <rect x="231" y="135" width="7" height="9" />
+                        <rect x="230" y="153" width="8" height="9" />
+                      </g>
+
+                      {/* Horizontal Timber Log Seams */}
+                      <g stroke="#1A1614" strokeWidth="0.8" opacity="0.35">
+                        <line x1="18" y1="108" x2="232" y2="108" />
+                        <line x1="18" y1="118" x2="232" y2="118" />
+                        <line x1="18" y1="128" x2="232" y2="128" />
+                        <line x1="18" y1="138" x2="232" y2="138" />
+                        <line x1="18" y1="148" x2="232" y2="148" />
+                        <line x1="18" y1="158" x2="232" y2="158" />
+                      </g>
+
+                      {/* Left Multi-Pane Panoramic Suite Window */}
+                      <g transform="translate(36, 112)">
+                        <rect x="-2" y="-2" width="46" height="42" fill={isNight ? "#1B1512" : "#4A2B14"} stroke="#1A1614" strokeWidth="1.2" />
+                        <rect
+                          width="42"
+                          height="38"
+                          fill="url(#windowGlow)"
+                          stroke="#1A1614"
+                          strokeWidth="1"
+                          style={{ animation: "hearthWarmGlow 5s ease-in-out infinite" }}
+                        />
+                        <path d="M 0 0 Q 8 18 2 38 L 0 38 Z" fill="#6B3A18" opacity="0.45" />
+                        <path d="M 42 0 Q 34 18 40 38 L 42 38 Z" fill="#6B3A18" opacity="0.45" />
+                        <line x1="21" y1="0" x2="21" y2="38" stroke="#1A1614" strokeWidth="1" />
+                        <line x1="0" y1="13" x2="42" y2="13" stroke="#1A1614" strokeWidth="0.8" />
+                        <line x1="0" y1="26" x2="42" y2="26" stroke="#1A1614" strokeWidth="0.8" />
+                        <line x1="-3" y1="39" x2="45" y2="39" stroke="#1A1614" strokeWidth="1.8" />
+                      </g>
+
+                      {/* Grand Entrance Portal */}
+                      <g transform="translate(100, 114)">
+                        <rect x="-2" y="-2" width="28" height="54" fill={isNight ? "#18120F" : "#3E2412"} stroke="#1A1614" strokeWidth="1.2" />
+                        <rect x="0" y="0" width="24" height="10" fill="url(#windowGlow)" stroke="#1A1614" strokeWidth="0.9" />
+                        <line x1="12" y1="0" x2="12" y2="10" stroke="#1A1614" strokeWidth="0.7" />
+                        <rect x="0" y="11" width="24" height="41" fill={isNight ? "#1C1511" : "#4A2B14"} stroke="#1A1614" strokeWidth="1.2" />
+                        <line x1="12" y1="11" x2="12" y2="52" stroke="#1A1614" strokeWidth="1" />
+                        <line x1="6" y1="13" x2="6" y2="50" stroke="#1A1614" strokeWidth="0.6" opacity="0.5" />
+                        <line x1="18" y1="13" x2="18" y2="50" stroke="#1A1614" strokeWidth="0.6" opacity="0.5" />
+                        <circle cx="10" cy="32" r="1.2" fill="#E28C46" />
+                        <circle cx="14" cy="32" r="1.2" fill="#E28C46" />
+
+                        {/* Brass Sconces with Downlight Cones */}
+                        <g transform="translate(-8, 16)">
+                          <polygon points="-2,14 8,14 3,0" fill="#FFD175" opacity={isNight ? "0.35" : "0.15"} />
+                          <rect x="1" y="0" width="4" height="4" fill="#E28C46" stroke="#1A1614" strokeWidth="0.6" />
+                          <circle cx="3" cy="2" r="1" fill="#FFF2D6" />
+                        </g>
+                        <g transform="translate(26, 16)">
+                          <polygon points="-2,14 8,14 3,0" fill="#FFD175" opacity={isNight ? "0.35" : "0.15"} />
+                          <rect x="1" y="0" width="4" height="4" fill="#E28C46" stroke="#1A1614" strokeWidth="0.6" />
+                          <circle cx="3" cy="2" r="1" fill="#FFF2D6" />
+                        </g>
+                      </g>
+
+                      {/* Right Expansive Dining & Lounge Multi-Bay Window */}
+                      <g transform="translate(142, 112)">
+                        <rect x="-2" y="-2" width="76" height="42" fill={isNight ? "#1B1512" : "#4A2B14"} stroke="#1A1614" strokeWidth="1.2" />
+                        <rect
+                          width="72"
+                          height="38"
+                          fill="url(#windowGlow)"
+                          stroke="#1A1614"
+                          strokeWidth="1"
+                          style={{ animation: "hearthWarmGlow 5.4s ease-in-out infinite -1.8s" }}
+                        />
+                        <path d="M 0 0 Q 7 18 2 38 L 0 38 Z" fill="#6B3A18" opacity="0.45" />
+                        <path d="M 72 0 Q 65 18 70 38 L 72 38 Z" fill="#6B3A18" opacity="0.45" />
+                        <line x1="24" y1="0" x2="24" y2="38" stroke="#1A1614" strokeWidth="1.1" />
+                        <line x1="48" y1="0" x2="48" y2="38" stroke="#1A1614" strokeWidth="1.1" />
+                        <line x1="0" y1="19" x2="72" y2="19" stroke="#1A1614" strokeWidth="0.8" />
+                        <line x1="-3" y1="39" x2="75" y2="39" stroke="#1A1614" strokeWidth="1.8" />
+                      </g>
+                    </g>
+
+                    {/* 5. Cantilevered First Floor Balcony (Prispă & Cerdac) */}
+                    <g id="chalet-balcony">
+                      <rect
+                        x="12"
+                        y="94"
+                        width="226"
+                        height="6"
+                        fill={isNight ? "#1B1511" : "#5A3418"}
+                        stroke="#1A1614"
+                        strokeWidth="1.2"
+                      />
+                      {/* Carved Timber Corbels */}
+                      <g fill={isNight ? "#14100D" : "#4A2810"} stroke="#1A1614" strokeWidth="0.8">
+                        <polygon points="24,100 28,100 24,110" />
+                        <polygon points="68,100 72,100 68,110" />
+                        <polygon points="112,100 116,100 112,110" />
+                        <polygon points="160,100 164,100 160,110" />
+                        <polygon points="214,100 218,100 214,110" />
+                      </g>
+
+                      {/* Upper Floor Suite Walls (Behind Balcony) */}
+                      <rect
+                        x="22"
+                        y="54"
+                        width="206"
+                        height="40"
+                        fill={isNight ? "#241C16" : "#A65F28"}
+                        stroke="#1A1614"
+                        strokeWidth="1.2"
+                      />
+
+                      {/* Suite 1 Glazed French Balcony Doors */}
+                      <g transform="translate(42, 58)">
+                        <rect width="30" height="36" fill="url(#windowGlow)" stroke="#1A1614" strokeWidth="1" style={{ animation: "hearthWarmGlow 4.6s ease-in-out infinite -0.9s" }} />
+                        <line x1="15" y1="0" x2="15" y2="36" stroke="#1A1614" strokeWidth="1" />
+                        <line x1="0" y1="12" x2="30" y2="12" stroke="#1A1614" strokeWidth="0.7" />
+                        <line x1="0" y1="24" x2="30" y2="24" stroke="#1A1614" strokeWidth="0.7" />
+                      </g>
+
+                      {/* Suite 2 Center French Balcony Doors */}
+                      <g transform="translate(108, 58)">
+                        <rect width="28" height="36" fill="url(#windowGlow)" stroke="#1A1614" strokeWidth="1" style={{ animation: "hearthWarmGlow 5.1s ease-in-out infinite -2.2s" }} />
+                        <line x1="14" y1="0" x2="14" y2="36" stroke="#1A1614" strokeWidth="1" />
+                        <line x1="0" y1="12" x2="28" y2="12" stroke="#1A1614" strokeWidth="0.7" />
+                        <line x1="0" y1="24" x2="28" y2="24" stroke="#1A1614" strokeWidth="0.7" />
+                      </g>
+
+                      {/* Suite 3 Glazed French Balcony Doors */}
+                      <g transform="translate(168, 58)">
+                        <rect width="32" height="36" fill="url(#windowGlow)" stroke="#1A1614" strokeWidth="1" style={{ animation: "hearthWarmGlow 4.9s ease-in-out infinite -1.4s" }} />
+                        <line x1="16" y1="0" x2="16" y2="36" stroke="#1A1614" strokeWidth="1" />
+                        <line x1="0" y1="12" x2="32" y2="12" stroke="#1A1614" strokeWidth="0.7" />
+                        <line x1="0" y1="24" x2="32" y2="24" stroke="#1A1614" strokeWidth="0.7" />
+                      </g>
+
+                      {/* 4 Carved Wooden Porch Pillars */}
+                      <g fill={isNight ? "#18120E" : "#4A2B14"} stroke="#1A1614" strokeWidth="1">
+                        <rect x="20" y="52" width="5" height="42" />
+                        <rect x="80" y="52" width="5" height="42" />
+                        <rect x="150" y="52" width="5" height="42" />
+                        <rect x="220" y="52" width="5" height="42" />
+                      </g>
+
+                      {/* Traditional Maramureș Carved Wooden Balustrade */}
+                      <rect x="10" y="74" width="230" height="3" fill={isNight ? "#1E1712" : "#6E3F18"} stroke="#1A1614" strokeWidth="1" />
+                      <rect x="10" y="91" width="230" height="2" fill={isNight ? "#1E1712" : "#6E3F18"} stroke="#1A1614" strokeWidth="0.8" />
+                      <g stroke="#1A1614" strokeWidth="0.7" fill={isNight ? "#14100D" : "#8A4F20"}>
+                        {Array.from({ length: 28 }).map((_, i) => (
+                          <rect key={i} x={15 + i * 8} y="77" width="4.5" height="14" rx="0.5" />
+                        ))}
+                      </g>
+                    </g>
+
+                    {/* 6. Multi-Tiered Steep Alpine Shingle Roof with Alpine Dormer */}
+                    <g id="chalet-roof">
+                      {/* Main Steep Gable Pitch Roof */}
+                      <polygon
+                        points="125,18 -4,78 254,78"
+                        fill="url(#roofGrad)"
+                        stroke="#1A1614"
+                        strokeWidth="2"
+                      />
+
+                      {/* Under-Eave Timber Shadow Plane */}
+                      <polygon
+                        points="-4,78 254,78 248,82 2,82"
+                        fill={isNight ? "#0C0A09" : "#1F1A15"}
+                        stroke="#1A1614"
+                        strokeWidth="1.2"
+                      />
+
+                      {/* Layered Alpine Spruce Shingle Rows */}
+                      <g stroke={isNight ? "#2B231D" : "#4A3E34"} strokeWidth="0.9" fill="none">
+                        <line x1="14" y1="72" x2="236" y2="72" />
+                        <line x1="30" y1="64" x2="220" y2="64" />
+                        <line x1="48" y1="56" x2="202" y2="56" />
+                        <line x1="66" y1="48" x2="184" y2="48" />
+                        <line x1="84" y1="40" x2="166" y2="40" />
+                        <line x1="102" y1="32" x2="148" y2="32" />
+                        <line x1="116" y1="24" x2="134" y2="24" />
+                      </g>
+
+                      {/* South-Facing Shingle Sheen */}
+                      <line x1="6" y1="76" x2="124" y2="20" stroke="#FAF6EE" strokeWidth="0.8" opacity={isNight ? "0.15" : "0.35"} />
+
+                      {/* Exposed Wooden Rafter Tails along the Eaves */}
+                      <g stroke="#1A1614" strokeWidth="1.2" strokeLinecap="round">
+                        {Array.from({ length: 14 }).map((_, i) => (
+                          <line key={i} x1={8 + i * 18} y1="78" x2={8 + i * 18} y2="82" />
+                        ))}
+                      </g>
+
+                      {/* Architectural Alpine Dormer (Lucarnă de Mansardă) */}
+                      <g id="chalet-dormer" transform="translate(104, 30)">
+                        <rect x="6" y="16" width="30" height="26" fill={isNight ? "#1C1612" : "#8A4F20"} stroke="#1A1614" strokeWidth="1" />
+                        <polygon points="21,0 0,16 42,16" fill={isNight ? "#100D0B" : "#28211C"} stroke="#1A1614" strokeWidth="1.5" />
+                        <line x1="1" y1="16" x2="21" y2="1" stroke="#FAF6EE" strokeWidth="0.7" opacity="0.4" />
+                        <g transform="translate(11, 20)">
+                          <rect width="20" height="18" rx="2" fill="url(#windowGlow)" stroke="#1A1614" strokeWidth="1" style={{ animation: "hearthWarmGlow 5.6s ease-in-out infinite -2.7s" }} />
+                          <line x1="10" y1="0" x2="10" y2="18" stroke="#1A1614" strokeWidth="0.8" />
+                          <line x1="0" y1="9" x2="20" y2="9" stroke="#1A1614" strokeWidth="0.8" />
+                        </g>
+                      </g>
+
+                      {/* Traditional Maramureș Carved Roof Finial */}
+                      <g transform="translate(125, 12)">
+                        <line x1="0" y1="6" x2="0" y2="-6" stroke={isNight ? "#EAE0CE" : "#1A1614"} strokeWidth="1.6" strokeLinecap="round" />
+                        <circle cx="0" cy="-6" r="2.2" fill={isNight ? "#E28C46" : "#B86B32"} stroke="#1A1614" strokeWidth="0.8" />
+                      </g>
+                    </g>
                   </g>
 
                   {/* ─── Steaming Outdoor Wooden Ciubăr (39°C) ─── */}
-                  <g transform="translate(865, 392)" id="ciubar-cald">
+                  <g transform="translate(965, 392)" id="ciubar-cald">
                     <path
                       d="M 0 16 L 4 44 Q 26 49 48 44 L 52 16 Z"
                       fill={isNight ? "#241D18" : "#5C4638"}
@@ -903,7 +1175,7 @@ export function App() {
                   </g>
 
                   {/* ─── Campfire with 3-Layer Flickering Flames & Drifting Embers ─── */}
-                  <g transform="translate(635, 420)" id="hearth-campfire">
+                  <g transform="translate(615, 420)" id="hearth-campfire">
                     {/* Firepit Stones */}
                     <ellipse cx="0" cy="4" rx="16" ry="6" fill="#3D3631" stroke="#1A1614" strokeWidth="1" />
                     <ellipse cx="0" cy="3" rx="10" ry="4" fill="#6B3214" />
