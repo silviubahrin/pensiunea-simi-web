@@ -73,7 +73,7 @@ const TRAILS: TrailItem[] = [
     duration: "4–5 ore urcare",
     difficulty: "Mediu / Dificil",
     desc: "Cel mai înalt vârf din Carpații Orientali, vizibil direct din curtea și balcoanele pensiunii.",
-    img: "/images/fb/564574535289711.jpg",
+    img: "/images/attractions/pietrosul_rodnei.jpg",
   },
   {
     id: "manastirea",
@@ -101,12 +101,12 @@ const TRAILS: TrailItem[] = [
     id: "borsa",
     num: "04",
     name: "Cascada Cailor",
-    elevation: "Cădere de 90 m",
+    elevation: "Cascadă de 90 m",
     distance: "14 km (Borșa)",
     duration: "20 min cu mașina",
     difficulty: "Accesibil",
     desc: "Cea mai înaltă cascadă din România, alimentată de zăpezile masivului Rodnei.",
-    img: "/images/fb/564574448623053.jpg",
+    img: "/images/attractions/cascada_cailor.jpg",
   },
 ];
 
